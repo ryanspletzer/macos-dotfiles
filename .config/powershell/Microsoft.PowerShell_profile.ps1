@@ -5,28 +5,12 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Windows
 Set-PSReadlineOption -BellStyle None
 
-[System.Environment]::SetEnvironmentVariable(
-    'HOMEBREW_PREFIX','/opt/homebrew',
-    [System.EnvironmentVariableTarget]::Process)
-[System.Environment]::SetEnvironmentVariable(
-    'HOMEBREW_CELLAR','/opt/homebrew/Cellar',
-    [System.EnvironmentVariableTarget]::Process)
-[System.Environment]::SetEnvironmentVariable(
-    'HOMEBREW_REPOSITORY',
-    '/opt/homebrew',
-    [System.EnvironmentVariableTarget]::Process)
-[System.Environment]::SetEnvironmentVariable(
-    'PATH',
-    $('/opt/homebrew/bin:/opt/homebrew/sbin:'+$ENV:PATH),
-    [System.EnvironmentVariableTarget]::Process)
-[System.Environment]::SetEnvironmentVariable(
-    'MANPATH',
-    $('/opt/homebrew/share/man'+$(if(${ENV:MANPATH}){':'+${ENV:MANPATH}})+':'),
-    [System.EnvironmentVariableTarget]::Process)
-[System.Environment]::SetEnvironmentVariable(
-    'INFOPATH',
-    $('/opt/homebrew/share/info'+$(if(${ENV:INFOPATH})
-    {':'+${ENV:INFOPATH}})),[System.EnvironmentVariableTarget]::Process)
+$env:HOMEBREW_PREFIX = '/opt/homebrew'
+$env:HOMEBREW_CELLAR = '/opt/homebrew/Cellar'
+$env:HOMEBREW_REPOSITORY = '/opt/homebrew'
+$env:PATH = $('/opt/homebrew/bin:/opt/homebrew/sbin:'+$env:PATH)
+$env:MANPATH = $('/opt/homebrew/share/man'+$(if(${env:MANPATH}){':'+${env:MANPATH}})+':')
+$env:INFOPATH = $('/opt/homebrew/share/info'+$(if(${env:INFOPATH}){':'+${env:INFOPATH}}))
 
 Import-Module -Name posh-git
 
