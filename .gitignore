@@ -1,0 +1,12 @@
+/*
+!/.gitignore
+!/.gitattributes
+!/.bashrc
+!/.bash_profile
+!/.config
+/.config/*
+!/.config/powershell
+!/.hushlogin
+!/.oh-my-posh
+!/.zshrc
+!/.zprofile
