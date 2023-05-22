@@ -25,7 +25,7 @@
         {
           "type": "path",
           "style": "powerline",
-          "powerline_symbol": "\ue0b0",
+          "powerline_symbol": "\uE0B0",
           "foreground": "#ffffff",
           "background": "#ff479c",
           "template": " \uDB80\uDE4B  {{ .Path }} ",
@@ -74,7 +74,7 @@
           "powerline_symbol": "\uE0B0",
           "foreground": "#111111",
           "background": "#8ED1F7",
-          "template": " \ue626 {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+          "template": " \uE626 {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
           "properties": {
             "fetch_version": true
           }
@@ -155,7 +155,7 @@
             "{{if contains \"default\" .Profile}}#FFA400{{end}}",
             "{{if contains \"jan\" .Profile}}#f1184c{{end}}"
           ],
-          "template": " \ue7ad {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} ",
+          "template": " \uE7AD {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} ",
           "properties": {
             "display_default": false
           }
@@ -224,7 +224,7 @@
             "{{ if gt .Code 0 }}#e91e63{{ end }}"
           ],
           "trailing_diamond": "\uE0B0",
-          "template": "{{ if gt .Code 0 }}<parentBackground,#e91e63></>{{ end }}{{ if eq .Code 0 }}<parentBackground,#000000></>{{ end }} \ue23a ",
+          "template": "{{ if gt .Code 0 }}<parentBackground,#e91e63></>{{ end }}{{ if eq .Code 0 }}<parentBackground,#000000></>{{ end }} \uE23A ",
           "properties": {
             "always_enabled": true
           }
