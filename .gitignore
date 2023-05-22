@@ -1,6 +1,8 @@
 /*
 !/.gitignore
 !/.gitattributes
+!/.vscode
+/.vscode/settings.json
 !/.bashrc
 !/.bash_profile
 !/.config
