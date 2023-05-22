@@ -1,1 +1,1 @@
-. /Users/rspletzer/.config/powershell/Microsoft.PowerShell_profile.ps1
+. ~/.config/powershell/Microsoft.PowerShell_profile.ps1
