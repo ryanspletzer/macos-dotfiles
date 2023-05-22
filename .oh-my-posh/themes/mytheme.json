@@ -226,7 +226,8 @@
           "trailing_diamond": "\uE0B0",
           "template": "{{ if gt .Code 0 }}<parentBackground,#e91e63></>{{ end }}{{ if eq .Code 0 }}<parentBackground,#000000></>{{ end }} \uE23A ",
           "properties": {
-            "always_enabled": true
+            "always_enabled": true,
+            "theme": "\uE23A"
           }
         }
       ],
