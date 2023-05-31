@@ -12,3 +12,4 @@ source /opt/homebrew/opt/chruby/share/chruby/auto.sh
 chruby ruby-3.1.3
 
 alias pwsh='pwsh -NoLogo'
+alias finder='open -a finder'

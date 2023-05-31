@@ -118,3 +118,25 @@ function Get-TypeAccelerators {
 
     end {}
 }
+
+function Open-Finder {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $DirectoryPath = (Get-Location).Path
+    )
+
+    begin {
+        $resolvedDirectoryPath = Resolve-Path -Path $DirectoryPath
+    }
+
+    process {
+        open -a finder $DirectoryPath
+    }
+
+    end {}
+}
+
+New-Alias -Name finder -Value Open-Finder
