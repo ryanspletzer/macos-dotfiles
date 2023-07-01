@@ -13,3 +13,5 @@ chruby ruby-3.1.3
 
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
