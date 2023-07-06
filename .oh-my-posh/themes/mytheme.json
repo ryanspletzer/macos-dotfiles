@@ -63,7 +63,7 @@
           "powerline_symbol": "\ue0b0",
           "foreground": "#ffffff",
           "background": "#6CA35E",
-          "template": " \uf898 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
+          "template": " \udb80\udf99 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
           "properties": {
             "fetch_version": true
           }
