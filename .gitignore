@@ -11,5 +11,7 @@
 !/.config/powershell
 !/.hushlogin
 !/.oh-my-posh
-!/.zshrc
+!/.profile
 !/.zprofile
+!/.zshenv
+!/.zshrc

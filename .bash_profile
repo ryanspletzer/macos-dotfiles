@@ -4,3 +4,4 @@ if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
 fi
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+. "$HOME/.cargo/env"

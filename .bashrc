@@ -15,3 +15,4 @@ alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+. "$HOME/.cargo/env"
