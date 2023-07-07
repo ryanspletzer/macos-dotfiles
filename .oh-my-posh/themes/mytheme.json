@@ -17,7 +17,7 @@
           "background": "#c386f1",
           "leading_diamond": "",
           "trailing_diamond": "\ue0b0",
-          "template": " {{ if .SSHSession }}\uf817 {{ end }}{{ .UserName }} ",
+          "template": " {{ if .SSHSession }}\udb80\udf18 {{ end }}{{ .UserName }} ",
           "properties": {
             "display_host": false
           }
@@ -132,7 +132,7 @@
           "powerline_symbol": "\ue0b0",
           "foreground": "#000000",
           "background": "#9ec3f0",
-          "template": " \ufd03 {{ .EnvironmentName }}"
+          "template": " \udb82\udc05 {{ .EnvironmentName }}"
         },
         {
           "type": "azfunc",
