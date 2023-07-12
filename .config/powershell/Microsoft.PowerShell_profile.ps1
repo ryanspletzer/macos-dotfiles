@@ -140,3 +140,28 @@ function Open-Finder {
 }
 
 New-Alias -Name finder -Value Open-Finder
+
+function Get-LocalCertificate {
+    [CmdletBinding()]
+    [OutputType()]
+    param ()
+
+    begin {}
+
+    process {
+        $x509Store = [System.Security.Cryptography.X509Certificates.X509Store]::new(
+            [System.Security.Cryptography.X509Certificates.StoreName]::My,
+            [System.Security.Cryptography.X509Certificates.StoreLocation]::CurrentUser
+        )
+        $x509Store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadOnly)
+
+        # Output
+        $x509Store.Certificates
+
+    }
+
+    end {
+        $x509Store.Close()
+        $x509Store.Dispose()
+    }
+}
