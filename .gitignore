@@ -9,6 +9,7 @@
 !/.config
 /.config/*
 !/.config/powershell
+!/.config/fish
 !/.hushlogin
 !/.oh-my-posh
 !/.profile
