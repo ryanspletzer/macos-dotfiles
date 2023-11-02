@@ -16,3 +16,5 @@ alias finder='open -a finder'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 . "$HOME/.cargo/env"
+
+eval "$(direnv hook bash)"
