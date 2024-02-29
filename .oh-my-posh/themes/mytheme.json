@@ -186,12 +186,11 @@
         },
         {
           "type": "executiontime",
-          "style": "powerline",
-          "powerline_symbol": "\ue0b2",
+          "style": "diamond",
           "invert_powerline": true,
           "foreground": "#ffffff",
           "background": "#83769c",
-          "template": " {{ .FormattedMs }} ",
+          "template": "<#83769c,transparent>\ue0b2</> {{ .FormattedMs }} <transparent,#83769c>\ue0b2</>",
           "properties": {
             "always_enabled": true
           }
@@ -202,9 +201,9 @@
           "invert_powerline": true,
           "foreground": "#111111",
           "background": "#2e9599",
-          "leading_diamond": "\ue0b2",
+          "leading_diamond": "",
           "trailing_diamond": "",
-          "template": " {{ .CurrentDate | date .Format }} ",
+          "template": "<#2e9599,transparent>\ue0b2</> {{ .CurrentDate | date .Format }} ",
           "properties": {
             "time_format": "3:04:05 PM"
           }
