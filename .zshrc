@@ -27,3 +27,4 @@ alias finder='open -a finder'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(direnv hook zsh)"
+eval "$(pyenv init -)"

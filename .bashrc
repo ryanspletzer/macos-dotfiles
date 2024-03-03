@@ -18,3 +18,4 @@ alias finder='open -a finder'
 . "$HOME/.cargo/env"
 
 eval "$(direnv hook bash)"
+eval "$(pyenv init -)"
