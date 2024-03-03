@@ -28,3 +28,4 @@ alias finder='open -a finder'
 
 eval "$(direnv hook zsh)"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"

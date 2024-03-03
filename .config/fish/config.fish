@@ -17,3 +17,4 @@ if status is-interactive
 end
 
 pyenv init - | source
+status --is-interactive; and pyenv virtualenv-init - | source
