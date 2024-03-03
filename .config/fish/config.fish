@@ -12,9 +12,8 @@ chruby ruby-3.1.3
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
 
-if status is-interactive
-    # Commands to run in interactive sessions can go here
-end
-
 pyenv init - | source
-status --is-interactive; and pyenv virtualenv-init - | source
+
+if status is-interactive
+    pyenv virtualenv-init - | source
+end

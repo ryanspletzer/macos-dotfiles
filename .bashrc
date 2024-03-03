@@ -20,3 +20,7 @@ alias finder='open -a finder'
 eval "$(direnv hook bash)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# For pipx
+export PATH=$PATH:~/.local/bin
+
