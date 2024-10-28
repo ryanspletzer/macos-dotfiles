@@ -165,3 +165,65 @@ function Get-LocalCertificate {
         $x509Store.Dispose()
     }
 }
+
+function Use-Pyenv {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $Version
+    )
+
+    begin {
+        $pyenvRoot = "$HOME/.pyenv"
+        $pyenvPython = "$pyenvRoot/versions/$version/bin/python"
+    }
+
+    process {
+        if (Test-Path -Path $pyenvPython) {
+            $env:PATH = "$pyenvRoot/versions/$version/bin:" + $env:PATH
+            Write-Verbose -Message "Activated pyenv version $version"
+        } else {
+            Write-Verbose -Message "Python version $version not found in pyenv."
+        }
+    }
+
+    end {}
+}
+
+function global:Enter-PyenvDir {
+    [CmdletBinding()]
+    param ()
+
+    begin {}
+
+    process {
+        if (Test-Path .python-version) {
+            $pyversion = Get-Content .python-version
+            Use-Pyenv -Version $pyversion
+        }
+    }
+
+    end {}
+}
+
+function global:Exit-PyenvDir {
+    [CmdletBinding()]
+    param ()
+
+    begin {}
+
+    process {
+        # Reset PATH to remove the Python path
+        $env:PATH = ($env:PATH -split ':') -notmatch "$HOME/.pyenv/versions/.*/bin" -join ':'
+        Write-Verbose -Message 'Deactivated pyenv version'
+    }
+
+    end {}
+}
+
+$ExecutionContext.InvokeCommand.LocationChangedAction = {
+    global:Exit-PyenvDir              # Deactivate previous version
+    global:Enter-PyenvDir             # Activate new version if needed
+}
