@@ -227,3 +227,19 @@ $ExecutionContext.InvokeCommand.LocationChangedAction = {
     global:Exit-PyenvDir              # Deactivate previous version
     global:Enter-PyenvDir             # Activate new version if needed
 }
+
+function Start-Caffeination {
+    [CmdletBinding()]
+    param ()
+
+    begin {}
+
+    process {
+        caffeinate -disu
+    }
+
+    end {}
+}
+
+# Short hand so I don't have to type the full command
+Set-Alias -Name caf -Value Start-Caffeination
