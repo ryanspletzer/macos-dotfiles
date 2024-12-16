@@ -133,13 +133,35 @@ function Open-Finder {
     }
 
     process {
-        open -a finder $DirectoryPath
+        open -a finder $resolvedDirectoryPath
     }
 
     end {}
 }
 
 New-Alias -Name finder -Value Open-Finder
+
+function Open-TextEdit {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $FilePath
+    )
+
+    begin {
+        $resolvedFilePath = Resolve-Path -Path $FilePath
+    }
+
+    process {
+        open -a TextEdit $resolvedFilePath
+    }
+
+    end {}
+}
+
+New-Alias -Name TextEdit -Value Open-TextEdit
 
 function Get-LocalCertificate {
     [CmdletBinding()]
@@ -177,15 +199,100 @@ function Use-Pyenv {
 
     begin {
         $pyenvRoot = "$HOME/.pyenv"
-        $pyenvPython = "$pyenvRoot/versions/$version/bin/python"
+        $pyenvPython = "$pyenvRoot/versions/$Version/bin/python"
     }
 
     process {
         if (Test-Path -Path $pyenvPython) {
-            $env:PATH = "$pyenvRoot/versions/$version/bin:" + $env:PATH
+            $env:PATH = "$pyenvRoot/versions/$Version/bin:" + $env:PATH
             Write-Verbose -Message "Activated pyenv version $version"
         } else {
-            Write-Verbose -Message "Python version $version not found in pyenv."
+            Write-Verbose -Message "Python version $Version not found in pyenv."
+        }
+    }
+
+    end {}
+}
+
+# TODO: handle upwards recursion for finding first .python-version file
+
+function Get-ParentItem {
+    [CmdletBinding()]
+    [OutputType([System.IO.DirectoryInfo])]
+    param (
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string[]]
+        $Path = @( '.' ),
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $Filter,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string[]]
+        $Include,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string[]]
+        $Exclude,
+
+        [Parameter()]
+        [switch]
+        $Recurse,
+
+        [Parameter()]
+        [int]
+        $Depth,
+
+        [Parameter()]
+        [switch]
+        $Force
+    )
+
+    begin {}
+
+    process {
+        foreach ($currentPath in $Path) {
+            $parentPath = Split-Path -Path $currentPath -Parent
+            if ($parentPath) {
+                # Output
+                Get-Item -Path $parentPath
+            }
+        }
+    }
+
+    end {}
+}
+
+function Find-ParentFilePath {
+    [CmdletBinding()]
+    [OutputType([string])]
+    param (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $Name,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $Path = (Get-Location).Path
+    )
+
+    begin {}
+
+    process {
+        while ($Path -and -not (Test-Path -Path (Join-Path -Path $Path -ChildPath $Name))) {
+            $Path = Split-Path -Path $Path -Parent
+        }
+
+        if ($Path) {
+            # Output
+            Join-Path -Path $Path -ChildPath $Name
         }
     }
 
@@ -199,8 +306,8 @@ function global:Enter-PyenvDir {
     begin {}
 
     process {
-        if (Test-Path .python-version) {
-            $pyversion = Get-Content .python-version
+        if (Test-Path -Path '.python-version') {
+            $pyversion = Get-Content -Path '.python-version'
             Use-Pyenv -Version $pyversion
         }
     }
@@ -217,17 +324,19 @@ function global:Exit-PyenvDir {
     process {
         # Reset PATH to remove the Python path
         $env:PATH = ($env:PATH -split ':') -notmatch "$HOME/.pyenv/versions/.*/bin" -join ':'
-        Write-Verbose -Message 'Deactivated pyenv version'
+        Write-Verbose -Message 'Deactivated pyenv versions'
     }
 
     end {}
 }
 
 $ExecutionContext.InvokeCommand.LocationChangedAction = {
-    global:Exit-PyenvDir              # Deactivate previous version
-    global:Enter-PyenvDir             # Activate new version if needed
-}
+    # Deactivate previous version
+    global:Exit-PyenvDir
 
+    # Activate new version if needed
+    global:Enter-PyenvDir
+}
 function Start-Caffeination {
     [CmdletBinding()]
     param ()
