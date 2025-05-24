@@ -237,7 +237,7 @@
           "template": "{{ if gt .Code 0 }}<parentBackground,#e91e63></>{{ end }}{{ if eq .Code 0 }}<parentBackground,#000000></>{{ end }} \ue23a ",
           "foreground": "#ffffff",
           "background": "#00897b",
-          "type": "exit",
+          "type": "status",
           "style": "diamond",
           "background_templates": [
             "{{ if gt .Code 0 }}#e91e63{{ end }}"
