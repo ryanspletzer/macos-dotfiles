@@ -11,6 +11,8 @@
 !/.config/powershell
 !/.config/fish
 !/.gitconfig
+!/.gitconfig.personal
+!/.gitconfig.work
 !/.hushlogin
 !/.oh-my-posh
 !/.profile
