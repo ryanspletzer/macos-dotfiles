@@ -24,3 +24,5 @@
 	path = ~/.gitconfig.personal
 [includeif "gitdir:/Users/spletzr/"]
 	path = ~/.gitconfig.work
+[credential "https://git.autodesk.com"]
+	provider = github
