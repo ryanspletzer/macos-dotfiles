@@ -302,6 +302,50 @@ function Start-Caffeination {
     end {}
 }
 
+function Get-ParallelThrottle {
+    [CmdletBinding()]
+    [OutputType([int])]
+    param (
+        [Parameter()]
+        [ValidateSet('Mixed', 'CPU', 'IO')]
+        [string]
+        $Workload = 'Mixed',
+
+        [Parameter()]
+        [int]
+        $Max = 64,
+
+        [Parameter()]
+        [int]
+        $Min = 2
+    )
+
+    begin {
+        $cores = [Environment]::ProcessorCount
+    }
+
+    process {
+        $t = switch ($Workload) {
+            'Mixed' {
+                [math]::Ceiling($cores*1.5)
+            }
+            'CPU' {
+                $cores
+            }
+            'IO' {
+                [math]::Ceiling($cores*2)
+            }
+            'Mixed' {
+                [math]::Ceiling($cores*1.5)
+            }
+        }
+
+        [math]::Min([math]::Max($t, $Min), $Max)
+    }
+
+    end {}
+}
+
 # A wrapper for Get-MsalToken to get a token for Microsoft Graph using delegated permissions.
 # Supports all the same parameters as Get-MsalToken
 function Get-MgAccessTokenDelegated {
@@ -350,8 +394,31 @@ function Get-MgAccessTokenDelegated {
     end {}
 }
 
+function Connect-MgGraphWithAccessToken {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $AccessToken
+    )
+
+    begin {
+        # Convert the access token to a secure string
+        $secureToken = ConvertTo-SecureString -String $AccessToken -AsPlainText -Force
+    }
+
+    process {
+        # Connect to Microsoft Graph using the provided access token
+        Connect-MgGraph -AccessToken $secureToken -ErrorAction Stop
+    }
+
+    end {}
+}
+
 function Get-MgUserDirectReportTransitive {
     [CmdletBinding()]
+    [OutputType([object[]])]
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
@@ -361,13 +428,19 @@ function Get-MgUserDirectReportTransitive {
         [Parameter()]
         [ValidateNotNullOrEmpty()]
         [string]
-        $AccessToken
+        $AccessToken,
+
+        [Parameter()]
+        [switch]
+        $Child
     )
 
     begin {
         # If an access token is provided, call Connect-MgGraph with it
         if ($AccessToken) {
-            Connect-MgGraph -AccessToken $AccessToken -ErrorAction Stop
+            Connect-MgGraph -AccessToken (
+                ConvertTo-SecureString -String $AccessToken -AsPlainText -Force
+            ) -NoWelcome -ErrorAction Stop
         } else {
             # Otherwise, ensure the user is connected to Microsoft Graph
             if (-not (Get-MgContext)) {
@@ -379,16 +452,79 @@ function Get-MgUserDirectReportTransitive {
 
     process {
         $directReports = Get-MgUserDirectReport -UserId $UserId -All
-        foreach ($report in $directReports) {
-            # Escape hatch to avoid infinite recursion, e.g. someone reporting to themselves
-            # (It does happen)
-            if ($report.Id -eq $UserId) {
-                continue
+        if ($directReports.Count -eq 0) {
+            return
+        }
+
+        # Output the direct reports
+        $directReports
+
+        # If we're at the top level and have an access token, use parallel processing
+        if ($AccessToken -and -not $Child) {
+            # Create RunspacePool with one thread per direct report
+            $throttleLimit = [math]::Min($directReports.Count, (Get-ParallelThrottle -Workload 'IO'))
+            $runspacePool = [runspacefactory]::CreateRunspacePool(1, $throttleLimit)
+            $runspacePool.Open()
+
+            # Script block to execute in each runspace
+            $scriptBlock = {
+                param ($reportId, $accessToken)
+
+                # Import the Profile module to access Get-MgUserDirectReportTransitive
+                Import-Module -Name Profile
+
+                # Get transitive reports recursively (synchronously in child calls)
+                Get-MgUserDirectReportTransitive -UserId $reportId -AccessToken $accessToken -Child
             }
 
-            # Output the direct report
-            $report
-            Get-MgUserDirectReportTransitive -UserId $report.Id
+            $jobs = @()
+
+            # Create PowerShell instances for each direct report
+            foreach ($report in $directReports) {
+                # Escape hatch to avoid infinite recursion
+                if ($report.Id -eq $UserId) {
+                    continue
+                }
+
+                $powerShell = [powershell]::Create()
+                $powerShell.RunspacePool = $runspacePool
+                $powerShell.AddScript($scriptBlock).AddParameter('reportId', $report.Id).AddParameter('accessToken', $AccessToken) | Out-Null
+
+                $jobs += @{
+                    PowerShell = $powerShell
+                    AsyncResult = $powerShell.BeginInvoke()
+                }
+            }
+
+            # Collect and emit results through pipeline
+            try {
+                foreach ($job in $jobs) {
+                    # Wait for completion and emit results
+                    $results = $job.PowerShell.EndInvoke($job.AsyncResult)
+                    foreach ($result in $results) {
+                        $result
+                    }
+                }
+            } finally {
+                # Clean up
+                foreach ($job in $jobs) {
+                    $job.PowerShell.Dispose()
+                }
+
+                $runspacePool.Close()
+                $runspacePool.Dispose()
+            }
+        } else {
+            # Sequential processing for child calls or when no access token
+            foreach ($report in $directReports) {
+                # Escape hatch to avoid infinite recursion
+                if ($report.Id -eq $UserId) {
+                    continue
+                }
+
+                # Recursively get transitive reports
+                Get-MgUserDirectReportTransitive -UserId $report.Id -Child
+            }
         }
     }
 
@@ -417,6 +553,7 @@ Export-ModuleMember -Function @(
     'Exit-PyenvDir',
     'Start-Caffeination',
     'Get-MgAccessTokenDelegated',
+    'Connect-MgGraphWithAccessToken',
     'Get-MgUserDirectReportTransitive'
 ) -Alias @(
     'openremote',

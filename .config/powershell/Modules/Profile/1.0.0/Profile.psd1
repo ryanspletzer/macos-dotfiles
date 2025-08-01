@@ -41,6 +41,7 @@
         'Exit-PyenvDir',
         'Start-Caffeination',
         'Get-MgAccessTokenDelegated',
+        'Connect-MgGraphWithAccessToken',
         'Get-MgUserDirectReportTransitive'
     )
 
