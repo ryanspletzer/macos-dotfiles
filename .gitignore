@@ -9,6 +9,8 @@
 !/.config
 /.config/*
 !/.config/powershell
+!/.config/powershell/Modules
+!/.config/powershell/Modules/*
 !/.config/fish
 !/.gitconfig
 !/.gitconfig.personal
