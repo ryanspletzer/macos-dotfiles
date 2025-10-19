@@ -7,7 +7,7 @@ end
 alias cls=clear
 alias openremote='open $(git remote get-url origin)'
 
-chruby ruby-3.1.3
+chruby ruby-3.4.1
 
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'

@@ -9,7 +9,7 @@ alias openremote='open $(git remote get-url origin)'
 
 source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
 source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
-chruby ruby-3.1.3
+chruby ruby-3.4.1
 
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
