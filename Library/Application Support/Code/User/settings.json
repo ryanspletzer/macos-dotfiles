@@ -163,7 +163,7 @@
     "mssql.connections": [
         {
             "database": "{{put-database-name-here}}",
-            "password": "{{put-password-here}}",
+            "password": "",
             "server": "{{put-server-name-here}}",
             "user": "{{put-username-here}}"
         }
