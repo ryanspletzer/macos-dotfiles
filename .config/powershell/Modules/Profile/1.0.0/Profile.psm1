@@ -535,7 +535,7 @@ function Get-MgUserDirectReportTransitive {
 New-Alias -Name openremote -Value Open-GitRemoteUrl
 New-Alias -Name syncremote -Value Sync-GitOriginRemoteFromUpstream
 New-Alias -Name finder -Value Open-Finder
-New-Alias -Name TextEdit -Value Open-TextEdit
+New-Alias -Name textedit -Value Open-TextEdit
 New-Alias -Name caf -Value Start-Caffeination
 
 # Export functions and aliases
@@ -559,6 +559,6 @@ Export-ModuleMember -Function @(
     'openremote',
     'syncremote',
     'finder',
-    'TextEdit',
+    'textedit',
     'caf'
 )
