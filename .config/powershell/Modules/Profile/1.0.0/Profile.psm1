@@ -127,20 +127,38 @@ function Open-TextEdit {
 function Get-LocalCertificate {
     [CmdletBinding()]
     [OutputType()]
-    param ()
+    param (
+        [Parameter(Mandatory = $false)]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $CertificateThumbprint,
 
-    begin {}
+        [Parameter(Mandatory = $false)]
+        [System.Security.Cryptography.X509Certificates.StoreLocation]
+        $StoreLocation = [System.Security.Cryptography.X509Certificates.StoreLocation]::CurrentUser,
+
+        [Parameter(Mandatory = $false)]
+        [System.Security.Cryptography.X509Certificates.StoreName]
+        $StoreName = [System.Security.Cryptography.X509Certificates.StoreName]::My
+    )
+
+    begin {
+        $x509Store = [System.Security.Cryptography.X509Certificates.X509Store]::new($StoreName, $StoreLocation)
+        $x509Store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadOnly)
+    }
 
     process {
-        $x509Store = [System.Security.Cryptography.X509Certificates.X509Store]::new(
-            [System.Security.Cryptography.X509Certificates.StoreName]::My,
-            [System.Security.Cryptography.X509Certificates.StoreLocation]::CurrentUser
-        )
-        $x509Store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::ReadOnly)
-
-        # Output
-        $x509Store.Certificates
-
+        if (-not [string]::IsNullOrEmpty($CertificateThumbprint)) {
+            # Output
+            $x509Store.Certificates.Find(
+                [System.Security.Cryptography.X509Certificates.X509FindType]::FindByThumbprint,
+                $CertificateThumbprint,
+                $false
+            )
+        } else {
+            # Output
+            $x509Store.Certificates
+        }
     }
 
     end {
