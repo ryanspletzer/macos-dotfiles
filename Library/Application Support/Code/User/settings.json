@@ -84,7 +84,7 @@
         },
         "editor.tabSize": 2
     },
-    "@azure.argTenant": "",
+    "@azure.argTenant": "346be81d-4a23-45f5-8f84-c65206d69627",
     "csharp.semanticHighlighting.enabled": true,
     "diffEditor.ignoreTrimWhitespace": false,
     "diffEditor.maxComputationTime": 0,
@@ -117,7 +117,7 @@
     "github.copilot.chat.codeGeneration.instructions": [],
     "github.copilot.nextEditSuggestions.enabled": true,
     "gitlens.ai.model": "vscode",
-    "gitlens.ai.vscode.model": "copilot:claude-sonnet-4",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
     "gitlens.remotes": [
         {
             "domain": "git.autodesk.com",
