@@ -7,7 +7,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "display_host": false
           },
@@ -19,7 +19,7 @@
           "style": "diamond"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "folder_separator_icon": " \ue0b1 ",
             "home_icon": "~",
@@ -33,7 +33,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_stash_count": true,
             "fetch_status": true,
@@ -56,7 +56,7 @@
           ]
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_version": true
           },
@@ -68,7 +68,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_version": true
           },
@@ -80,7 +80,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_version": true
           },
@@ -92,7 +92,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "display_mode": "files",
             "fetch_version": true,
@@ -106,7 +106,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "display_mode": "files",
             "fetch_version": true
@@ -119,7 +119,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "fetch_version": true
           },
@@ -131,7 +131,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": " \udb82\udc05 {{ .EnvironmentName }}",
@@ -142,7 +142,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "display_mode": "files",
             "fetch_version": false
@@ -155,7 +155,7 @@
           "style": "powerline"
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "display_default": false
           },
@@ -170,7 +170,7 @@
           ]
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "root_icon": "\uf0ad"
           },
@@ -188,7 +188,7 @@
       "alignment": "right",
       "segments": [
         {
-          "properties": {
+          "options": {
             "cache_duration": "none"
           },
           "template": "<#0077c2,transparent>\ue0b2</> \uf489 {{ .Name }} <transparent,#0077c2>\ue0b2</>",
@@ -198,7 +198,7 @@
           "style": "plain"
         },
         {
-          "properties": {
+          "options": {
             "always_enabled": true,
             "cache_duration": "none"
           },
@@ -210,7 +210,7 @@
           "invert_powerline": true
         },
         {
-          "properties": {
+          "options": {
             "cache_duration": "none",
             "time_format": "3:04:05 PM"
           },
@@ -228,7 +228,7 @@
       "alignment": "left",
       "segments": [
         {
-          "properties": {
+          "options": {
             "always_enabled": true,
             "cache_duration": "none",
             "theme": "\ue23a"
@@ -247,6 +247,6 @@
       "newline": true
     }
   ],
-  "version": 3,
+  "version": 4,
   "final_space": true
 }
