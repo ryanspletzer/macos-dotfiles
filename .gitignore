@@ -1,6 +1,9 @@
 /*
 !/.bash_profile
 !/.bashrc
+!/.claude
+/.claude/*
+!/.claude/settings.json
 !/.config
 /.config/*
 !/.config/fish
