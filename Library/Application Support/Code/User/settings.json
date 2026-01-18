@@ -158,7 +158,6 @@
     "rewrap.wrappingColumn": 120,
     "security.workspace.trust.untrustedFiles": "open",
     "sqlDatabaseProjects.netCoreDowngradeDoNotShow": true,
-    "terminal.integrated.defaultProfile.osx": "pwsh",
     "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font, CaskaydiaCove NF, Menlo for Powerline, Menlo, Monaco, 'Courier New', monospace",
     "terminal.integrated.fontWeight": "500",
     "terminal.integrated.profiles.windows": {
@@ -258,5 +257,6 @@
     "[github-actions-workflow]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
-    "claudeCode.preferredLocation": "panel"
+    "claudeCode.preferredLocation": "panel",
+    "docker.extension.enableComposeLanguageServer": false
 }
