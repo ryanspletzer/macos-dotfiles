@@ -3,6 +3,26 @@
         "DISABLE_AUTOUPDATER": "1"
     },
     "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "python3 ~/.claude/hooks/approve-variants.py"
+                    }
+                ]
+            },
+            {
+                "matcher": "Bash",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "python3 ~/.claude/hooks/check-uv-pytest.py"
+                    }
+                ]
+            }
+        ],
         "Stop": [
             {
                 "hooks": [
