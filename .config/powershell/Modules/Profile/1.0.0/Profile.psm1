@@ -314,7 +314,7 @@ function Start-Caffeination {
     begin {}
 
     process {
-        caffeinate -isu
+        caffeinate -disu
     }
 
     end {}

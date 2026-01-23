@@ -99,6 +99,6 @@ end
 alias textedit=open_textedit
 
 function start_caffeination
-    caffeinate -isu
+    caffeinate -disu
 end
 alias caf=start_caffeination

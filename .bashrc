@@ -106,6 +106,6 @@ open_textedit() {
 alias textedit=open_textedit
 
 start_caffeination() {
-    caffeinate -isu
+    caffeinate -disu
 }
 alias caf=start_caffeination
