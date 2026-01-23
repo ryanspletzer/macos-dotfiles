@@ -112,6 +112,19 @@ open_textedit() {
 alias textedit=open_textedit
 
 start_caffeination() {
+    local OPTIND=1 opt screensaver=false
+
+    while getopts ":s" opt; do
+        case $opt in
+            s) screensaver=true ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    if [[ $screensaver == true ]]; then
+        open -a /System/Library/CoreServices/ScreenSaverEngine.app
+    fi
+
     caffeinate -disu
 }
 alias caf=start_caffeination

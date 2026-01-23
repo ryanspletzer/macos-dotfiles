@@ -99,6 +99,13 @@ end
 alias textedit=open_textedit
 
 function start_caffeination
+    argparse 's' -- $argv
+    or return 1
+
+    if set -q _flag_s
+        open -a /System/Library/CoreServices/ScreenSaverEngine.app
+    end
+
     caffeinate -disu
 end
 alias caf=start_caffeination

@@ -309,11 +309,20 @@ function global:Exit-PyenvDir {
 
 function Start-Caffeination {
     [CmdletBinding()]
-    param ()
+    param (
+        [Parameter()]
+        [Alias('S')]
+        [switch]
+        $ScreenSaver
+    )
 
     begin {}
 
     process {
+        if ($ScreenSaver.IsPresent) {
+            open -a /System/Library/CoreServices/ScreenSaverEngine.app
+        }
+
         caffeinate -disu
     }
 
