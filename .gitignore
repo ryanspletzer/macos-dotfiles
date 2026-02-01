@@ -17,6 +17,15 @@
 !/.gitconfig.work
 !/.gitignore
 !/.hushlogin
+!/.oh-my-posh
+!/.profile
+!/.vscode
+/.vscode/*
+!/.vscode/settings.json
+!/.zprofile
+!/.zshenv
+!/.zshrc
+!/CLAUDE.md
 !/Library
 /Library/*
 !/Library/Application Support
@@ -26,11 +35,3 @@
 !/Library/Application Support/Code/User
 /Library/Application Support/Code/User/*
 !/Library/Application Support/Code/User/settings.json
-!/.oh-my-posh
-!/.profile
-!/.vscode
-/.vscode/*
-!/.vscode/settings.json
-!/.zprofile
-!/.zshenv
-!/.zshrc

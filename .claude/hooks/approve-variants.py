@@ -141,56 +141,56 @@ WRAPPER_PATTERNS = [
 
 # --- Safe core command patterns ---
 SAFE_COMMANDS = [
-    # # git read operations (with optional -C flag)
-    # (
-    #     r"^git\s+(-C\s+\S+\s+)?(diff|log|status|show|branch|stash\s+list|bisect|worktree\s+list|fetch)\b",
-    #     "git read op",
-    # ),
-    # # git write operations
-    # (r"^git\s+(-C\s+\S+\s+)?(add|checkout|merge|rebase|stash)\b", "git write op"),
-    # # pytest
-    # (r"^pytest\b", "pytest"),
-    # # python
-    # (r"^python\b", "python"),
-    # # ruff (python linter/formatter)
-    # (r"^ruff\b", "ruff"),
-    # # uv / uvx
-    # (r"^uv\s+(pip|run|sync|venv|add|remove|lock)\b", "uv"),
-    # (r"^uvx\b", "uvx"),
-    # # npm / npx
-    # (r"^npm\s+(install|run|test|build|ci)\b", "npm"),
-    # (r"^npx\b", "npx"),
-    # # cargo
-    # (r"^cargo\s+(build|test|run|check|clippy|fmt|clean)\b", "cargo"),
-    # # maturin (rust python bindings)
-    # (r"^maturin\s+(develop|build)\b", "maturin"),
-    # # make
-    # (r"^make\b", "make"),
-    # # common read-only commands
-    # (
-    #     r"^(ls|cat|head|tail|wc|find|grep|rg|file|which|pwd|du|df|curl|sort|uniq|cut|tr|awk|sed|xargs)\b",
-    #     "read-only",
-    # ),
-    # # touch (update timestamps, create empty files)
-    # (r"^touch\b", "touch"),
-    # # shell builtins for control flow
-    # (r"^(true|false|exit(\s+\d+)?)$", "shell builtin"),
-    # # pkill/kill (process management)
-    # (r"^(pkill|kill)\b", "process mgmt"),
-    # # echo (often used for logging/separators in chained commands)
-    # (r"^echo\b", "echo"),
-    # # cd (change directory, often first in a chain)
-    # (r"^cd\s", "cd"),
-    # # source/. (activate scripts, set env)
-    # (r"^(source|\.) [^\s]*venv/bin/activate", "venv activate"),
-    # # sleep (delays, often used in scripts)
-    # (r"^sleep\s", "sleep"),
-    # # variable assignment (VAR=value, VAR=$!, etc.)
-    # (r"^[A-Z_][A-Z0-9_]*=\S*$", "var assignment"),
-    # # for/while loops and loop constructs
-    # (r"^for\s+\w+\s+in\s", "for loop"),
-    # (r"^while\s", "while loop"),
-    # (r"^done$", "done"),
+    # git read operations (with optional -C flag)
+    (
+        r"^git\s+(-C\s+\S+\s+)?(diff|log|status|show|branch|stash\s+list|bisect|worktree\s+list|fetch)\b",
+        "git read op",
+    ),
+    # git write operations
+    (r"^git\s+(-C\s+\S+\s+)?(add|checkout|merge|rebase|stash)\b", "git write op"),
+    # pytest
+    (r"^pytest\b", "pytest"),
+    # python
+    (r"^python\b", "python"),
+    # ruff (python linter/formatter)
+    (r"^ruff\b", "ruff"),
+    # uv / uvx
+    (r"^uv\s+(pip|run|sync|venv|add|remove|lock)\b", "uv"),
+    (r"^uvx\b", "uvx"),
+    # npm / npx
+    (r"^npm\s+(install|run|test|build|ci)\b", "npm"),
+    (r"^npx\b", "npx"),
+    # cargo
+    (r"^cargo\s+(build|test|run|check|clippy|fmt|clean)\b", "cargo"),
+    # maturin (rust python bindings)
+    (r"^maturin\s+(develop|build)\b", "maturin"),
+    # make
+    (r"^make\b", "make"),
+    # common read-only commands
+    (
+        r"^(ls|cat|head|tail|wc|find|grep|rg|file|which|pwd|du|df|curl|sort|uniq|cut|tr|awk|sed|xargs)\b",
+        "read-only",
+    ),
+    # touch (update timestamps, create empty files)
+    (r"^touch\b", "touch"),
+    # shell builtins for control flow
+    (r"^(true|false|exit(\s+\d+)?)$", "shell builtin"),
+    # pkill/kill (process management)
+    (r"^(pkill|kill)\b", "process mgmt"),
+    # echo (often used for logging/separators in chained commands)
+    (r"^echo\b", "echo"),
+    # cd (change directory, often first in a chain)
+    (r"^cd\s", "cd"),
+    # source/. (activate scripts, set env)
+    (r"^(source|\.) [^\s]*venv/bin/activate", "venv activate"),
+    # sleep (delays, often used in scripts)
+    (r"^sleep\s", "sleep"),
+    # variable assignment (VAR=value, VAR=$!, etc.)
+    (r"^[A-Z_][A-Z0-9_]*=\S*$", "var assignment"),
+    # for/while loops and loop constructs
+    (r"^for\s+\w+\s+in\s", "for loop"),
+    (r"^while\s", "while loop"),
+    (r"^done$", "done"),
 ]
 
 
