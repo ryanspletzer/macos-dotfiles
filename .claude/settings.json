@@ -64,7 +64,8 @@
     "pyright-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
-    "pr-review-toolkit@claude-plugins-official": true
+    "pr-review-toolkit@claude-plugins-official": true,
+    "markdown-linter-fixer@markdown-linter-fixer-marketplace": true
   },
   "syntaxHighlightingDisabled": false
 }
