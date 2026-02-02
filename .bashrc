@@ -14,6 +14,11 @@ chruby ruby-3.4.1
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
 
+alias gd='git diff'
+alias gdc='git diff --color=always'
+alias gs='git status'
+alias gsc='git -c color.status=always status'
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 . "$HOME/.cargo/env"
 

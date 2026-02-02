@@ -21,6 +21,15 @@
             "command": "python3 ~/.claude/hooks/check-uv-pytest.py"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/check-uv-venv.py"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -56,5 +65,6 @@
     "typescript-lsp@claude-plugins-official": true,
     "gopls-lsp@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true
-  }
+  },
+  "syntaxHighlightingDisabled": false
 }

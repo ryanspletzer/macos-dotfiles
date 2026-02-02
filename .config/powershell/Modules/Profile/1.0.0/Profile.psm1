@@ -558,12 +558,84 @@ function Get-MgUserDirectReportTransitive {
     end {}
 }
 
+function Get-GitDiff {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        git diff @Arguments
+    }
+
+    end {}
+}
+
+function Get-GitDiffColored {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        git diff --color=always @Arguments
+    }
+
+    end {}
+}
+
+function Get-GitStatus {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        git status @Arguments
+    }
+
+    end {}
+}
+
+function Get-GitStatusColored {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        git -c color.status=always status @Arguments
+    }
+
+    end {}
+}
+
 # Create aliases
 New-Alias -Name openremote -Value Open-GitRemoteUrl
 New-Alias -Name syncremote -Value Sync-GitOriginRemoteFromUpstream
 New-Alias -Name finder -Value Open-Finder
 New-Alias -Name textedit -Value Open-TextEdit
 New-Alias -Name caf -Value Start-Caffeination
+New-Alias -Name gd -Value Get-GitDiff
+New-Alias -Name gdc -Value Get-GitDiffColored
+New-Alias -Name gs -Value Get-GitStatus
+New-Alias -Name gsc -Value Get-GitStatusColored
 
 # Export functions and aliases
 Export-ModuleMember -Function @(
@@ -581,11 +653,19 @@ Export-ModuleMember -Function @(
     'Start-Caffeination',
     'Get-MgAccessTokenDelegated',
     'Connect-MgGraphWithAccessToken',
-    'Get-MgUserDirectReportTransitive'
+    'Get-MgUserDirectReportTransitive',
+    'Get-GitDiff',
+    'Get-GitDiffColored',
+    'Get-GitStatus',
+    'Get-GitStatusColored'
 ) -Alias @(
     'openremote',
     'syncremote',
     'finder',
     'textedit',
-    'caf'
+    'caf',
+    'gd',
+    'gdc',
+    'gs',
+    'gsc'
 )
