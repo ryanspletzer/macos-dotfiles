@@ -5,6 +5,7 @@
 /.claude/*
 !/.claude/settings.json
 !/.claude/hooks
+!/.claude/CLAUDE.md
 !/.config
 /.config/*
 !/.config/fish
