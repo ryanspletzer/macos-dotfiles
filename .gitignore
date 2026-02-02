@@ -5,6 +5,8 @@
 /.claude/*
 !/.claude/CLAUDE.md
 !/.claude/hooks
+!/.claude/plugin-manifest.json
+!/.claude/scripts
 !/.claude/settings.json
 !/.config
 /.config/*
