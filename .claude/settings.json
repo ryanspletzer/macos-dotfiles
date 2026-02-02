@@ -68,7 +68,11 @@
     "markdown-linter-fixer@markdown-linter-fixer-marketplace": true,
     "superpowers@superpowers-marketplace": true,
     "elements-of-style@superpowers-marketplace": true,
-    "episodic-memory@superpowers-marketplace": true
+    "episodic-memory@superpowers-marketplace": true,
+    "csharp-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true,
+    "powershell-editor-services@claude-code-lsps": true
   },
   "syntaxHighlightingDisabled": false
 }

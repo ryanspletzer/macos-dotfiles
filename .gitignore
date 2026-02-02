@@ -3,9 +3,9 @@
 !/.bashrc
 !/.claude
 /.claude/*
-!/.claude/settings.json
-!/.claude/hooks
 !/.claude/CLAUDE.md
+!/.claude/hooks
+!/.claude/settings.json
 !/.config
 /.config/*
 !/.config/fish
