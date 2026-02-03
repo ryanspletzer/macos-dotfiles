@@ -16,6 +16,9 @@
 !/.config/powershell/Modules/*
 !/.gitattributes
 !/.gitconfig
+!/.gnupg
+/.gnupg/*
+!/.gnupg/gpg.conf
 !/.gitconfig.personal
 !/.gitconfig.work
 !/.gitignore
