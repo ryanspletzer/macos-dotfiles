@@ -56,6 +56,7 @@ All shells share consistent aliases and functions:
 | `.gitconfig.personal` | Personal email (conditional include for `~/`) |
 | `.gitconfig.work` | Work email (conditional include for `/Users/spletzr/`) |
 | `.gitattributes` | LFS patterns, line ending rules |
+| `.gnupg/gpg.conf` | GPG preferences (`no-tty` for non-interactive signing) |
 
 Key settings:
 
@@ -131,34 +132,35 @@ Custom functions beyond shell aliases:
 
 ---
 
-## Candidates for Future Source Control
+## Dotfiles Audit (Feb 2026)
 
-Consider tracking these if not already covered:
+Review of common config files for source control:
 
-### High Value
+### Added
 
-- `~/.ssh/config` - SSH host configurations (not keys!)
-- `~/.aws/config` - AWS CLI profiles (not credentials!)
-- `~/.azure/` - Azure CLI config
-- `~/.docker/config.json` - Docker settings (sanitize auth)
-- `~/.gnupg/gpg.conf` - GPG preferences
-- `~/.npmrc` - npm configuration (without tokens)
-- `~/.cargo/config.toml` - Cargo/Rust settings
-- `~/.pypirc` - PyPI configuration (without passwords)
+- `.gnupg/gpg.conf` - `no-tty` setting for non-interactive commit signing
 
-### Editor/Tool Configs
+### Skipped (reviewed but not useful)
 
-- `~/.vimrc` or `~/.config/nvim/` - if using Vim/Neovim
-- `~/.tmux.conf` - if using tmux
-- `~/.editorconfig` - cross-editor formatting
-- `~/.prettierrc` - Prettier defaults
-- `~/.eslintrc` - ESLint defaults
+| File | Reason |
+| ---- | ------ |
+| `~/.docker/config.json` | Default Docker Desktop config, no customizations |
+| `~/.azure/` | Only Azure PowerShell state files, no CLI config |
+| `~/.config/nvim/` | Stock LazyVim starter, no customizations yet |
 
-### macOS Specific
+### Don't Exist (nothing to track)
 
-- `~/Library/Application Support/Code/User/keybindings.json` - VS Code keybindings
-- `~/Library/Application Support/Code/User/snippets/` - VS Code snippets
-- `~/.Brewfile` - Homebrew bundle manifest
+`~/.ssh/config`, `~/.aws/config`, `~/.npmrc`, `~/.cargo/config.toml`,
+`~/.pypirc`, `~/.vimrc`, `~/.tmux.conf`, `~/.editorconfig`, `~/.prettierrc`,
+`~/.eslintrc`, `~/.Brewfile`, VS Code `keybindings.json`, VS Code `snippets/`
+
+### Future Candidates
+
+Track these when they exist with meaningful customizations:
+
+- `~/.config/nvim/` - once LazyVim is customized
+- `~/.ssh/config` - when SSH hosts are configured
+- `~/.aws/config` - when AWS CLI profiles are set up
 
 ---
 
