@@ -9,7 +9,7 @@ zstyle ':autocomplete:*' ignored-input '..##'
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh --config ~/.oh-my-posh/themes/mytheme.json)"
+  eval "$(oh-my-posh init zsh --config ~/.oh-my-posh/themes/mytheme.yaml)"
 fi
 
 autoload -Uz compinit && compinit

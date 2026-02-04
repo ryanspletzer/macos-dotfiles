@@ -17,7 +17,7 @@ $env:INFOPATH = $('/opt/homebrew/share/info'+$(if(${env:INFOPATH}){':'+${env:INF
 Import-Module -Name Profile
 
 if ("$env:TERM_PROGRAM" -ne "Apple_Terminal") {
-    oh-my-posh init pwsh --config "~/.oh-my-posh/themes/mytheme.json" | Invoke-Expression
+    oh-my-posh init pwsh --config "~/.oh-my-posh/themes/mytheme.yaml" | Invoke-Expression
     Import-Module -Name Terminal-Icons
 } else {
     Import-Module -Name posh-git

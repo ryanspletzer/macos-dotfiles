@@ -41,7 +41,7 @@ All shells share consistent aliases and functions:
 
 ### Prompt Theme
 
-**Oh My Posh** with custom theme at `.oh-my-posh/themes/mytheme.json`:
+**Oh My Posh** with custom theme at `.oh-my-posh/themes/mytheme.yaml`:
 
 - Powerline-style segments
 - Shows: user, path, git status, language versions, Azure/AWS context

@@ -1,7 +1,7 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export GPG_TTY=$(tty)
 if test "$TERM_PROGRAM" != "Apple_Terminal"
-    oh-my-posh init fish --config ~/.oh-my-posh/themes/mytheme.json | source
+    oh-my-posh init fish --config ~/.oh-my-posh/themes/mytheme.yaml | source
 end
 
 alias cls=clear

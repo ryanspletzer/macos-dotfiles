@@ -1,7 +1,7 @@
 export GPG_TTY=$(tty)
 
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init bash --config ~/.oh-my-posh/themes/mytheme.json)"
+  eval "$(oh-my-posh init bash --config ~/.oh-my-posh/themes/mytheme.yaml)"
 fi
 
 alias cls=clear
