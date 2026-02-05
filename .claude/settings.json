@@ -72,7 +72,12 @@
     "csharp-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
-    "powershell-editor-services@claude-code-lsps": true
+    "powershell-editor-services@claude-code-lsps": true,
+    "playwright@claude-plugins-official": true,
+    "serena@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "ralph-wiggum@claude-plugins-official": true,
+    "context7@claude-plugins-official": true
   },
   "syntaxHighlightingDisabled": false
 }
