@@ -79,7 +79,8 @@
     "ralph-wiggum@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
-    "commands-code-analysis-testing@buildwithclaude": true
+    "commands-code-analysis-testing@buildwithclaude": true,
+    "ralph-loop@claude-plugins-official": true
   },
   "syntaxHighlightingDisabled": false
 }
