@@ -11,6 +11,19 @@
 - When creating markdownlint config files, use YAML format
   (`.markdownlint.yaml`) instead of JSONC
 
+## Semantic line breaks
+
+Follow the semantic line breaks convention for all prose in Markdown files:
+
+- Start each sentence on a new line
+- Add a line break after clauses separated by commas, semicolons,
+  colons, or em dashes when it aids readability
+- Keep lines under ~120 characters where practical
+  (links and code spans may exceed this)
+- Never break within a hyphenated word
+- These breaks are for source readability and diffs only;
+  they must not change rendered output
+
 ## Enforcement
 
 - If Markdown linting errors are possible, run the markdown linter fixer skill
