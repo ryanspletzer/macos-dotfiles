@@ -1,12 +1,14 @@
 {
   "marketplaces": [
     "Piebald-AI/claude-code-lsps",
+    "accesslint/claude-marketplace",
     "anthropics/claude-plugins-official",
     "davepoon/buildwithclaude",
     "obra/superpowers-marketplace",
     "s2005/markdown-linter-fixer-skill"
   ],
   "plugins": [
+    "accesslint@accesslint",
     "code-review@claude-plugins-official",
     "commands-code-analysis-testing@buildwithclaude",
     "commit-commands@claude-plugins-official",
