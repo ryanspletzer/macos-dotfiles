@@ -79,7 +79,6 @@
     "context7@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
     "commands-code-analysis-testing@buildwithclaude": true,
-    "ralph-loop@claude-plugins-official": true,
     "accesslint@accesslint": true,
     "frontend-design@claude-plugins-official": true,
     "obsidian-skills@buildwithclaude": true,
