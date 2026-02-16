@@ -11,6 +11,13 @@
 !/.config
 /.config/*
 !/.config/fish
+!/.config/nvim
+/.config/nvim/lazy-lock.json
+/.config/nvim/.neoconf.json
+/.config/nvim/lazyvim.json
+/.config/nvim/LICENSE
+/.config/nvim/README.md
+/.config/nvim/.gitignore
 !/.config/powershell
 !/.config/powershell/Modules
 !/.config/powershell/Modules/*
@@ -24,6 +31,7 @@
 !/.gitignore
 !/.hushlogin
 !/.oh-my-posh
+!/.tmux.conf
 !/.profile
 !/.vscode
 /.vscode/*

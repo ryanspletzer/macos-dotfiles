@@ -78,6 +78,33 @@ Key settings:
     (handles wrappers like `timeout`, env vars, `.venv/bin/`)
   - `check-uv-pytest.py` - Enforces `uv run pytest` instead of bare `pytest`
 
+### tmux Configuration
+
+`.tmux.conf`:
+
+- **Prefix**: `Ctrl+a` (rebound from `Ctrl+b`)
+- **Plugins** (via TPM): `tmux.nvim` (cross-pane nav/resize),
+  `tmux-resurrect`, `tmux-continuum`, `tmux-yank`
+- Seamless `Ctrl+h/j/k/l` navigation with Neovim via `tmux.nvim`
+- Pane resize with `Ctrl+Shift+Arrow` (also crosses Neovim boundary)
+- `prefix + C` for 60/40 Claude Code layout split
+- 50k scrollback, focus events, clipboard integration, auto-rename
+
+### Neovim/LazyVim Configuration
+
+`.config/nvim/` (LazyVim starter with customizations):
+
+- **Tracked**: `init.lua`, `lua/config/*.lua`, `lua/plugins/*.lua`, `stylua.toml`
+- **Ignored**: `lazy-lock.json`, `.neoconf.json`, `lazyvim.json`, `LICENSE`,
+  `README.md`, `.gitignore` (auto-generated or starter boilerplate)
+- **Extras enabled**: `lang.typescript`, `lang.json`, `lang.markdown`,
+  `ui.mini-animate`, `coding.mini-surround`, `coding.yanky`,
+  `editor.mini-files`, `editor.mini-move`, `editor.inc-rename`,
+  `ai.claudecode`
+- **Custom plugins**: `tmux.lua` (tmux.nvim), `snacks.lua` (picker nav fix),
+  `claudecode.lua` (Claude Code integration)
+- **Autocmds**: buffer refresh on focus/enter, file change notification
+
 ### VS Code Settings
 
 `Library/Application Support/Code/User/settings.json`:
@@ -146,19 +173,17 @@ Review of common config files for source control:
 | ---- | ------ |
 | `~/.docker/config.json` | Default Docker Desktop config, no customizations |
 | `~/.azure/` | Only Azure PowerShell state files, no CLI config |
-| `~/.config/nvim/` | Stock LazyVim starter, no customizations yet |
 
 ### Don't Exist (nothing to track)
 
 `~/.ssh/config`, `~/.aws/config`, `~/.npmrc`, `~/.cargo/config.toml`,
-`~/.pypirc`, `~/.vimrc`, `~/.tmux.conf`, `~/.editorconfig`, `~/.prettierrc`,
+`~/.pypirc`, `~/.vimrc`, `~/.editorconfig`, `~/.prettierrc`,
 `~/.eslintrc`, `~/.Brewfile`, VS Code `keybindings.json`, VS Code `snippets/`
 
 ### Future Candidates
 
 Track these when they exist with meaningful customizations:
 
-- `~/.config/nvim/` - once LazyVim is customized
 - `~/.ssh/config` - when SSH hosts are configured
 - `~/.aws/config` - when AWS CLI profiles are set up
 
