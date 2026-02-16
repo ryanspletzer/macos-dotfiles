@@ -24,11 +24,18 @@ Follow the semantic line breaks convention for all prose in Markdown files:
 - These breaks are for source readability and diffs only;
   they must not change rendered output
 
-## Clipboard
+## Git commit workflow
 
-When generating commit messages,
-copy them to the clipboard using `pbcopy`
-so they can be pasted directly.
+After making changes,
+the default suggestion should be to "generate a commit message"
+rather than "commit this."
+
+- **"Generate a commit message"** (default):
+  Draft the commit message and copy it to the clipboard via `pbcopy`.
+  Do NOT actually create a git commit.
+- **"Commit this"** (explicit request):
+  Create the git commit directly.
+  Do NOT copy the message to the clipboard.
 
 ## Enforcement
 
