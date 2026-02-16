@@ -2,6 +2,7 @@
   "env": {
     "DISABLE_AUTOUPDATER": "1"
   },
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -82,8 +83,8 @@
     "accesslint@accesslint": true,
     "frontend-design@claude-plugins-official": true,
     "obsidian-skills@buildwithclaude": true,
-    "ralph-wiggum@claude-plugins-official": true
+    "ralph-wiggum@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
   },
-  "syntaxHighlightingDisabled": false,
-  "model": "opus"
+  "syntaxHighlightingDisabled": false
 }

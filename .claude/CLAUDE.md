@@ -27,15 +27,13 @@ Follow the semantic line breaks convention for all prose in Markdown files:
 ## Git commit workflow
 
 After making changes,
-the default suggestion should be to "generate a commit message"
-rather than "commit this."
+always copy the generated commit message to the clipboard via `pbcopy`,
+then present the standard commit confirmation
+so the user can choose whether to commit via Claude Code or manually.
 
-- **"Generate a commit message"** (default):
-  Draft the commit message and copy it to the clipboard via `pbcopy`.
-  Do NOT actually create a git commit.
-- **"Commit this"** (explicit request):
-  Create the git commit directly.
-  Do NOT copy the message to the clipboard.
+- **Always**: Draft the commit message and copy it to the clipboard via `pbcopy`.
+- **Then**: Present the commit for user approval (the usual "commit this" flow).
+  The user may approve the commit or decline and use the clipboard message manually.
 
 ## Enforcement
 
