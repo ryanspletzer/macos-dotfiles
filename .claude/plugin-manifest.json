@@ -25,6 +25,7 @@
     "powershell-editor-services@claude-code-lsps",
     "pr-review-toolkit@claude-plugins-official",
     "pyright-lsp@claude-plugins-official",
+    "ralph-wiggum@claude-plugins-official",
     "rust-analyzer-lsp@claude-plugins-official",
     "security-guidance@claude-plugins-official",
     "serena@claude-plugins-official",
