@@ -84,5 +84,6 @@
     "obsidian-skills@buildwithclaude": true,
     "ralph-wiggum@claude-plugins-official": true
   },
-  "syntaxHighlightingDisabled": false
+  "syntaxHighlightingDisabled": false,
+  "model": "opus"
 }
