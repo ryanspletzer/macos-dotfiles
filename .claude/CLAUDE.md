@@ -24,6 +24,12 @@ Follow the semantic line breaks convention for all prose in Markdown files:
 - These breaks are for source readability and diffs only;
   they must not change rendered output
 
+## Clipboard
+
+When generating commit messages,
+copy them to the clipboard using `pbcopy`
+so they can be pasted directly.
+
 ## Enforcement
 
 - If Markdown linting errors are possible, run the markdown linter fixer skill
