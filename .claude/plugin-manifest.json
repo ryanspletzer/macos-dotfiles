@@ -19,6 +19,7 @@
     "frontend-design@claude-plugins-official",
     "github@claude-plugins-official",
     "gopls-lsp@claude-plugins-official",
+    "lua-lsp@claude-plugins-official",
     "markdown-linter-fixer@markdown-linter-fixer-marketplace",
     "obsidian-skills@buildwithclaude",
     "playwright@claude-plugins-official",
