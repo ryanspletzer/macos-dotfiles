@@ -98,6 +98,8 @@ Key settings:
 - **Ignored**: `lazy-lock.json`, `.neoconf.json`, `lazyvim.json`, `LICENSE`,
   `README.md`, `.gitignore` (auto-generated or starter boilerplate)
 - **Extras enabled**: `lang.typescript`, `lang.json`, `lang.markdown`,
+  `lang.go`, `lang.python`, `lang.dotnet`, `lang.yaml`, `lang.helm`,
+  `lang.docker`, `formatting.prettier`, `linting.eslint`,
   `ui.mini-animate`, `coding.mini-surround`, `coding.yanky`,
   `editor.mini-files`, `editor.mini-move`, `editor.inc-rename`,
   `ai.claudecode`
