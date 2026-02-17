@@ -3,6 +3,11 @@
 # =============================================================================
 # Docs: https://ghostty.org/docs/config
 # Reload: Cmd+Shift+, (no restart needed for most options)
+#
+# Setup: Install xterm-ghostty terminfo (needed for curses-based tools):
+#   mkdir -p ~/.terminfo/{67,78}
+#   cp "$(brew --prefix)/Caskroom/ghostty/*/Ghostty.app/Contents/Resources/terminfo/78/xterm-ghostty" ~/.terminfo/78/
+#   cp "$(brew --prefix)/Caskroom/ghostty/*/Ghostty.app/Contents/Resources/terminfo/67/ghostty" ~/.terminfo/67/
 
 # ---------------------------------------------------------------------------
 # Font
