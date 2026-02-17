@@ -1,0 +1,76 @@
+# =============================================================================
+# Ghostty Configuration
+# =============================================================================
+# Docs: https://ghostty.org/docs/config
+# Reload: Cmd+Shift+, (no restart needed for most options)
+
+# ---------------------------------------------------------------------------
+# Font
+# ---------------------------------------------------------------------------
+
+font-family = CaskaydiaCove Nerd Font Mono
+font-size = 14
+
+# Thicken rendered fonts slightly (helps on Retina displays)
+font-thicken = true
+
+# ---------------------------------------------------------------------------
+# Theme
+# ---------------------------------------------------------------------------
+
+# Matches Neovim tokyonight colorscheme
+theme = TokyoNight Storm
+
+# ---------------------------------------------------------------------------
+# Window
+# ---------------------------------------------------------------------------
+
+# Padding inside the terminal area (pixels)
+window-padding-x = 4
+window-padding-y = 4
+
+# Native macOS titlebar
+macos-titlebar-style = native
+
+# Don't prompt on close — tmux preserves sessions anyway
+confirm-close-surface = false
+
+# Start maximized
+window-width = 9999
+window-height = 9999
+
+# ---------------------------------------------------------------------------
+# Input
+# ---------------------------------------------------------------------------
+
+# IMPORTANT: Treat Option as Alt so Alt+Arrow tmux bindings work
+macos-option-as-alt = true
+
+# Hide cursor while typing
+mouse-hide-while-typing = true
+
+# Copy to clipboard on select (like iTerm2 default)
+copy-on-select = clipboard
+
+# ---------------------------------------------------------------------------
+# Terminal behavior
+# ---------------------------------------------------------------------------
+
+# Scrollback lines (tmux has its own, but useful outside tmux)
+scrollback-limit = 50000
+
+# Shell integration for prompt marking, cursor placement, etc.
+shell-integration = detect
+
+# Cursor style
+cursor-style = bar
+cursor-style-blink = false
+
+# ---------------------------------------------------------------------------
+# Keybindings
+# ---------------------------------------------------------------------------
+
+# Quick font size adjustment
+keybind = super+equal=increase_font_size:1
+keybind = super+minus=decrease_font_size:1
+keybind = super+zero=reset_font_size

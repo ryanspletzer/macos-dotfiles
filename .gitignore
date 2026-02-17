@@ -11,6 +11,7 @@
 !/.config
 /.config/*
 !/.config/fish
+!/.config/ghostty
 !/.config/nvim
 /.config/nvim/lazy-lock.json
 /.config/nvim/.neoconf.json
@@ -25,6 +26,7 @@
 !/.gitconfig
 !/.gnupg
 /.gnupg/*
+!/.gnupg/gpg-agent.conf
 !/.gnupg/gpg.conf
 !/.gitconfig.personal
 !/.gitconfig.work
