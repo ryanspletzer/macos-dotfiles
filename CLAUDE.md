@@ -104,7 +104,8 @@ Key settings:
   `editor.mini-files`, `editor.mini-move`, `editor.inc-rename`,
   `ai.claudecode`
 - **Custom plugins**: `tmux.lua` (tmux.nvim), `snacks.lua` (picker nav fix),
-  `claudecode.lua` (Claude Code integration)
+  `claudecode.lua` (Claude Code integration),
+  `powershell.lua` (PSES LSP + treesitter)
 - **Autocmds**: buffer refresh on focus/enter, file change notification
 
 ### VS Code Settings
