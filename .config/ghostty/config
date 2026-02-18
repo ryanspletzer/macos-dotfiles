@@ -16,8 +16,8 @@
 font-family = CaskaydiaCove Nerd Font
 font-size = 14
 
-# Thicken rendered fonts slightly (helps on Retina displays)
-font-thicken = true
+# Disable font thickening to match iTerm2 rendering weight
+font-thicken = false
 
 # ---------------------------------------------------------------------------
 # Theme
