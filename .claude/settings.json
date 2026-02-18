@@ -56,7 +56,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "oh-my-posh claude",
+    "command": "oh-my-posh claude --config ~/.oh-my-posh/themes/claude-statusline.yaml",
     "padding": 0
   },
   "enabledPlugins": {
