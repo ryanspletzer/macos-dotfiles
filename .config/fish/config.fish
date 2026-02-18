@@ -1,5 +1,11 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export GPG_TTY=$(tty)
+
+# Autodesk Artifactory npm token (from Keychain)
+set -l _npm_token (security find-generic-password \
+  -s npm-autodesk-token -w 2>/dev/null)
+and set -gx NPM_AUTODESK_TOKEN $_npm_token
+
 if test "$TERM_PROGRAM" != "Apple_Terminal"
     oh-my-posh init fish --config ~/.oh-my-posh/themes/mytheme.yaml | source
 end

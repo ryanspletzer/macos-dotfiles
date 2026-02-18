@@ -1,5 +1,9 @@
 $env:GPG_TTY=$(tty)
 
+# Autodesk Artifactory npm token (from Keychain)
+$npmToken = security find-generic-password -s npm-autodesk-token -w 2>$null
+if ($npmToken) { $env:NPM_AUTODESK_TOKEN = $npmToken }
+
 $env:PSModulePath += ':' + $HOME + '/.config/powershell/Modules'
 
 Set-PSReadLineOption -PredictionSource History
