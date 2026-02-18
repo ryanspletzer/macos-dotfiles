@@ -19,6 +19,9 @@
 /.config/nvim/LICENSE
 /.config/nvim/README.md
 /.config/nvim/.gitignore
+!/.config/iterm2
+/.config/iterm2/*
+!/.config/iterm2/DynamicProfiles
 !/.config/powershell
 !/.config/powershell/Modules
 !/.config/powershell/Modules/*
