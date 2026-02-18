@@ -13,7 +13,7 @@
 # Font
 # ---------------------------------------------------------------------------
 
-font-family = CaskaydiaCove Nerd Font Mono
+font-family = CaskaydiaCove Nerd Font
 font-size = 14
 
 # Thicken rendered fonts slightly (helps on Retina displays)
