@@ -34,9 +34,6 @@ blocks:
     - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}"
     - "{{ if gt .Ahead 0 }}#B388FF{{ end }}"
     - "{{ if gt .Behind 0 }}#B388FB{{ end }}"
-- type: prompt
-  alignment: right
-  segments:
   - template: " {{ .FormattedCost }}"
     foreground: "#83769c"
     background: transparent
@@ -46,5 +43,28 @@ blocks:
     foreground: "#2e9599"
     background: transparent
     type: claude
+    style: plain
+  - options:
+      cache_duration: none
+    template: " \U0000F489 {{ .Name }}"
+    foreground: "#0077c2"
+    background: transparent
+    type: shell
+    style: plain
+  - options:
+      always_enabled: true
+      cache_duration: none
+    template: "  {{ .FormattedMs }}"
+    foreground: "#83769c"
+    background: transparent
+    type: executiontime
+    style: plain
+  - options:
+      cache_duration: none
+      time_format: 3:04:05 PM
+    template: "  {{ .CurrentDate | date .Format }}"
+    foreground: "#2e9599"
+    background: transparent
+    type: time
     style: plain
 version: 4
