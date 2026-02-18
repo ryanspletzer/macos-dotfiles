@@ -26,6 +26,9 @@ font-thicken = true
 # Matches Neovim tokyonight colorscheme
 theme = TokyoNight Storm
 
+# Darken background to match iTerm2 dark mode (overrides theme)
+background = #15191f
+
 # ---------------------------------------------------------------------------
 # Window
 # ---------------------------------------------------------------------------
