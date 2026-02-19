@@ -1,3 +1,30 @@
 {
-    "explorer.excludeGitIgnore": true
+    "explorer.excludeGitIgnore": true,
+    "files.watcherExclude": {
+        "**/Applications/**": true,
+        "**/Desktop/**": true,
+        "**/Documents/**": true,
+        "**/Downloads/**": true,
+        "**/git/**": true,
+        "**/go/**": true,
+        "**/Library/**": true,
+        "**/Movies/**": true,
+        "**/Music/**": true,
+        "**/OneDrive/**": true,
+        "**/Parallels/**": true,
+        "**/Pictures/**": true,
+        "**/Public/**": true,
+        "**/src/**": true,
+        "**/tools/**": true,
+        "**/.local/**": true,
+        "**/.cache/**": true,
+        "**/.npm/**": true,
+        "**/.nvm/**": true,
+        "**/.pyenv/**": true,
+        "**/.cargo/**": true,
+        "**/.rustup/**": true,
+        "**/node_modules/**": true
+    },
+    "git.autoRepositoryDetection": false,
+    "git.scanRepositories": []
 }
