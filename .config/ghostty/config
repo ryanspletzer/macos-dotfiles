@@ -43,9 +43,9 @@ macos-titlebar-style = native
 # Don't prompt on close — tmux preserves sessions anyway
 confirm-close-surface = false
 
-# Start maximized
-window-width = 9999
-window-height = 9999
+# Match iTerm2 default window size (80x25)
+window-width = 80
+window-height = 25
 
 # ---------------------------------------------------------------------------
 # Input
