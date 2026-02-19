@@ -158,7 +158,7 @@ blocks:
   - options:
       always_enabled: true
       cache_duration: none
-    template: "❯"
+    template: "❯ "
     foreground: "#00897b"
     background: transparent
     type: status
@@ -171,7 +171,7 @@ transient_prompt:
   foreground_templates:
   - "{{ if gt .Code 0 }}#e91e63{{ end }}"
   background: transparent
-  template: "❯"
+  template: "❯ "
 shell_integration: true
 version: 4
-final_space: true
+final_space: false
