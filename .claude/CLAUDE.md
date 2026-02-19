@@ -8,6 +8,7 @@
 - No trailing whitespace
 - Proper blank lines around lists and code blocks
 - Headings must increment by one level (no H1 → H3 skips)
+- Prefer a `line_length` of 120 over the default 80
 - When creating markdownlint config files, use YAML format
   (`.markdownlint.yaml`) instead of JSONC
 
