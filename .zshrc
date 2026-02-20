@@ -17,6 +17,11 @@ if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config ~/.oh-my-posh/themes/mytheme.yaml)"
 fi
 
+# Bind Shift+Enter escape sequences to accept-line so they act like Enter
+# (Ghostty sends these modified key sequences; zsh doesn't recognize them by default)
+bindkey '\e[27;2;13~' accept-line  # xterm modifyOtherKeys format
+bindkey '\e[13;2u' accept-line     # CSI u / kitty format (used by tmux extended-keys)
+
 autoload -Uz compinit && compinit
 
 alias cls=clear
