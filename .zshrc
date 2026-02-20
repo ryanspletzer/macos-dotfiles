@@ -1,6 +1,5 @@
 export GPG_TTY=$(tty)
 
-
 # Autodesk Artifactory npm token (from Keychain)
 NPM_AUTODESK_TOKEN="$(security find-generic-password \
   -s npm-autodesk-token -w 2>/dev/null)" && \
