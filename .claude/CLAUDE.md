@@ -36,6 +36,24 @@ so the user can choose whether to commit via Claude Code or manually.
 - **Then**: Present the commit for user approval (the usual "commit this" flow).
   The user may approve the commit or decline and use the clipboard message manually.
 
+## GPG commit signing and sandbox setup
+
+GPG commit signing is enabled globally.
+When initializing a new project,
+add `~/.gnupg` to `additionalDirectories` in the project's
+`.claude/settings.local.json` so the sandbox can access
+the GPG agent sockets needed for signing:
+
+```json
+{
+  "permissions": {
+    "additionalDirectories": [
+      "~/.gnupg"
+    ]
+  }
+}
+```
+
 ## Enforcement
 
 - If Markdown linting errors are possible, run the markdown linter fixer skill
