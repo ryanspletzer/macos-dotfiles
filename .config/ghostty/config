@@ -43,6 +43,9 @@ macos-titlebar-style = native
 # Don't prompt on close — tmux preserves sessions anyway
 confirm-close-surface = false
 
+# Always start in home directory
+working-directory = home
+
 # Match iTerm2 default window size (80x25)
 window-width = 80
 window-height = 25
