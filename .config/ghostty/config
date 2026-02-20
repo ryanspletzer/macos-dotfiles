@@ -16,8 +16,9 @@
 font-family = CaskaydiaCove Nerd Font
 font-size = 14
 
-# Font thickening (macOS only, strength 0-255)
+# Font thickening to approximate VS Code font-weight 500 (macOS only, 0-255)
 font-thicken = true
+font-thicken-strength = 100
 
 # ---------------------------------------------------------------------------
 # Theme
