@@ -39,20 +39,10 @@ so the user can choose whether to commit via Claude Code or manually.
 ## GPG commit signing and sandbox setup
 
 GPG commit signing is enabled globally.
-When initializing a new project,
-add `~/.gnupg` to `additionalDirectories` in the project's
-`.claude/settings.local.json` so the sandbox can access
-the GPG agent sockets needed for signing:
-
-```json
-{
-  "permissions": {
-    "additionalDirectories": [
-      "~/.gnupg"
-    ]
-  }
-}
-```
+The global `~/.claude/settings.json` includes both
+`permissions.additionalDirectories` (filesystem write access to `~/.gnupg`)
+and `sandbox.network.allowUnixSockets` (GPG agent socket communication).
+No per-project configuration is needed for GPG signing.
 
 ## Enforcement
 

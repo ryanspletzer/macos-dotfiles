@@ -87,5 +87,20 @@
     "lua-lsp@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true
   },
-  "syntaxHighlightingDisabled": false
+  "syntaxHighlightingDisabled": false,
+  "permissions": {
+    "additionalDirectories": [
+      "~/.gnupg"
+    ]
+  },
+  "sandbox": {
+    "network": {
+      "allowUnixSockets": [
+        "~/.gnupg/S.gpg-agent",
+        "~/.gnupg/S.gpg-agent.browser",
+        "~/.gnupg/S.gpg-agent.extra",
+        "~/.gnupg/S.gpg-agent.ssh"
+      ]
+    }
+  }
 }
