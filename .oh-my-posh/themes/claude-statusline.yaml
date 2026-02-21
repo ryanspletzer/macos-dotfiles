@@ -44,12 +44,7 @@ blocks:
     background: transparent
     type: claude
     style: plain
-  - template: " \U000F0BCE {{ .ContextWindow.TotalInputTokens }}\U00002193 {{ .ContextWindow.TotalOutputTokens }}\U00002191"
-    foreground: "#6CA35E"
-    background: transparent
-    type: claude
-    style: plain
-  - template: " \U000F1AE0 {{ div .Cost.TotalDurationMS 60000 }}m{{ div (mod .Cost.TotalDurationMS 60000) 1000 }}s"
+  - template: " \U000F1AE0 {{ div .Cost.TotalDurationMS 3600000 }}h{{ div (mod .Cost.TotalDurationMS 3600000) 60000 }}m{{ div (mod .Cost.TotalDurationMS 60000) 1000 }}s"
     foreground: "#FF9900"
     background: transparent
     type: claude
@@ -60,14 +55,6 @@ blocks:
     foreground: "#0077c2"
     background: transparent
     type: shell
-    style: plain
-  - options:
-      always_enabled: true
-      cache_duration: none
-    template: " \U000F051B {{ .FormattedMs }}"
-    foreground: "#83769c"
-    background: transparent
-    type: executiontime
     style: plain
   - options:
       cache_duration: none
