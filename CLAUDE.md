@@ -119,6 +119,19 @@ Key settings:
 - AWS CloudFormation YAML schema support
 - Rulers at 80, 100, 114, 116, 120
 
+### Zed Settings
+
+Global settings at `.config/zed/settings.json`,
+project-level settings at `.zed/settings.json`:
+
+- **Global**: theme, fonts, editor behavior, language overrides
+  (mirrors VS Code settings where possible)
+- **Project-level**: `file_scan_exclusions` to exclude heavy home
+  directories (`Applications`, `Desktop`, `Library`, `git`, etc.)
+  from file scanning and indexing — same directories excluded
+  by VS Code's `files.watcherExclude` in `.vscode/settings.json`
+- `project_panel.hide_gitignore: true` hides gitignored files globally
+
 ### PowerShell Profile Module
 
 `.config/powershell/Modules/Profile/1.0.0/Profile.psm1`:

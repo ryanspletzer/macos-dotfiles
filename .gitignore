@@ -46,6 +46,9 @@
 !/.vscode
 /.vscode/*
 !/.vscode/settings.json
+!/.zed
+/.zed/*
+!/.zed/settings.json
 !/.zprofile
 !/.zshenv
 !/.zshrc

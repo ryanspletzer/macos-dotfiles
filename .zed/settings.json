@@ -1,0 +1,30 @@
+{
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.DS_Store",
+    "**/node_modules",
+    "**/.env",
+    "**/Applications",
+    "**/Desktop",
+    "**/Documents",
+    "**/Downloads",
+    "**/git",
+    "**/go",
+    "**/Library",
+    "**/Movies",
+    "**/Music",
+    "**/OneDrive",
+    "**/Parallels",
+    "**/Pictures",
+    "**/Public",
+    "**/src",
+    "**/tools",
+    "**/.local",
+    "**/.cache",
+    "**/.npm",
+    "**/.nvm",
+    "**/.pyenv",
+    "**/.cargo",
+    "**/.rustup"
+  ]
+}
