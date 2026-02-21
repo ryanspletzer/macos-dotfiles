@@ -18,7 +18,7 @@ blocks:
       folder_separator_icon: "  "
       home_icon: "~"
       style: folder
-    template: " \U0000E5FF  {{ .Path }}"
+    template: " \U0000E5FF {{ .Path }}"
     foreground: "#ff479c"
     background: transparent
     type: path
@@ -139,7 +139,7 @@ blocks:
   - options:
       always_enabled: true
       cache_duration: none
-    template: "  {{ .FormattedMs }}"
+    template: " \U000F051B {{ .FormattedMs }}"
     foreground: "#83769c"
     background: transparent
     type: executiontime
@@ -147,7 +147,7 @@ blocks:
   - options:
       cache_duration: none
       time_format: 3:04:05 PM
-    template: "  {{ .CurrentDate | date .Format }}"
+    template: " \U0000E385 {{ .CurrentDate | date .Format }}"
     foreground: "#2e9599"
     background: transparent
     type: time

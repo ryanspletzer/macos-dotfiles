@@ -14,7 +14,7 @@ blocks:
       folder_separator_icon: "  "
       home_icon: "~"
       style: folder
-    template: " \U0000E5FF  {{ .Path }}"
+    template: " \U0000E5FF {{ .Path }}"
     foreground: "#ff479c"
     background: transparent
     type: path
@@ -39,8 +39,18 @@ blocks:
     background: transparent
     type: claude
     style: plain
-  - template: " {{ .TokenUsagePercent.Gauge }}"
+  - template: " {{ .FormattedTokens }} ({{ .TokenUsagePercent.String }}) {{ .TokenUsagePercent.Gauge }}"
     foreground: "#2e9599"
+    background: transparent
+    type: claude
+    style: plain
+  - template: " \U000F0BCE {{ .ContextWindow.TotalInputTokens }}\U00002193 {{ .ContextWindow.TotalOutputTokens }}\U00002191"
+    foreground: "#6CA35E"
+    background: transparent
+    type: claude
+    style: plain
+  - template: " \U000F1AE0 {{ div .Cost.TotalDurationMS 60000 }}m{{ div (mod .Cost.TotalDurationMS 60000) 1000 }}s"
+    foreground: "#FF9900"
     background: transparent
     type: claude
     style: plain
@@ -54,7 +64,7 @@ blocks:
   - options:
       always_enabled: true
       cache_duration: none
-    template: "  {{ .FormattedMs }}"
+    template: " \U000F051B {{ .FormattedMs }}"
     foreground: "#83769c"
     background: transparent
     type: executiontime
@@ -62,7 +72,7 @@ blocks:
   - options:
       cache_duration: none
       time_format: 3:04:05 PM
-    template: "  {{ .CurrentDate | date .Format }}"
+    template: " \U0000E385 {{ .CurrentDate | date .Format }}"
     foreground: "#2e9599"
     background: transparent
     type: time
