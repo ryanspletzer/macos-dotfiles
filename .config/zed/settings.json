@@ -68,12 +68,12 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Light",
-    "dark": "Ayu Dark"
+    "dark": "VSCode Dark Modern"
   },
   "icon_theme": {
     "mode": "system",
     "light": "Zed (Default)",
-    "dark": "Zed (Default)"
+    "dark": "VSCode Icons for Zed (Dark)"
   },
 
   // Git (matches VS Code git.enableCommitSigning)
