@@ -23,6 +23,10 @@
 !/.config/iterm2
 /.config/iterm2/*
 !/.config/iterm2/DynamicProfiles
+!/.config/zed
+/.config/zed/*
+!/.config/zed/settings.json
+!/.config/zed/keymap.json
 !/.config/powershell
 !/.config/powershell/Modules
 !/.config/powershell/Modules/*
