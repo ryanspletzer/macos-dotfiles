@@ -28,13 +28,8 @@ Follow the semantic line breaks convention for all prose in Markdown files:
 ## Git commit workflow
 
 After making changes,
-always copy the generated commit message to the clipboard via `pbcopy`,
-then present the standard commit confirmation
-so the user can choose whether to commit via Claude Code or manually.
-
-- **Always**: Draft the commit message and copy it to the clipboard via `pbcopy`.
-- **Then**: Present the commit for user approval (the usual "commit this" flow).
-  The user may approve the commit or decline and use the clipboard message manually.
+draft a commit message and present the standard commit confirmation
+for user approval.
 
 ## GPG commit signing and sandbox setup
 
