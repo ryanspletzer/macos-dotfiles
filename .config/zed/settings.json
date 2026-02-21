@@ -7,6 +7,8 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "buffer_line_height": "standard",
+  "use_system_path_prompts": true,
   "telemetry": {
     "diagnostics": false,
     "metrics": false
@@ -22,8 +24,8 @@
     "Courier New",
     "monospace"
   ],
-  "buffer_font_weight": 500,
-  "buffer_font_size": 15,
+  "buffer_font_weight": 500.0,
+  "buffer_font_size": 12.0,
   "ui_font_size": 16,
 
   // Terminal font (matches VS Code terminal.integrated.fontFamily / fontWeight)
@@ -41,7 +43,7 @@
   },
 
   // Editor behavior (matches VS Code editor.* settings)
-  "tab_size": 2,
+  "tab_size": 1,
   "format_on_save": "on",
   "auto_indent_on_paste": true,
   "use_on_type_format": true,
@@ -56,6 +58,8 @@
 
   // Indent guides (matches VS Code editor.guides.indentation)
   "indent_guides": {
+    "background_coloring": "indent_aware",
+    "coloring": "indent_aware",
     "enabled": true
   },
 
@@ -67,12 +71,12 @@
   // Theme and icons
   "theme": {
     "mode": "system",
-    "light": "Ayu Light",
+    "light": "VSCode Dark Modern",
     "dark": "VSCode Dark Modern"
   },
   "icon_theme": {
     "mode": "system",
-    "light": "Zed (Default)",
+    "light": "VSCode Icons for Zed (Light)",
     "dark": "VSCode Icons for Zed (Dark)"
   },
 
