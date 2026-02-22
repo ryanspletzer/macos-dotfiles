@@ -93,7 +93,12 @@
 (when (display-graphic-p)
   (set-face-attribute 'default nil
                       :family "CaskaydiaCove Nerd Font"
-                      :height 120))
+                      :height 120)
+  ;; Use Symbols Nerd Font Mono for icon glyphs to prevent clipping.
+  (dolist (range '((#xe000 . #xf8ff)    ; Private Use Area
+                   (#xf0000 . #xfffff)  ; Supplementary PUA-A
+                   (#x100000 . #x10ffff))) ; Supplementary PUA-B
+    (set-fontset-font t range "Symbols Nerd Font Mono")))
 
 ;; Theme
 (use-package doom-themes
@@ -281,15 +286,32 @@
 ;; Sidebar file tree (like VS Code explorer / neo-tree)
 (use-package treemacs
   :bind ("C-c f" . treemacs)
+  :hook (emacs-startup . treemacs)
   :custom
   (treemacs-width 35)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
-  (treemacs-git-mode 'deferred))
+  (treemacs-git-mode 'deferred)
+  :config
+  (setq treemacs-read-string-input 'from-minibuffer))
 
 (use-package treemacs-nerd-icons
   :after (treemacs nerd-icons)
-  :config (treemacs-load-theme "nerd-icons"))
+  :config
+  (treemacs-load-theme "nerd-icons")
+  ;; Override root icon to match directory style instead of the oversized repo icon.
+  (treemacs-create-icon
+   :icon (format "%s\t" (nerd-icons-sucicon "nf-custom-folder_open"
+                                             :face 'treemacs-nerd-icons-root-face
+                                             :height 1.0))
+   :extensions (root-open)
+   :fallback 'same-as-icon)
+  (treemacs-create-icon
+   :icon (format "%s\t" (nerd-icons-sucicon "nf-custom-folder_oct"
+                                             :face 'treemacs-nerd-icons-root-face
+                                             :height 1.0))
+   :extensions (root-closed)
+   :fallback 'same-as-icon))
 
 ;; =========================================================================
 ;; 13. Formatting (apheleia — async format-on-save)
