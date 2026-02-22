@@ -106,6 +106,24 @@
     "**/.env"
   ],
 
+  // Extensions to auto-install on any machine (declarative manifest)
+  "auto_install_extensions": {
+    "clean-vscode-icons": true,
+    "colored-zed-icons-theme": true,
+    "csharp": true,
+    "emmet": true,
+    "html": true,
+    "java": true,
+    "markdownlint": true,
+    "marksman": true,
+    "mermaid": true,
+    "modern-icons": true,
+    "powershell": true,
+    "typos": true,
+    "vscode-dark-modern": true,
+    "vscode-icons": true
+  },
+
   // Per-language overrides (matches VS Code [language] blocks)
   "languages": {
     "Python": {
