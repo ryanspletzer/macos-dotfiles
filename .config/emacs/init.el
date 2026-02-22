@@ -169,6 +169,9 @@
          ("M-s r"   . consult-ripgrep)
          ("M-s f"   . consult-find)))
 
+;; Editable grep results (multi-file search-and-replace)
+(use-package wgrep)
+
 ;; =========================================================================
 ;; 6. In-buffer completion
 ;; =========================================================================
@@ -198,6 +201,10 @@
 ;; =========================================================================
 (use-package embrace
   :bind ("C-c s" . embrace-commander))
+
+;; Multi-cursor inline editing (edit all occurrences simultaneously)
+(use-package iedit
+  :bind ("C-;" . iedit-mode))
 
 ;; =========================================================================
 ;; 8. LSP (eglot — built-in)
@@ -359,6 +366,15 @@
 
 ;; Org — disable line numbers
 (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
+
+;; =========================================================================
+;; 16.5. Terminal emulator
+;; =========================================================================
+(use-package vterm
+  :bind ("C-c v" . vterm)
+  :custom
+  (vterm-max-scrollback 10000)
+  (vterm-always-compile-module t))
 
 ;; =========================================================================
 ;; 17. Keybindings / window management
