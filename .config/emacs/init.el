@@ -121,9 +121,24 @@
 ;; Icons for modeline (run M-x nerd-icons-install-fonts on first launch)
 (use-package nerd-icons)
 
-;; Column ruler at 120 (primary wrap limit)
+;; Column ruler at 120 (primary wrap limit — full-height line)
 (setq-default display-fill-column-indicator-column 120)
 (global-display-fill-column-indicator-mode 1)
+
+;; Additional column markers at 80, 100, 114, 116 (highlight character at column)
+(defface my-column-marker '((t (:background "gray25")))
+  "Face for secondary column markers.")
+
+(defun my-column-markers ()
+  "Highlight the character at columns 80, 100, 114, and 116."
+  (font-lock-add-keywords
+   nil
+   '(("^.\\{79\\}\\(.\\)" 1 'my-column-marker prepend)
+     ("^.\\{99\\}\\(.\\)" 1 'my-column-marker prepend)
+     ("^.\\{113\\}\\(.\\)" 1 'my-column-marker prepend)
+     ("^.\\{115\\}\\(.\\)" 1 'my-column-marker prepend))))
+
+(add-hook 'prog-mode-hook #'my-column-markers)
 
 ;; Highlight current line
 (global-hl-line-mode 1)
@@ -132,12 +147,21 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
-;; Indent guides
-(use-package highlight-indent-guides
+;; Indent guides (vertical bars with rainbow colors, like VS Code)
+(use-package indent-bars
   :custom
-  (highlight-indent-guides-method 'character)
-  (highlight-indent-guides-responsive 'top)
-  :hook (prog-mode . highlight-indent-guides-mode))
+  (indent-bars-color '(highlight :face-bg t :blend 0.3))
+  (indent-bars-color-by-depth
+   '(:palette ("dodger blue" "hot pink" "green yellow" "orange"
+               "medium orchid" "cyan" "yellow green" "sandy brown")
+     :blend 1.0))
+  (indent-bars-highlight-current-depth '(:blend 1.0 :width 0.25))
+  (indent-bars-prefer-character t)
+  (indent-bars-treesit-support t)
+  (indent-bars-no-descend-string t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  :hook ((prog-mode . indent-bars-mode)
+         (yaml-ts-mode . indent-bars-mode)))
 
 ;; =========================================================================
 ;; 5. Completion (minibuffer)
