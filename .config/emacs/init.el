@@ -284,8 +284,10 @@
 ;; Dockerfile
 (use-package dockerfile-mode)
 
-;; Markdown — visual line wrapping
-(add-hook 'markdown-mode-hook #'visual-line-mode)
+;; Markdown
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :hook (markdown-mode . visual-line-mode))
 
 ;; Org — disable line numbers
 (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
