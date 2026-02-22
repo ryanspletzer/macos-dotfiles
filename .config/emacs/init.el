@@ -278,6 +278,19 @@
   (define-key project-prefix-map "m" #'magit-project-status)
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 
+;; Sidebar file tree (like VS Code explorer / neo-tree)
+(use-package treemacs
+  :bind ("C-c f" . treemacs)
+  :custom
+  (treemacs-width 35)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-git-mode 'deferred))
+
+(use-package treemacs-nerd-icons
+  :after (treemacs nerd-icons)
+  :config (treemacs-load-theme "nerd-icons"))
+
 ;; =========================================================================
 ;; 13. Formatting (apheleia — async format-on-save)
 ;; =========================================================================
