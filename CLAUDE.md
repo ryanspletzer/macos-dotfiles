@@ -126,11 +126,10 @@ project-level settings at `.zed/settings.json`:
 
 - **Global**: theme, fonts, editor behavior, language overrides
   (mirrors VS Code settings where possible)
-- **Project-level**: `file_scan_exclusions` to exclude heavy home
-  directories (`Applications`, `Desktop`, `Library`, `git`, etc.)
-  from file scanning and indexing — same directories excluded
-  by VS Code's `files.watcherExclude` in `.vscode/settings.json`
-- `project_panel.hide_gitignore: true` hides gitignored files globally
+- **Project-level**: `project_panel.hide_gitignore` and comprehensive
+  `file_scan_exclusions` covering non-dot directories, untracked dotfile
+  directories, and untracked dotfiles — uses root-relative paths
+  (not recursive `**/*` globs) since exclusions apply to the home folder
 
 ### PowerShell Profile Module
 
