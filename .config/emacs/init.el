@@ -121,15 +121,9 @@
 ;; Icons for modeline (run M-x nerd-icons-install-fonts on first launch)
 (use-package nerd-icons)
 
-;; Column rulers (primary at 120, markers at 80 and 100)
+;; Column ruler at 120 (primary wrap limit)
 (setq-default display-fill-column-indicator-column 120)
 (global-display-fill-column-indicator-mode 1)
-
-(use-package column-marker
-  :vc (:url "https://github.com/emacsattic/column-marker")
-  :hook (prog-mode . (lambda ()
-                        (column-marker-1 80)
-                        (column-marker-2 100))))
 
 ;; Highlight current line
 (global-hl-line-mode 1)
