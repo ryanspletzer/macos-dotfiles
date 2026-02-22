@@ -7,6 +7,12 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "toolbar": {
+    "breadcrumbs": false,
+    "quick_actions": false,
+    "selections_menu": false,
+    "code_actions": false
+  },
   "buffer_line_height": "standard",
   "use_system_path_prompts": true,
   "telemetry": {
@@ -48,7 +54,7 @@
   "auto_indent_on_paste": true,
   "use_on_type_format": true,
   "show_whitespaces": "all",
-  "show_edit_predictions": true,
+  "show_edit_predictions": false,
   "ensure_final_newline_on_save": true,
   "remove_trailing_whitespace_on_save": true,
   "colorize_brackets": true,
