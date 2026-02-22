@@ -1,5 +1,6 @@
 {
   "marketplaces": [
+    null,
     "Piebald-AI/claude-code-lsps",
     "accesslint/claude-marketplace",
     "anthropics/claude-plugins-official",
@@ -12,6 +13,7 @@
     "code-review@claude-plugins-official",
     "commands-code-analysis-testing@buildwithclaude",
     "commit-commands@claude-plugins-official",
+    "compound-engineering@every-marketplace",
     "context7@claude-plugins-official",
     "csharp-lsp@claude-plugins-official",
     "elements-of-style@superpowers-marketplace",

@@ -2,6 +2,11 @@
   "env": {
     "DISABLE_AUTOUPDATER": "1"
   },
+  "permissions": {
+    "additionalDirectories": [
+      "~/.gnupg"
+    ]
+  },
   "model": "opus",
   "hooks": {
     "PreToolUse": [
@@ -85,13 +90,8 @@
     "obsidian-skills@buildwithclaude": true,
     "ralph-wiggum@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": true
-  },
-  "syntaxHighlightingDisabled": false,
-  "permissions": {
-    "additionalDirectories": [
-      "~/.gnupg"
-    ]
+    "ralph-loop@claude-plugins-official": true,
+    "compound-engineering@every-marketplace": true
   },
   "sandbox": {
     "network": {
@@ -102,5 +102,6 @@
         "~/.gnupg/S.gpg-agent.ssh"
       ]
     }
-  }
+  },
+  "syntaxHighlightingDisabled": false
 }

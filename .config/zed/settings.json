@@ -93,11 +93,6 @@
     }
   },
 
-  // Project panel - hide gitignored entries
-  "project_panel": {
-    "hide_gitignore": true
-  },
-
   // Hide common non-project files from file finder
   "file_scan_exclusions": [
     "**/.git",
