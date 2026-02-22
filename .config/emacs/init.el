@@ -11,6 +11,9 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Add MELPA for packages not available on GNU/NonGNU ELPA.
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
 ;; Refresh archives on first launch (when elpa/ doesn't exist yet).
 (unless (file-exists-p (expand-file-name "elpa" user-emacs-directory))
   (package-refresh-contents))
@@ -54,6 +57,14 @@
 
 ;; Trim trailing whitespace on save
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
+
+;; Whitespace visualization (spaces/tabs in prog-mode)
+(setq whitespace-style '(face tabs spaces trailing
+                          space-mark tab-mark)
+      whitespace-display-mappings
+      '((space-mark   ?\  [?\xB7]  [?.])
+        (tab-mark     ?\t [?\xBB ?\t] [?\\ ?\t])))
+(add-hook 'prog-mode-hook #'whitespace-mode)
 
 ;; Ensure final newline
 (setq require-final-newline t)
@@ -100,12 +111,29 @@
 ;; Icons for modeline (run M-x nerd-icons-install-fonts on first launch)
 (use-package nerd-icons)
 
-;; Column ruler
-(setq-default display-fill-column-indicator-column 80)
+;; Column rulers (primary at 120, markers at 80 and 100)
+(setq-default display-fill-column-indicator-column 120)
 (global-display-fill-column-indicator-mode 1)
+
+(use-package column-marker
+  :vc (:url "https://github.com/emacsattic/column-marker")
+  :hook (prog-mode . (lambda ()
+                        (column-marker-1 80)
+                        (column-marker-2 100))))
 
 ;; Highlight current line
 (global-hl-line-mode 1)
+
+;; Bracket colorization
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; Indent guides
+(use-package highlight-indent-guides
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive 'top)
+  :hook (prog-mode . highlight-indent-guides-mode))
 
 ;; =========================================================================
 ;; 5. Completion (minibuffer)
@@ -157,6 +185,12 @@
   :config (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
+
+;; =========================================================================
+;; 7.5. Surround editing
+;; =========================================================================
+(use-package embrace
+  :bind ("C-c s" . embrace-commander))
 
 ;; =========================================================================
 ;; 8. LSP (eglot — built-in)
@@ -219,6 +253,19 @@
   :config
   ;; Point to Homebrew GPG for commit signing.
   (setq magit-gpg-executable "/opt/homebrew/bin/gpg"))
+
+;; Git gutter (fringe indicators)
+(use-package diff-hl
+  :hook ((magit-pre-refresh  . diff-hl-magit-pre-refresh)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :init (global-diff-hl-mode 1))
+
+;; Inline git blame (toggle with C-c b)
+(use-package blamer
+  :custom
+  (blamer-idle-time 0.5)
+  (blamer-min-offset 40)
+  :bind ("C-c b" . blamer-mode))
 
 ;; =========================================================================
 ;; 12. File navigation
@@ -297,6 +344,13 @@
 ;; =========================================================================
 ;; Shift+arrow for Emacs-internal window switching.
 (windmove-default-keybindings)
+
+;; tmux integration
+(use-package emamux
+  :bind (("C-c t r" . emamux:run-command)
+         ("C-c t s" . emamux:send-command)
+         ("C-c t c" . emamux:close-runner-pane)
+         ("C-c t l" . emamux:run-last-command)))
 
 ;; ibuffer (better buffer list) at C-x C-b
 (global-set-key (kbd "C-x C-b") #'ibuffer)
