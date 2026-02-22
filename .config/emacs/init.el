@@ -44,6 +44,9 @@
 ;; Line numbers (absolute)
 (global-display-line-numbers-mode 1)
 
+;; Show column number in modeline (next to line number)
+(column-number-mode 1)
+
 ;; Auto-revert files changed on disk
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
