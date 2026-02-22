@@ -20,6 +20,11 @@
 /.config/nvim/LICENSE
 /.config/nvim/README.md
 /.config/nvim/.gitignore
+!/.config/emacs
+/.config/emacs/*
+!/.config/emacs/early-init.el
+!/.config/emacs/init.el
+!/.config/emacs/.gitignore
 !/.config/iterm2
 /.config/iterm2/*
 !/.config/iterm2/DynamicProfiles

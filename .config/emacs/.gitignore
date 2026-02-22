@@ -1,0 +1,26 @@
+# Compiled native elisp
+eln-cache/
+
+# Installed packages
+elpa/
+
+# Tree-sitter grammars
+tree-sitter/
+
+# Auto-save
+auto-save-list/
+
+# Backups
+backups/
+
+# Custom settings (machine-specific)
+custom.el
+
+# Byte-compiled files
+*.elc
+
+# Lock files
+.#*
+
+# Transient state
+transient/
