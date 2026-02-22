@@ -291,9 +291,7 @@
   (treemacs-width 35)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
-  (treemacs-git-mode 'deferred)
-  :config
-  (setq treemacs-read-string-input 'from-minibuffer))
+  (treemacs-git-mode 'deferred))
 
 (use-package treemacs-nerd-icons
   :after (treemacs nerd-icons)
