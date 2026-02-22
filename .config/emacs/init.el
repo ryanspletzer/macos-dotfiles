@@ -104,7 +104,9 @@
 (use-package doom-themes
   :config
   (load-theme 'doom-dark+ t)
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config))
 
 ;; Modeline
 (use-package doom-modeline
@@ -291,25 +293,11 @@
   (treemacs-width 35)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
-  (treemacs-git-mode 'deferred))
-
-(use-package treemacs-nerd-icons
-  :after (treemacs nerd-icons)
+  (treemacs-git-mode 'deferred)
   :config
-  (treemacs-load-theme "nerd-icons")
-  ;; Override root icon to match directory style instead of the oversized repo icon.
-  (treemacs-create-icon
-   :icon (format "%s\t" (nerd-icons-sucicon "nf-custom-folder_open"
-                                             :face 'treemacs-nerd-icons-root-face
-                                             :height 1.0))
-   :extensions (root-open)
-   :fallback 'same-as-icon)
-  (treemacs-create-icon
-   :icon (format "%s\t" (nerd-icons-sucicon "nf-custom-folder_oct"
-                                             :face 'treemacs-nerd-icons-root-face
-                                             :height 1.0))
-   :extensions (root-closed)
-   :fallback 'same-as-icon))
+  ;; Resize SVG icons to fit line height (font height 120 ≈ 16px).
+  (treemacs-resize-icons 15))
+
 
 ;; =========================================================================
 ;; 13. Formatting (apheleia — async format-on-save)
