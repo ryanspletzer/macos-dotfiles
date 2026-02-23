@@ -42,15 +42,12 @@ No per-project configuration is needed for GPG signing.
 ## Planning
 
 When creating implementation plans,
-write them to a `plans/` directory at the project root:
+write them to `.claude/plan-*.md` at the project root:
 
-- Create `plans/` if it does not exist
-- Use descriptive filenames like `plans/add-auth.md`
-  or `plans/refactor-api-client.md`
+- Use descriptive filenames like `.claude/plan-add-auth.md`
+  or `.claude/plan-refactor-api-client.md`
 - If the plan evolves during implementation,
   update the plan file to reflect the final approach
-- Add `plans/` to the project `.gitignore`
-  unless the user explicitly wants plans tracked
 
 ## Enforcement
 
