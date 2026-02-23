@@ -39,6 +39,19 @@ The global `~/.claude/settings.json` includes both
 and `sandbox.network.allowUnixSockets` (GPG agent socket communication).
 No per-project configuration is needed for GPG signing.
 
+## Planning
+
+When creating implementation plans,
+write them to a `plans/` directory at the project root:
+
+- Create `plans/` if it does not exist
+- Use descriptive filenames like `plans/add-auth.md`
+  or `plans/refactor-api-client.md`
+- If the plan evolves during implementation,
+  update the plan file to reflect the final approach
+- Add `plans/` to the project `.gitignore`
+  unless the user explicitly wants plans tracked
+
 ## Enforcement
 
 - If Markdown linting errors are possible, run the markdown linter fixer skill
