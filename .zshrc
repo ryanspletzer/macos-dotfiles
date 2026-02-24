@@ -5,6 +5,11 @@ NPM_AUTODESK_TOKEN="$(security find-generic-password \
   -s npm-autodesk-token -w 2>/dev/null)" && \
   export NPM_AUTODESK_TOKEN
 
+# ngrok auth token (from KeyChain)
+NGROK_AUTHTOKEN="$(security find-generic-password \
+  -s ngrok -a authtoken -w)" &&
+  export NGROK_AUTHTOKEN
+
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 zstyle ':autocomplete:*' ignored-input '..##'
