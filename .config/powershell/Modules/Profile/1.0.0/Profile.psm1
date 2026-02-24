@@ -561,6 +561,23 @@ function Get-MgUserDirectReportTransitive {
     end {}
 }
 
+function Start-EmacsDaemonless {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        Start-Process -FilePath emacs -ArgumentList $Arguments
+    }
+
+    end {}
+}
+
 function Get-GitDiff {
     [CmdletBinding()]
     param (
@@ -635,6 +652,7 @@ New-Alias -Name syncremote -Value Sync-GitRemote
 New-Alias -Name finder -Value Open-Finder
 New-Alias -Name textedit -Value Open-TextEdit
 New-Alias -Name caf -Value Start-Caffeination
+New-Alias -Name emacsd -Value Start-EmacsDaemonless
 New-Alias -Name gd -Value Get-GitDiff
 New-Alias -Name gdc -Value Get-GitDiffColored
 New-Alias -Name gs -Value Get-GitStatus
@@ -657,6 +675,7 @@ Export-ModuleMember -Function @(
     'Get-MgAccessTokenDelegated',
     'Connect-MgGraphWithAccessToken',
     'Get-MgUserDirectReportTransitive',
+    'Start-EmacsDaemonless',
     'Get-GitDiff',
     'Get-GitDiffColored',
     'Get-GitStatus',
@@ -667,6 +686,7 @@ Export-ModuleMember -Function @(
     'finder',
     'textedit',
     'caf',
+    'emacsd',
     'gd',
     'gdc',
     'gs',

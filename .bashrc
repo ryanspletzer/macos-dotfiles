@@ -18,6 +18,7 @@ chruby ruby-3.4.1
 
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
+alias emacsd='emacs & disown'
 
 alias gd='git diff'
 alias gdc='git diff --color=always'
