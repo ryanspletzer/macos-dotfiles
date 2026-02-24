@@ -38,8 +38,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
 [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
-sync_git_origin_remote_from_upstream() {
-    local OPTIND=1 opt branch force current_branch trunk
+sync_git_remote() {
+    local OPTIND=1 opt branch force current_branch trunk pull_remote
     branch=""
     force=false
 
@@ -57,9 +57,10 @@ sync_git_origin_remote_from_upstream() {
         return 1
     fi
 
-    if ! git remote get-url upstream >/dev/null 2>&1; then
-        echo "Missing 'upstream' remote." >&2
-        return 1
+    if git remote get-url upstream >/dev/null 2>&1; then
+        pull_remote=upstream
+    else
+        pull_remote=origin
     fi
 
     if [[ ! $current_branch =~ ^(main|master)$ ]]; then
@@ -85,15 +86,17 @@ sync_git_origin_remote_from_upstream() {
         return 1
     fi
 
-    git pull upstream "$trunk" || return $?
-    git push || return $?
+    git pull "$pull_remote" "$trunk" || return $?
+    if [[ $pull_remote == upstream ]]; then
+        git push || return $?
+    fi
     git remote prune origin || return $?
 
     if [[ -n $branch ]]; then
         git branch -D "$branch" || return $?
     fi
 }
-alias syncremote=sync_git_origin_remote_from_upstream
+alias syncremote=sync_git_remote
 
 open_textedit() {
     local file_path="$1"

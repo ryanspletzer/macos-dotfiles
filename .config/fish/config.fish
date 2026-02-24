@@ -29,7 +29,7 @@ if status is-interactive
     pyenv virtualenv-init - | source
 end
 
-function sync_git_origin_remote_from_upstream
+function sync_git_remote
     argparse 'b=' 'f' -- $argv
     or return 1
 
@@ -44,9 +44,10 @@ function sync_git_origin_remote_from_upstream
         return 1
     end
 
-    if not git remote get-url upstream >/dev/null 2>&1
-        echo "Missing 'upstream' remote." >&2
-        return 1
+    if git remote get-url upstream >/dev/null 2>&1
+        set -l pull_remote upstream
+    else
+        set -l pull_remote origin
     end
 
     set -l trunk ""
@@ -75,10 +76,12 @@ function sync_git_origin_remote_from_upstream
         return 1
     end
 
-    git pull upstream "$trunk"
+    git pull $pull_remote "$trunk"
     or return $status
-    git push
-    or return $status
+    if test "$pull_remote" = upstream
+        git push
+        or return $status
+    end
     git remote prune origin
     or return $status
 
@@ -87,7 +90,7 @@ function sync_git_origin_remote_from_upstream
         or return $status
     end
 end
-alias syncremote=sync_git_origin_remote_from_upstream
+alias syncremote=sync_git_remote
 
 function open_textedit
     set -l file_path $argv[1]

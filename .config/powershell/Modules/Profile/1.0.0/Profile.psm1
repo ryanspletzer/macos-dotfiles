@@ -18,7 +18,7 @@ function Open-GitRemoteUrl {
     end {}
 }
 
-function Sync-GitOriginRemoteFromUpstream {
+function Sync-GitRemote {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false)]
@@ -60,8 +60,11 @@ function Sync-GitOriginRemoteFromUpstream {
             }
         }
 
-        git pull upstream $trunk
-        git push
+        $pullRemote = if (git remote get-url upstream 2>$null) { 'upstream' } else { 'origin' }
+        git pull $pullRemote $trunk
+        if ($pullRemote -eq 'upstream') {
+            git push
+        }
         git remote prune origin
         if (-not [string]::IsNullOrEmpty($Branch)) {
             git branch -D $branch
@@ -628,7 +631,7 @@ function Get-GitStatusColored {
 
 # Create aliases
 New-Alias -Name openremote -Value Open-GitRemoteUrl
-New-Alias -Name syncremote -Value Sync-GitOriginRemoteFromUpstream
+New-Alias -Name syncremote -Value Sync-GitRemote
 New-Alias -Name finder -Value Open-Finder
 New-Alias -Name textedit -Value Open-TextEdit
 New-Alias -Name caf -Value Start-Caffeination
@@ -640,7 +643,7 @@ New-Alias -Name gsc -Value Get-GitStatusColored
 # Export functions and aliases
 Export-ModuleMember -Function @(
     'Open-GitRemoteUrl',
-    'Sync-GitOriginRemoteFromUpstream',
+    'Sync-GitRemote',
     'Get-TypeAccelerators',
     'Open-Finder',
     'Open-TextEdit',
