@@ -316,7 +316,7 @@
 ;; Sidebar file tree (like VS Code explorer / neo-tree)
 (use-package treemacs
   :bind ("C-c f" . treemacs)
-  :hook (emacs-startup . treemacs)
+  :hook (emacs-startup . treemacs-add-and-display-current-project-exclusively)
   :custom
   (treemacs-width 35)
   (treemacs-follow-mode t)
