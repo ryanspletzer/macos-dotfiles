@@ -6,9 +6,10 @@
 # PURPOSE:
 #   Claude Code stores plugin configuration in JSON files that contain
 #   machine-specific paths (install locations, cache paths). This script
-#   extracts only the portable data (GitHub repo names for marketplaces,
-#   plugin identifiers) into a manifest that can be version-controlled
-#   and used to restore the same plugin setup on another machine.
+#   extracts only the portable data (GitHub repo names or git URLs for
+#   marketplaces, plugin identifiers) into a manifest that can be
+#   version-controlled and used to restore the same plugin setup on
+#   another machine.
 #
 # WHY THIS EXISTS:
 #   When setting up Claude Code on a new machine, manually re-adding
@@ -61,8 +62,10 @@ fi
 
 echo "Exporting Claude Code plugin configuration..."
 
-# Extract marketplace GitHub repos
-marketplaces=$(jq -r '[.[] | .source.repo] | sort' "${MARKETPLACES_FILE}")
+# Extract marketplace identifiers
+# Marketplaces use either "github" source (has .repo) or "git" source (has .url)
+# We store the value that can be passed back to `claude plugin marketplace add`
+marketplaces=$(jq -r '[.[] | if .source.source == "git" then .source.url else .source.repo end] | sort' "${MARKETPLACES_FILE}")
 
 # Extract plugin names (keys from the plugins object)
 plugins=$(jq -r '[.plugins | keys[]] | sort' "${INSTALLED_FILE}")

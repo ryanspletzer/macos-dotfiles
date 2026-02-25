@@ -63,20 +63,18 @@ echo "=== Marketplaces ==="
 current_marketplaces=$(claude plugin marketplace list 2>/dev/null || echo "")
 
 # Read desired marketplaces from manifest
-readarray -t desired_marketplaces < <(jq -r '.marketplaces[]' "${MANIFEST_FILE}")
-
-for repo in "${desired_marketplaces[@]}"; do
-    # Extract marketplace name from repo (last part after /)
-    # Note: This is a heuristic - the actual name may differ
-    if echo "${current_marketplaces}" | grep -q "${repo}"; then
-        echo "[OK] Marketplace already added: ${repo}"
+# Entries are either GitHub repo shorthand (owner/name) or git URLs (https://...)
+while IFS= read -r entry; do
+    [[ -z "${entry}" ]] && continue
+    if echo "${current_marketplaces}" | grep -q "${entry}"; then
+        echo "[OK] Marketplace already added: ${entry}"
     else
-        echo "[ADD] Adding marketplace: ${repo}"
-        claude plugin marketplace add "${repo}" || {
-            echo "  [WARN] Failed to add marketplace: ${repo}" >&2
+        echo "[ADD] Adding marketplace: ${entry}"
+        claude plugin marketplace add "${entry}" || {
+            echo "  [WARN] Failed to add marketplace: ${entry}" >&2
         }
     fi
-done
+done < <(jq -r '.marketplaces[]' "${MANIFEST_FILE}")
 
 echo ""
 echo "=== Plugins ==="
@@ -85,9 +83,8 @@ echo "=== Plugins ==="
 current_plugins=$(claude plugin list 2>/dev/null || echo "")
 
 # Read desired plugins from manifest
-readarray -t desired_plugins < <(jq -r '.plugins[]' "${MANIFEST_FILE}")
-
-for plugin in "${desired_plugins[@]}"; do
+while IFS= read -r plugin; do
+    [[ -z "${plugin}" ]] && continue
     if echo "${current_plugins}" | grep -q "${plugin}"; then
         echo "[OK] Plugin already installed: ${plugin}"
     else
@@ -96,7 +93,7 @@ for plugin in "${desired_plugins[@]}"; do
             echo "  [WARN] Failed to install plugin: ${plugin}" >&2
         }
     fi
-done
+done < <(jq -r '.plugins[]' "${MANIFEST_FILE}")
 
 echo ""
 echo "Restore complete."

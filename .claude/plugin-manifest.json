@@ -1,10 +1,10 @@
 {
   "marketplaces": [
-    null,
     "Piebald-AI/claude-code-lsps",
     "accesslint/claude-marketplace",
     "anthropics/claude-plugins-official",
     "davepoon/buildwithclaude",
+    "https://github.com/EveryInc/compound-engineering-plugin.git",
     "obra/superpowers-marketplace",
     "s2005/markdown-linter-fixer-skill"
   ],
