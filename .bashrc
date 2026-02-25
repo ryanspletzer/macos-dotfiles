@@ -10,7 +10,9 @@ if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
 fi
 
 alias cls=clear
+alias cat='bat --paging=never'
 alias openremote='open $(git remote get-url origin)'
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
 source $(brew --prefix)/opt/chruby/share/chruby/auto.sh

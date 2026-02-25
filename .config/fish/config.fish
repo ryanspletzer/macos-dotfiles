@@ -11,7 +11,9 @@ if test "$TERM_PROGRAM" != "Apple_Terminal"
 end
 
 alias cls=clear
+alias cat='bat --paging=never'
 alias openremote='open $(git remote get-url origin)'
+set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 chruby ruby-3.4.1
 

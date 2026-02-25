@@ -30,7 +30,9 @@ bindkey '\e[13;2u' accept-line     # CSI u / kitty format (used by tmux extended
 autoload -Uz compinit && compinit
 
 alias cls=clear
+alias cat='bat --paging=never'
 alias openremote='open $(git remote get-url origin)'
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
 source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
