@@ -36,36 +36,6 @@
             "command": "python3 ~/.claude/hooks/check-uv-venv.py"
           }
         ]
-      },
-      {
-        "matcher": "Write|Edit|MultiEdit|TodoWrite",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "tdd-guard"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "tdd-guard"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "startup|resume|clear",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "tdd-guard"
-          }
-        ]
       }
     ],
     "Stop": [
