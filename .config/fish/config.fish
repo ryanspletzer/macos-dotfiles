@@ -36,6 +36,7 @@ set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
 set -gx FZF_CTRL_T_OPTS "--preview 'bat -n --color=always {}'"
 set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --level=2 --icons --color=always {}'"
 
+zoxide init fish | source
 pyenv init - | source
 
 if status is-interactive

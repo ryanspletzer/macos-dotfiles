@@ -36,6 +36,7 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons --color=always {}
 eval "$(fzf --bash)"
 . "$HOME/.cargo/env"
 
+eval "$(zoxide init bash)"
 eval "$(direnv hook bash)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
