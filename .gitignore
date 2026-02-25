@@ -45,6 +45,7 @@
 !/.gitconfig.work
 !/.gitignore
 !/.hushlogin
+!/.markdownlint.yaml
 !/.oh-my-posh
 !/.tmux.conf
 !/.profile
