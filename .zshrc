@@ -13,9 +13,6 @@ NGROK_AUTHTOKEN="$(security find-generic-password \
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 zstyle ':autocomplete:*' ignored-input '..##'
-#source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-#bindkey '^[[A' history-substring-search-up
-#bindkey '^[[B' history-substring-search-down
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
