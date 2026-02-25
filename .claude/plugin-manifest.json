@@ -10,6 +10,7 @@
   ],
   "plugins": [
     "accesslint@accesslint",
+    "agents-development-architecture@buildwithclaude",
     "code-review@claude-plugins-official",
     "commands-code-analysis-testing@buildwithclaude",
     "commit-commands@claude-plugins-official",
