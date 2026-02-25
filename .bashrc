@@ -30,7 +30,10 @@ alias gdc='git diff --color=always'
 alias gs='git status'
 alias gsc='git -c color.status=always status'
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons --color=always {}'"
+eval "$(fzf --bash)"
 . "$HOME/.cargo/env"
 
 eval "$(direnv hook bash)"

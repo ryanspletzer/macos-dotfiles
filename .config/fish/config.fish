@@ -32,6 +32,10 @@ alias gdc='git diff --color=always'
 alias gs='git status'
 alias gsc='git -c color.status=always status'
 
+set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
+set -gx FZF_CTRL_T_OPTS "--preview 'bat -n --color=always {}'"
+set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --level=2 --icons --color=always {}'"
+
 pyenv init - | source
 
 if status is-interactive
