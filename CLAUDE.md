@@ -78,6 +78,30 @@ Key settings:
     (handles wrappers like `timeout`, env vars, `.venv/bin/`)
   - `check-uv-pytest.py` - Enforces `uv run pytest` instead of bare `pytest`
 
+#### Plugin Portability
+
+Marketplaces and plugins are tracked in a portable manifest for cross-machine
+setup.
+The manifest strips machine-specific paths from Claude's internal JSON files,
+keeping only the identifiers needed to restore the configuration.
+
+| File | Purpose |
+| ---- | ------- |
+| `.claude/plugin-manifest.json` | Portable manifest (git-tracked) |
+| `.claude/scripts/claude-plugins-export.sh` | Export config to manifest |
+| `.claude/scripts/claude-plugins-restore.sh` | Restore config from manifest |
+
+**Workflow**:
+
+1. After adding/removing marketplaces or plugins, run the export script
+2. Commit the updated manifest
+3. On a new machine, pull dotfiles and run the restore script
+
+Both scripts require `jq`.
+The restore script is idempotent — it skips already-installed items.
+Marketplace entries can be GitHub repo shorthand (`owner/name`) or full git
+URLs (`https://...`).
+
 ### tmux Configuration
 
 `.tmux.conf`:
