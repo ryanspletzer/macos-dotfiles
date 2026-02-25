@@ -11,6 +11,9 @@ fi
 
 alias cls=clear
 alias cat='bat --paging=never'
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias lt='eza --tree --level=2 --icons'
 alias openremote='open $(git remote get-url origin)'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
