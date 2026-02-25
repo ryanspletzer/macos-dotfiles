@@ -7,7 +7,7 @@ NPM_AUTODESK_TOKEN="$(security find-generic-password \
 
 # ngrok auth token (from KeyChain)
 NGROK_AUTHTOKEN="$(security find-generic-password \
-  -s ngrok -a authtoken -w)" &&
+  -s ngrok -a authtoken -w 2>/dev/null)" && \
   export NGROK_AUTHTOKEN
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
