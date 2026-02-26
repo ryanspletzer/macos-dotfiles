@@ -1,6 +1,7 @@
 /*
 !/.bash_profile
 !/.bashrc
+!/.code.sh
 !/.claude
 /.claude/*
 !/.claude/CLAUDE.md
@@ -52,6 +53,7 @@
 !/.profile
 !/.vscode
 /.vscode/*
+!/.vscode/extensions.json
 !/.vscode/settings.json
 !/.zed
 /.zed/*

@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "ms-vscode.powershell",
+        "redhat.vscode-yaml",
+        "davidanson.vscode-markdownlint",
+        "yzhang.markdown-all-in-one",
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "streetsidesoftware.code-spell-checker",
+        "oderwat.indent-rainbow",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "codezombiech.gitignore",
+        "usernamehw.errorlens",
+        "anthropic.claude-code"
+    ]
+}
