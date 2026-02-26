@@ -159,12 +159,12 @@ VS Code with everything else disabled via `--disable-extension` flags.
   GitLens, Git Graph, gitignore syntax, error lens, indent rainbow,
   Claude Code)
 
-`.code.sh`:
+`.code.sh` (bash) / `.code.ps1` (PowerShell):
 
-- Launches VS Code with only the recommended extensions enabled
-- Reads `.vscode/extensions.json`, diffs against all installed extensions,
-  and passes `--disable-extension` for everything not recommended
-- Requires `jq`
+- Launch VS Code with only the recommended extensions enabled
+- Read `.vscode/extensions.json`, diff against all installed extensions,
+  and pass `--disable-extension` for everything not recommended
+- Bash script requires `jq`; PowerShell script uses native JSON parsing
 
 ### Zed Settings
 

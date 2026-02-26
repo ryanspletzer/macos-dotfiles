@@ -55,8 +55,9 @@ write them to `.claude/plan-*.md` at the project root:
 ## VS Code project launcher
 
 When working in a project/repo,
-create `.vscode/extensions.json` and a `.code.sh` launch script
-so VS Code opens with only the extensions relevant to that project.
+create `.vscode/extensions.json` and launch scripts (`.code.sh` for bash,
+`.code.ps1` for PowerShell) so VS Code opens with only the extensions
+relevant to that project.
 See `~/.claude/vs-code-launcher.md` for the full template and guidelines.
 
 ## Enforcement

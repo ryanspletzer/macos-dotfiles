@@ -1,7 +1,7 @@
 # VS Code Project Launcher
 
 When working in a project/repo,
-create or update two files so VS Code launches with only the
+create or update these files so VS Code launches with only the
 extensions relevant to that project.
 
 ## `.vscode/extensions.json`
@@ -15,7 +15,7 @@ to conflict or cause problems.
 If the repo already has an `extensions.json`,
 merge into it rather than replacing it.
 
-## `.code.sh`
+## `.code.sh` (bash)
 
 Create a launch script at the project root with this template:
 
@@ -58,12 +58,48 @@ done < <(code --list-extensions)
 code "${DISABLE_FLAGS[@]}" "$SCRIPT_DIR"
 ```
 
+## `.code.ps1` (PowerShell)
+
+Create a cross-platform PowerShell launch script with this template:
+
+```powershell
+#!/usr/bin/env pwsh
+# Launch VS Code with only the extensions recommended for this project.
+# Reads .vscode/extensions.json and disables everything else.
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$ExtensionsJson = Join-Path $ScriptDir '.vscode' 'extensions.json'
+
+if (-not (Test-Path $ExtensionsJson)) {
+    Write-Warning 'No .vscode/extensions.json found — launching VS Code normally.'
+    code $ScriptDir
+    return
+}
+
+$Wanted = (Get-Content $ExtensionsJson -Raw | ConvertFrom-Json).recommendations
+$Installed = code --list-extensions
+
+$DisableFlags = @()
+foreach ($Ext in $Installed) {
+    if ($Ext -notin $Wanted) {
+        $DisableFlags += '--disable-extension'
+        $DisableFlags += $Ext
+    }
+}
+
+code @DisableFlags $ScriptDir
+```
+
 ## Guidelines
 
-- The script requires `jq`
-- Mark it executable: `chmod +x .code.sh`
-- Extension ID comparison is case-insensitive
+- The bash script requires `jq`; the PowerShell script uses native JSON parsing
+- Mark the bash script executable: `chmod +x .code.sh`
+- Extension ID comparison is case-insensitive in both scripts
+  (`-notin` is case-insensitive by default in PowerShell)
 - If `.vscode/extensions.json` is missing,
-  the script falls back to a normal VS Code launch
+  both scripts fall back to a normal VS Code launch
 - Do not create these files in the home folder repo itself;
   only in actual project/repo directories
