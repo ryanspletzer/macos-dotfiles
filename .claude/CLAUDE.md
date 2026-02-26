@@ -25,11 +25,14 @@ Follow the semantic line breaks convention for all prose in Markdown files:
 - These breaks are for source readability and diffs only;
   they must not change rendered output
 
-## Git commit workflow
+## Git workflow
 
 After making changes,
 draft a commit message and present the standard commit confirmation
 for user approval.
+
+When re-syncing a branch with its base branch,
+always prefer merge commits over rebasing.
 
 ## GPG commit signing and sandbox setup
 
