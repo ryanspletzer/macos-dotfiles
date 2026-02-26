@@ -152,6 +152,20 @@ VS Code with everything else disabled via `--disable-extension` flags.
 - AWS CloudFormation YAML schema support
 - Rulers at 80, 100, 114, 116, 120
 
+`.vscode/extensions.json`:
+
+- Recommendations for the 13 extensions relevant to this dotfiles repo
+  (PowerShell, YAML, Markdown, Prettier, EditorConfig, spell checker,
+  GitLens, Git Graph, gitignore syntax, error lens, indent rainbow,
+  Claude Code)
+
+`.code.sh`:
+
+- Launches VS Code with only the recommended extensions enabled
+- Reads `.vscode/extensions.json`, diffs against all installed extensions,
+  and passes `--disable-extension` for everything not recommended
+- Requires `jq`
+
 ### Zed Settings
 
 Global settings at `.config/zed/settings.json`,
