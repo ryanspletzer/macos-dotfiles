@@ -9,6 +9,7 @@
 !/.claude/scripts
 !/.claude/keybindings.json
 !/.claude/settings.json
+!/.claude/vs-code-launcher.md
 !/.config
 /.config/*
 !/.config/fish

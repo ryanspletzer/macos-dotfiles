@@ -52,6 +52,13 @@ write them to `.claude/plan-*.md` at the project root:
 - If the plan evolves during implementation,
   update the plan file to reflect the final approach
 
+## VS Code project launcher
+
+When working in a project/repo,
+create `.vscode/extensions.json` and a `.code.sh` launch script
+so VS Code opens with only the extensions relevant to that project.
+See `~/.claude/vs-code-launcher.md` for the full template and guidelines.
+
 ## Enforcement
 
 - If Markdown linting errors are possible, run the markdown linter fixer skill
