@@ -102,6 +102,15 @@ The restore script is idempotent — it skips already-installed items.
 Marketplace entries can be GitHub repo shorthand (`owner/name`) or full git
 URLs (`https://...`).
 
+#### VS Code Project Launcher
+
+`.claude/vs-code-launcher.md` contains a template for per-project VS Code
+launch scripts.
+When Claude works in a project repo,
+it creates `.vscode/extensions.json` (listing only the extensions the project
+needs) and a `.code.sh` script that reads those recommendations and launches
+VS Code with everything else disabled via `--disable-extension` flags.
+
 ### tmux Configuration
 
 `.tmux.conf`:
