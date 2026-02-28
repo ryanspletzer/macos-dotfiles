@@ -168,5 +168,36 @@ function code --wraps code --description 'Launch VS Code with selective extensio
         end
     end
 
+    # Warn if any recommended extension is manually disabled in workspace storage
+    if command -sq sqlite3
+        set -l abs_dir (builtin cd "$project_dir" && pwd)
+        set -l folder_uri "file://$abs_dir"
+        set -l storage_base "$HOME/Library/Application Support/Code/User/workspaceStorage"
+        if test -d "$storage_base"
+            for ws_dir in "$storage_base"/*/
+                set -l ws_json "$ws_dir/workspace.json"
+                test -f "$ws_json"; or continue
+                set -l ws_folder (jq -r '.folder // empty' "$ws_json" 2>/dev/null)
+                if test "$ws_folder" = "$folder_uri"
+                    set -l db "$ws_dir/state.vscdb"
+                    test -f "$db"; or break
+                    set -l disabled_json (sqlite3 "$db" \
+                        "SELECT value FROM ItemTable WHERE key = 'extensionsIdentifiers/disabled';" 2>/dev/null)
+                    if test -z "$disabled_json"; or test "$disabled_json" = "[]"
+                        break
+                    end
+                    for w in $wanted
+                        if echo "$disabled_json" | jq -e --arg id "$w" \
+                            'map(select(.id | ascii_downcase == $id)) | length > 0' &>/dev/null
+                            echo "WARNING: extension '$w' is recommended but manually disabled in VS Code workspace storage." >&2
+                            echo "  Fix: open VS Code, re-enable it, or clear workspace storage state." >&2
+                        end
+                    end
+                    break
+                end
+            end
+        end
+    end
+
     command code $disable_flags $argv
 end

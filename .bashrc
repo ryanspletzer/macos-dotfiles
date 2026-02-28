@@ -182,5 +182,37 @@ code() {
         fi
     done < <(command code --list-extensions)
 
+    # Warn if any recommended extension is manually disabled in workspace storage
+    if command -v sqlite3 &>/dev/null; then
+        local abs_dir
+        abs_dir="$(cd "$project_dir" && pwd)"
+        local folder_uri="file://$abs_dir"
+        local storage_base="$HOME/Library/Application Support/Code/User/workspaceStorage"
+        if [[ -d "$storage_base" ]]; then
+            for ws_dir in "$storage_base"/*/; do
+                local ws_json="$ws_dir/workspace.json"
+                [[ -f "$ws_json" ]] || continue
+                local ws_folder
+                ws_folder="$(jq -r '.folder // empty' "$ws_json" 2>/dev/null)"
+                if [[ "$ws_folder" == "$folder_uri" ]]; then
+                    local db="$ws_dir/state.vscdb"
+                    [[ -f "$db" ]] || break
+                    local disabled_json
+                    disabled_json="$(sqlite3 "$db" \
+                        "SELECT value FROM ItemTable WHERE key = 'extensionsIdentifiers/disabled';" 2>/dev/null)"
+                    [[ -z "$disabled_json" || "$disabled_json" == "[]" ]] && break
+                    for w in "${wanted[@]}"; do
+                        if echo "$disabled_json" | jq -e --arg id "$w" \
+                            'map(select(.id | ascii_downcase == $id)) | length > 0' &>/dev/null; then
+                            echo "WARNING: extension '$w' is recommended but manually disabled in VS Code workspace storage." >&2
+                            echo "  Fix: open VS Code, re-enable it, or clear workspace storage state." >&2
+                        fi
+                    done
+                    break
+                fi
+            done
+        fi
+    fi
+
     command code "${disable_flags[@]}" "$@"
 }

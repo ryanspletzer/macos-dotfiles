@@ -687,6 +687,37 @@ function Open-VSCode {
             }
         }
 
+        # Warn if any recommended extension is manually disabled in workspace storage
+        $sqlite3 = Get-Command sqlite3 -ErrorAction SilentlyContinue
+        if ($sqlite3) {
+            $absDir = (Resolve-Path $projectDir).Path
+            $folderUri = "file://$absDir"
+            $storageBase = Join-Path $HOME 'Library' 'Application Support' 'Code' 'User' 'workspaceStorage'
+            if (Test-Path $storageBase) {
+                foreach ($wsDir in Get-ChildItem -Path $storageBase -Directory) {
+                    $wsJson = Join-Path $wsDir.FullName 'workspace.json'
+                    if (-not (Test-Path $wsJson)) { continue }
+                    $wsFolder = (Get-Content $wsJson -Raw | ConvertFrom-Json).folder
+                    if ($wsFolder -eq $folderUri) {
+                        $db = Join-Path $wsDir.FullName 'state.vscdb'
+                        if (-not (Test-Path $db)) { break }
+                        $disabledJson = & $sqlite3.Source $db `
+                            "SELECT value FROM ItemTable WHERE key = 'extensionsIdentifiers/disabled';" 2>$null
+                        if (-not $disabledJson -or $disabledJson -eq '[]') { break }
+                        $disabledList = $disabledJson | ConvertFrom-Json
+                        foreach ($w in $wanted) {
+                            $wLower = $w.ToLower()
+                            if ($disabledList | Where-Object { $_.id.ToLower() -eq $wLower }) {
+                                Write-Warning "Extension '$w' is recommended but manually disabled in VS Code workspace storage."
+                                Write-Warning "  Fix: open VS Code, re-enable it, or clear workspace storage state."
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+        }
+
         & $codeBin @disableFlags @Arguments
     }
 

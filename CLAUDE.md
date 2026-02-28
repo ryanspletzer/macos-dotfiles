@@ -39,7 +39,8 @@ All shells share consistent aliases and functions:
 - `textedit` - open file in TextEdit
 - `caf` - run `caffeinate -disu` (optional `-s` for screensaver)
 - `code` - launch VS Code with selective extensions
-  (reads `.vscode/extensions.json`, disables non-recommended extensions)
+  (reads `.vscode/extensions.json`, disables non-recommended extensions;
+  warns if a recommended extension is manually disabled in workspace storage)
 
 ### Prompt Theme
 
@@ -151,8 +152,9 @@ URLs (`https://...`).
   (PowerShell, YAML, Markdown, Prettier, EditorConfig, spell checker,
   GitLens, Git Graph, gitignore syntax, error lens, indent rainbow,
   Claude Code)
-- The shell-level `code` function reads this file and disables
-  non-recommended extensions automatically
+- The shell-level `code` function reads this file, disables
+  non-recommended extensions automatically, and warns if a recommended
+  extension has been manually disabled in VS Code workspace storage
 
 ### Zed Settings
 
