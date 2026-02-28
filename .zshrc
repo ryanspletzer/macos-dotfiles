@@ -159,6 +159,43 @@ start_caffeination() {
 }
 alias caf=start_caffeination
 
+code() {
+    local project_dir=""
+    for arg in "$@"; do
+        if [[ -d "$arg" ]]; then
+            project_dir="$arg"
+            break
+        fi
+    done
+    [[ -z "$project_dir" ]] && project_dir="."
+
+    local extensions_json="$project_dir/.vscode/extensions.json"
+
+    if [[ ! -f "$extensions_json" ]] || ! command -v jq &>/dev/null; then
+        command code "$@"
+        return
+    fi
+
+    local -a wanted disable_flags
+    wanted=("${(@f)$(jq -r '.recommendations[]' "$extensions_json" | tr '[:upper:]' '[:lower:]')}")
+
+    while IFS= read -r ext; do
+        local ext_lower="${ext:l}"
+        local match=false
+        for w in "${wanted[@]}"; do
+            if [[ "$ext_lower" == "$w" ]]; then
+                match=true
+                break
+            fi
+        done
+        if [[ "$match" == false ]]; then
+            disable_flags+=("--disable-extension" "$ext")
+        fi
+    done < <(command code --list-extensions)
+
+    command code "${disable_flags[@]}" "$@"
+}
+
 restart_globalprotect() {
     local gui_target="gui/$(id -u)"
     local pangpa_label="com.paloaltonetworks.gp.pangpa"

@@ -38,6 +38,8 @@ All shells share consistent aliases and functions:
 - `finder` - open Finder at path
 - `textedit` - open file in TextEdit
 - `caf` - run `caffeinate -disu` (optional `-s` for screensaver)
+- `code` - launch VS Code with selective extensions
+  (reads `.vscode/extensions.json`, disables non-recommended extensions)
 
 ### Prompt Theme
 
@@ -102,15 +104,6 @@ The restore script is idempotent — it skips already-installed items.
 Marketplace entries can be GitHub repo shorthand (`owner/name`) or full git
 URLs (`https://...`).
 
-#### VS Code Project Launcher
-
-`.claude/vs-code-launcher.md` contains a template for per-project VS Code
-launch scripts.
-When Claude works in a project repo,
-it creates `.vscode/extensions.json` (listing only the extensions the project
-needs) and a `.code.sh` script that reads those recommendations and launches
-VS Code with everything else disabled via `--disable-extension` flags.
-
 ### tmux Configuration
 
 `.tmux.conf`:
@@ -158,13 +151,8 @@ VS Code with everything else disabled via `--disable-extension` flags.
   (PowerShell, YAML, Markdown, Prettier, EditorConfig, spell checker,
   GitLens, Git Graph, gitignore syntax, error lens, indent rainbow,
   Claude Code)
-
-`.code.sh` (bash) / `.code.ps1` (PowerShell):
-
-- Launch VS Code with only the recommended extensions enabled
-- Read `.vscode/extensions.json`, diff against all installed extensions,
-  and pass `--disable-extension` for everything not recommended
-- Bash script requires `jq`; PowerShell script uses native JSON parsing
+- The shell-level `code` function reads this file and disables
+  non-recommended extensions automatically
 
 ### Zed Settings
 

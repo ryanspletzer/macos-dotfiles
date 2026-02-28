@@ -138,3 +138,35 @@ function start_caffeination
     caffeinate -disu
 end
 alias caf=start_caffeination
+
+function code --wraps code --description 'Launch VS Code with selective extensions'
+    set -l project_dir ""
+    for arg in $argv
+        if test -d "$arg"
+            set project_dir "$arg"
+            break
+        end
+    end
+    if test -z "$project_dir"
+        set project_dir "."
+    end
+
+    set -l extensions_json "$project_dir/.vscode/extensions.json"
+
+    if not test -f "$extensions_json"; or not command -sq jq
+        command code $argv
+        return
+    end
+
+    set -l wanted (jq -r '.recommendations[]' "$extensions_json" | tr '[:upper:]' '[:lower:]')
+    set -l disable_flags
+
+    for ext in (command code --list-extensions)
+        set -l ext_lower (string lower "$ext")
+        if not contains "$ext_lower" $wanted
+            set -a disable_flags --disable-extension $ext
+        end
+    end
+
+    command code $disable_flags $argv
+end

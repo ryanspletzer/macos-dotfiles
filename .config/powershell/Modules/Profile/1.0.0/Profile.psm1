@@ -646,6 +646,53 @@ function Get-GitStatusColored {
     end {}
 }
 
+function Open-VSCode {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {
+        $codeBin = (Get-Command code -CommandType Application -ErrorAction Stop).Source
+    }
+
+    process {
+        # Find the first directory argument to locate extensions.json
+        $projectDir = $null
+        foreach ($arg in $Arguments) {
+            if (Test-Path -Path $arg -PathType Container) {
+                $projectDir = $arg
+                break
+            }
+        }
+        if (-not $projectDir) { $projectDir = '.' }
+
+        $extensionsJson = Join-Path $projectDir '.vscode' 'extensions.json'
+
+        if (-not (Test-Path $extensionsJson)) {
+            & $codeBin @Arguments
+            return
+        }
+
+        $wanted = (Get-Content $extensionsJson -Raw | ConvertFrom-Json).recommendations
+        $installed = & $codeBin --list-extensions
+
+        $disableFlags = @()
+        foreach ($ext in $installed) {
+            if ($ext -notin $wanted) {
+                $disableFlags += '--disable-extension'
+                $disableFlags += $ext
+            }
+        }
+
+        & $codeBin @disableFlags @Arguments
+    }
+
+    end {}
+}
+
 # Create aliases
 New-Alias -Name openremote -Value Open-GitRemoteUrl
 New-Alias -Name syncremote -Value Sync-GitRemote
@@ -657,6 +704,7 @@ New-Alias -Name gd -Value Get-GitDiff
 New-Alias -Name gdc -Value Get-GitDiffColored
 New-Alias -Name gs -Value Get-GitStatus
 New-Alias -Name gsc -Value Get-GitStatusColored
+New-Alias -Name code -Value Open-VSCode
 
 # Export functions and aliases
 Export-ModuleMember -Function @(
@@ -679,7 +727,8 @@ Export-ModuleMember -Function @(
     'Get-GitDiff',
     'Get-GitDiffColored',
     'Get-GitStatus',
-    'Get-GitStatusColored'
+    'Get-GitStatusColored',
+    'Open-VSCode'
 ) -Alias @(
     'openremote',
     'syncremote',
@@ -690,5 +739,6 @@ Export-ModuleMember -Function @(
     'gd',
     'gdc',
     'gs',
-    'gsc'
+    'gsc',
+    'code'
 )

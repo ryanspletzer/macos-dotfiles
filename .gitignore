@@ -1,8 +1,6 @@
 /*
 !/.bash_profile
 !/.bashrc
-!/.code.ps1
-!/.code.sh
 !/.claude
 /.claude/*
 !/.claude/CLAUDE.md
@@ -11,7 +9,6 @@
 !/.claude/scripts
 !/.claude/keybindings.json
 !/.claude/settings.json
-!/.claude/vs-code-launcher.md
 !/.config
 /.config/*
 !/.config/fish

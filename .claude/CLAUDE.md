@@ -52,13 +52,16 @@ write them to `.claude/plan-*.md` at the project root:
 - If the plan evolves during implementation,
   update the plan file to reflect the final approach
 
-## VS Code project launcher
+## VS Code project extensions
 
 When working in a project/repo,
-create `.vscode/extensions.json` and launch scripts (`.code.sh` for bash,
-`.code.ps1` for PowerShell) so VS Code opens with only the extensions
-relevant to that project.
-See `~/.claude/vs-code-launcher.md` for the full template and guidelines.
+create `.vscode/extensions.json` with `recommendations` listing only the
+extension IDs the project needs
+(language support, linters, formatters, debuggers, framework tools, etc.).
+If the repo already has an `extensions.json`,
+merge into it rather than replacing it.
+A shell-level `code` function in each shell config reads this file
+and disables non-recommended extensions automatically.
 
 ## Enforcement
 
