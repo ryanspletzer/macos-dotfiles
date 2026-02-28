@@ -148,7 +148,7 @@ URLs (`https://...`).
 
 `.vscode/extensions.json`:
 
-- Recommendations for the 13 extensions relevant to this dotfiles repo
+- Recommendations for the 12 extensions relevant to this dotfiles repo
   (PowerShell, YAML, Markdown, Prettier, EditorConfig, spell checker,
   GitLens, Git Graph, gitignore syntax, error lens, indent rainbow,
   Claude Code)
