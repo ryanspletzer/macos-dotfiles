@@ -189,15 +189,14 @@ code() {
         local folder_uri="file://$abs_dir"
         local storage_base="$HOME/Library/Application Support/Code/User/workspaceStorage"
         if [[ -d "$storage_base" ]]; then
+            local ws_json ws_folder db disabled_json
             for ws_dir in "$storage_base"/*/; do
-                local ws_json="$ws_dir/workspace.json"
+                ws_json="$ws_dir/workspace.json"
                 [[ -f "$ws_json" ]] || continue
-                local ws_folder
                 ws_folder="$(jq -r '.folder // empty' "$ws_json" 2>/dev/null)"
                 if [[ "$ws_folder" == "$folder_uri" ]]; then
-                    local db="$ws_dir/state.vscdb"
+                    db="$ws_dir/state.vscdb"
                     [[ -f "$db" ]] || break
-                    local disabled_json
                     disabled_json="$(sqlite3 "$db" \
                         "SELECT value FROM ItemTable WHERE key = 'extensionsIdentifiers/disabled';" 2>/dev/null)"
                     [[ -z "$disabled_json" || "$disabled_json" == "[]" ]] && break
