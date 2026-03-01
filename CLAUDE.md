@@ -80,6 +80,10 @@ Key settings:
   - `approve-variants.py` - Auto-approves safe Bash command variants
     (handles wrappers like `timeout`, env vars, `.venv/bin/`)
   - `check-uv-pytest.py` - Enforces `uv run pytest` instead of bare `pytest`
+  - `check-uv-venv.py` - Enforces `uv venv` instead of `python -m venv`
+    or `virtualenv`
+  - `check-pip-install.py` - Blocks bare `pip install`;
+    use `uv pip install`, `uv add`, or `pipx install` instead
 
 #### Plugin Portability
 
@@ -248,3 +252,8 @@ Track these when they exist with meaningful customizations:
 - Shell configs are duplicated across bash/zsh/fish/pwsh - keep them in sync
 - The `syncremote` function is for fork workflows (origin = fork, upstream = parent)
 - pyenv auto-activation depends on `.python-version` files in project directories
+- **Never use bare `pip install` or `pip3 install`** — the system Python is
+  externally managed (PEP 668) and Homebrew-owned.
+  Use `uv pip install` (inside a venv), `uv add` (for project dependencies),
+  or `pipx install` (for standalone CLI tools) instead.
+  A PreToolUse hook enforces this.
