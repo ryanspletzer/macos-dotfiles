@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
 """Enforce using 'uv venv' instead of 'python -m venv' or 'virtualenv'."""
 import json
+import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _utils import strip_quoted_content
 
 data = json.load(sys.stdin)
 if data.get("tool_name") != "Bash":
     sys.exit(0)
 
 command = data.get("tool_input", {}).get("command", "")
+command = strip_quoted_content(command)
 
 # Patterns for non-uv venv creation
 patterns = [

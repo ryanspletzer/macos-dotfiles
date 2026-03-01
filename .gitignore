@@ -5,6 +5,7 @@
 /.claude/*
 !/.claude/CLAUDE.md
 !/.claude/hooks
+/.claude/hooks/__pycache__
 !/.claude/plugin-manifest.json
 !/.claude/scripts
 !/.claude/keybindings.json
