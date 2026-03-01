@@ -77,6 +77,10 @@ Key settings:
 - **Status line**: oh-my-posh integration (`oh-my-posh claude`)
 - **Audio notifications**: Morse.aiff on stop, Ping.aiff on notification
 - **Hooks**:
+  - `_utils.py` - Shared utility module with `strip_quoted_content()`;
+    strips heredocs, quoted strings, and comments so enforcement hooks
+    only match actual command tokens (not keywords in commit messages,
+    echo strings, etc.)
   - `approve-variants.py` - Auto-approves safe Bash command variants
     (handles wrappers like `timeout`, env vars, `.venv/bin/`)
   - `check-uv-pytest.py` - Enforces `uv run pytest` instead of bare `pytest`
