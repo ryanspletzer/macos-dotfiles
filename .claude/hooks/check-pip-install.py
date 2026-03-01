@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enforce using 'uv pip install' / 'uv add' or 'pipx install' instead of bare 'pip install'."""
+"""Enforce using 'uv pip install' / 'uv add' or 'uv tool install' instead of bare 'pip install'."""
 import json
 import re
 import sys
@@ -18,7 +18,7 @@ if re.search(r'\buv\s+pip\b', command):
 if re.search(r'\bpip3?(?:\.\d+)?\s+install\b', command):
     print(
         "Use 'uv pip install' (in a venv), 'uv add' (for project deps), "
-        "or 'pipx install' (for CLI tools) instead of bare 'pip install'",
+        "or 'uv tool install' (for CLI tools) instead of bare 'pip install'",
         file=sys.stderr,
     )
     sys.exit(2)

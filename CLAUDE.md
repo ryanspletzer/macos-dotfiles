@@ -83,7 +83,9 @@ Key settings:
   - `check-uv-venv.py` - Enforces `uv venv` instead of `python -m venv`
     or `virtualenv`
   - `check-pip-install.py` - Blocks bare `pip install`;
-    use `uv pip install`, `uv add`, or `pipx install` instead
+    use `uv pip install`, `uv add`, or `uv tool install` instead
+  - `check-pipx.py` - Blocks `pipx`;
+    use `uvx` (for `pipx run`) or `uv tool install` (for `pipx install`)
 
 #### Plugin Portability
 
@@ -205,7 +207,8 @@ Custom functions beyond shell aliases:
 - **Homebrew** at `/opt/homebrew`
 - **direnv** for per-directory env
 - **fzf** for fuzzy finding
-- **pipx** for isolated Python CLI tools (`~/.local/bin`)
+- **uv** for Python package/tool management (`uvx` for one-off runs,
+  `uv tool install` for persistent CLI tools)
 
 ### Zsh Plugins (via Homebrew)
 
@@ -255,5 +258,7 @@ Track these when they exist with meaningful customizations:
 - **Never use bare `pip install` or `pip3 install`** — the system Python is
   externally managed (PEP 668) and Homebrew-owned.
   Use `uv pip install` (inside a venv), `uv add` (for project dependencies),
-  or `pipx install` (for standalone CLI tools) instead.
-  A PreToolUse hook enforces this.
+  or `uv tool install` / `uvx` (for standalone CLI tools) instead.
+  **Never use `pipx`** — use `uvx` (replaces `pipx run`) or
+  `uv tool install` (replaces `pipx install`).
+  PreToolUse hooks enforce both rules.
