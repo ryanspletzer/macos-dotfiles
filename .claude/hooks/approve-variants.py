@@ -137,60 +137,200 @@ WRAPPER_PATTERNS = [
     (r"^/[^\s]+/\.?venv/bin/", ".venv"),
     # do (loop body prefix)
     (r"^do\s+", "do"),
+    # command (bypass aliases/functions to run actual binary)
+    (r"^command\s+", "command"),
+    # time (measure command execution time)
+    (r"^time\s+", "time"),
 ]
 
 # --- Safe core command patterns ---
 SAFE_COMMANDS = [
-    # git read operations (with optional -C flag)
+    # ── Git ───────────────────────────────────────────────────────────────
+    # read operations (with optional -C flag)
     (
-        r"^git\s+(-C\s+\S+\s+)?(diff|log|status|show|branch|stash\s+list|bisect|worktree\s+list|fetch)\b",
+        r"^git\s+(-C\s+\S+\s+)?"
+        r"(diff|log|status|show|branch|stash\s+list|bisect|worktree\s+list|fetch"
+        r"|remote|tag|rev-parse|rev-list|ls-files|ls-tree|describe|shortlog"
+        r"|reflog|blame|config|name-rev|for-each-ref|cherry|count-objects"
+        r"|verify-commit|verify-tag|ls-remote)\b",
         "git read op",
     ),
-    # git write operations
-    (r"^git\s+(-C\s+\S+\s+)?(add|checkout|merge|rebase|stash)\b", "git write op"),
-    # pytest
-    (r"^pytest\b", "pytest"),
-    # python
-    (r"^python\b", "python"),
-    # ruff (python linter/formatter)
-    (r"^ruff\b", "ruff"),
-    # uv / uvx
-    (r"^uv\s+(pip|run|sync|venv|add|remove|lock)\b", "uv"),
-    (r"^uvx\b", "uvx"),
-    # npm / npx
-    (r"^npm\s+(install|run|test|build|ci)\b", "npm"),
-    (r"^npx\b", "npx"),
-    # cargo
-    (r"^cargo\s+(build|test|run|check|clippy|fmt|clean)\b", "cargo"),
-    # maturin (rust python bindings)
-    (r"^maturin\s+(develop|build)\b", "maturin"),
-    # make
-    (r"^make\b", "make"),
-    # common read-only commands
+    # write operations (local only — no push/commit)
     (
-        r"^(ls|cat|head|tail|wc|find|grep|rg|file|which|pwd|du|df|curl|sort|uniq|cut|tr|awk|sed|xargs)\b",
+        r"^git\s+(-C\s+\S+\s+)?"
+        r"(add|checkout|merge|rebase|stash|switch|restore|cherry-pick"
+        r"|worktree\s+(add|remove|prune))\b",
+        "git write op",
+    ),
+    # ── Python ────────────────────────────────────────────────────────────
+    (r"^pytest\b", "pytest"),
+    (r"^python3?\b", "python"),
+    (r"^ruff\b", "ruff"),
+    (r"^uv\s+(pip|run|sync|venv|add|remove|lock|tool|init|build|publish|tree|self)\b", "uv"),
+    (r"^uvx\b", "uvx"),
+    (r"^mypy\b", "mypy"),
+    (r"^black\b", "black"),
+    (r"^isort\b", "isort"),
+    (r"^pyright\b", "pyright"),
+    # ── JavaScript / TypeScript ───────────────────────────────────────────
+    (r"^npm\s+(install|ci|run|test|build|ls|outdated|info|init|pack|exec|explain)\b", "npm"),
+    (r"^npx\b", "npx"),
+    (r"^pnpm\s+(install|run|test|build|add|remove|exec|dlx|dev|create|ls|outdated|why)\b", "pnpm"),
+    (r"^bun\s+(install|run|test|build|add|remove|x|create|dev|init|pm)\b", "bun"),
+    (r"^node\b", "node"),
+    (r"^tsc\b", "tsc"),
+    (r"^prettier\b", "prettier"),
+    (r"^eslint\b", "eslint"),
+    # ── Go ────────────────────────────────────────────────────────────────
+    (
+        r"^go\s+(build|test|run|fmt|vet|mod|generate|get|clean|env|version"
+        r"|tool|work|doc|install|list)\b",
+        "go",
+    ),
+    (r"^gofmt\b", "gofmt"),
+    (r"^golangci-lint\b", "golangci-lint"),
+    (r"^gopls\b", "gopls"),
+    # ── Ruby ──────────────────────────────────────────────────────────────
+    (r"^ruby\b", "ruby"),
+    (r"^irb\b", "irb"),
+    (r"^bundle\b", "bundle"),
+    (r"^gem\b", "gem"),
+    (r"^rake\b", "rake"),
+    (r"^rails\b", "rails"),
+    (r"^rubocop\b", "rubocop"),
+    (r"^chruby\b", "chruby"),
+    # ── Rust ──────────────────────────────────────────────────────────────
+    (
+        r"^cargo\s+(build|test|run|check|clippy|fmt|clean|add|remove|update"
+        r"|doc|bench|init|new|publish|search|tree|install)\b",
+        "cargo",
+    ),
+    (r"^maturin\s+(develop|build)\b", "maturin"),
+    (r"^rustc\b", "rustc"),
+    (r"^rustup\b", "rustup"),
+    (r"^rustfmt\b", "rustfmt"),
+    # ── .NET ──────────────────────────────────────────────────────────────
+    (
+        r"^dotnet\s+(build|test|run|restore|clean|add|format|tool|new|list"
+        r"|pack|publish|watch|nuget|sln|ef)\b",
+        "dotnet",
+    ),
+    # ── Swift ─────────────────────────────────────────────────────────────
+    (r"^swift\s+(build|test|run|package)\b", "swift"),
+    (r"^swiftc\b", "swiftc"),
+    (r"^swiftformat\b", "swiftformat"),
+    (r"^swiftlint\b", "swiftlint"),
+    # ── Elixir ────────────────────────────────────────────────────────────
+    (r"^elixir\b", "elixir"),
+    (r"^iex\b", "iex"),
+    (r"^mix\b", "mix"),
+    # ── Java ──────────────────────────────────────────────────────────────
+    (r"^java\b", "java"),
+    (r"^javac\b", "javac"),
+    (r"^mvn\b", "mvn"),
+    (r"^gradle\b", "gradle"),
+    (r"^gradlew\b", "gradlew"),
+    # ── Build tools ───────────────────────────────────────────────────────
+    (r"^make\b", "make"),
+    (r"^cmake\b", "cmake"),
+    # ── Linters & formatters ──────────────────────────────────────────────
+    (r"^shellcheck\b", "shellcheck"),
+    (r"^yamllint\b", "yamllint"),
+    (r"^markdownlint\b", "markdownlint"),
+    (r"^markdownlint-cli2\b", "markdownlint-cli2"),
+    (r"^cfn-lint\b", "cfn-lint"),
+    (r"^actionlint\b", "actionlint"),
+    # ── GitHub CLI ────────────────────────────────────────────────────────
+    (r"^gh\s+", "gh"),
+    # ── Docker ────────────────────────────────────────────────────────────
+    (
+        r"^docker\s+(build|run|exec|ps|images|logs|inspect|pull|tag|version"
+        r"|info|network|volume|port|cp|stats|top|diff|history|events"
+        r"|compose|buildx)\b",
+        "docker",
+    ),
+    (r"^docker-compose\b", "docker-compose"),
+    # ── Infrastructure (conservative — no apply/destroy) ──────────────────
+    (
+        r"^terraform\s+(init|plan|validate|fmt|show|output|version|providers"
+        r"|workspace\s+(list|show|select)|state\s+(list|show|pull)|graph|get)\b",
+        "terraform",
+    ),
+    (
+        r"^helm\s+(template|lint|list|status|get|repo|search|version|show"
+        r"|dependency|env)\b",
+        "helm",
+    ),
+    (
+        r"^kubectl\s+(get|describe|logs|config|explain|api-resources|api-versions"
+        r"|version|top|cluster-info|auth)\b",
+        "kubectl",
+    ),
+    (r"^packer\s+(validate|fmt|init|inspect)\b", "packer"),
+    (r"^ansible-lint\b", "ansible-lint"),
+    (r"^ansible-playbook\b", "ansible-playbook"),
+    # ── Homebrew (read-only) ──────────────────────────────────────────────
+    (
+        r"^brew\s+(list|info|search|doctor|config|deps|leaves|outdated|uses"
+        r"|desc|cat|home|log|tap-info|commands|shellenv)\b",
+        "brew read",
+    ),
+    # ── Modern CLI utilities ──────────────────────────────────────────────
+    (r"^bat\b", "bat"),
+    (r"^eza\b", "eza"),
+    (r"^fd\b", "fd"),
+    (r"^tree\b", "tree"),
+    (r"^jq\b", "jq"),
+    (r"^yq\b", "yq"),
+    (r"^xh\b", "xh"),
+    (r"^delta\b", "delta"),
+    (r"^tldr\b", "tldr"),
+    (r"^fzf\b", "fzf"),
+    (r"^pandoc\b", "pandoc"),
+    (r"^sqlite3\b", "sqlite3"),
+    # ── File operations ───────────────────────────────────────────────────
+    (r"^mkdir\b", "mkdir"),
+    (r"^cp\b", "cp"),
+    (r"^mv\b", "mv"),
+    (r"^ln\b", "ln"),
+    (r"^chmod\b", "chmod"),
+    (r"^tee\b", "tee"),
+    # ── Common read-only / info commands ──────────────────────────────────
+    (
+        r"^(ls|cat|head|tail|wc|find|grep|rg|file|which|pwd|du|df"
+        r"|curl|wget|sort|uniq|cut|tr|awk|sed|xargs"
+        r"|readlink|realpath|basename|dirname"
+        r"|date|uname|hostname|whoami|id|groups"
+        r"|stat|shasum|md5|sha256sum"
+        r"|less|more|type|printenv|locale|lsof"
+        r"|open|pbcopy|pbpaste"
+        r"|comm|join|paste|expand|fold|fmt"
+        r"|nproc|sysctl|sw_vers|arch|getconf)\b",
         "read-only",
     ),
     # touch (update timestamps, create empty files)
     (r"^touch\b", "touch"),
-    # shell builtins for control flow
+    # ── Shell builtins & control flow ─────────────────────────────────────
     (r"^(true|false|exit(\s+\d+)?)$", "shell builtin"),
-    # pkill/kill (process management)
     (r"^(pkill|kill)\b", "process mgmt"),
-    # echo (often used for logging/separators in chained commands)
     (r"^echo\b", "echo"),
-    # cd (change directory, often first in a chain)
+    (r"^printf\b", "printf"),
     (r"^cd\s", "cd"),
-    # source/. (activate scripts, set env)
     (r"^(source|\.) [^\s]*venv/bin/activate", "venv activate"),
-    # sleep (delays, often used in scripts)
     (r"^sleep\s", "sleep"),
-    # variable assignment (VAR=value, VAR=$!, etc.)
     (r"^[A-Z_][A-Z0-9_]*=\S*$", "var assignment"),
-    # for/while loops and loop constructs
     (r"^for\s+\w+\s+in\s", "for loop"),
     (r"^while\s", "while loop"),
     (r"^done$", "done"),
+    (r"^(test|\[)\s", "test"),
+    (r"^if\s", "if"),
+    (r"^(then|else|elif|fi)$", "conditional"),
+    (r"^(case\s|esac$)", "case"),
+    (r"^(export|unset|local|declare|typeset|readonly)\s", "shell var"),
+    (r"^return(\s+\d+)?$", "return"),
+    (r"^shift(\s+\d+)?$", "shift"),
+    (r"^(wait|bg|fg|jobs)\b", "job control"),
+    (r"^trap\s", "trap"),
 ]
 
 
