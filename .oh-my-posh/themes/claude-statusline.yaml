@@ -46,14 +46,7 @@ blocks:
     style: plain
   - options:
       cache_duration: none
-    template: " \U0000F489 {{ .Name }}"
-    foreground: "#0077c2"
-    background: transparent
-    type: shell
-    style: plain
-  - options:
-      cache_duration: none
-      time_format: 3:04:05 PM
+      time_format: 3:04 PM
     template: " \U0000E385 {{ .CurrentDate | date .Format }}"
     foreground: "#2e9599"
     background: transparent
