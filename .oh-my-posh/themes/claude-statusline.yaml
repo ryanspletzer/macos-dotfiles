@@ -34,11 +34,6 @@ blocks:
     - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}"
     - "{{ if gt .Ahead 0 }}#B388FF{{ end }}"
     - "{{ if gt .Behind 0 }}#B388FB{{ end }}"
-  - template: " {{ .FormattedCost }}"
-    foreground: "#83769c"
-    background: transparent
-    type: claude
-    style: plain
   - template: " {{ .FormattedTokens }} ({{ .TokenUsagePercent.String }}) {{ .TokenUsagePercent.Gauge }}"
     foreground: "#2e9599"
     background: transparent
