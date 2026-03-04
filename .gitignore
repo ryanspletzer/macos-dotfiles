@@ -10,6 +10,9 @@
 !/.claude/scripts
 !/.claude/keybindings.json
 !/.claude/settings.json
+!/.claude/skills
+/.claude/skills/*
+!/.claude/skills/dotfiles-reference
 !/.config
 /.config/*
 !/.config/fish
