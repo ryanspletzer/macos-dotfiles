@@ -34,13 +34,10 @@ for user approval.
 When re-syncing a branch with its base branch,
 always prefer merge commits over rebasing.
 
-## GPG commit signing and sandbox setup
+## GPG commit signing
 
 GPG commit signing is enabled globally.
-The global `~/.claude/settings.json` includes both
-`permissions.additionalDirectories` (filesystem write access to `~/.gnupg`)
-and `sandbox.network.allowUnixSockets` (GPG agent socket communication).
-No per-project configuration is needed for GPG signing.
+No per-project configuration is needed.
 
 ## Planning
 
