@@ -122,5 +122,6 @@
       ]
     }
   },
-  "syntaxHighlightingDisabled": false
+  "syntaxHighlightingDisabled": false,
+  "effortLevel": "high"
 }
