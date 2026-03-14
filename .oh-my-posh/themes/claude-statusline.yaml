@@ -34,7 +34,7 @@ blocks:
     - "{{ if and (gt .Ahead 0) (gt .Behind 0) }}#FFCC80{{ end }}"
     - "{{ if gt .Ahead 0 }}#B388FF{{ end }}"
     - "{{ if gt .Behind 0 }}#B388FB{{ end }}"
-  - template: " {{ .FormattedCost }}"
+  - template: " {{ printf \"$%.2f\" .Cost.TotalCostUSD }}"
     foreground: "#83769c"
     background: transparent
     type: claude
