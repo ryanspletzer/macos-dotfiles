@@ -62,6 +62,8 @@
 !/.zed/settings.json
 !/.zprofile
 !/.zshenv
+!/.zshenv.personal
+!/.zshenv.work
 !/.zshrc
 !/CLAUDE.md
 !/Library
