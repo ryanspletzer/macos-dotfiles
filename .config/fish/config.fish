@@ -1,4 +1,5 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
+fish_add_path --append ~/.dotnet/tools
 export GPG_TTY=$(tty)
 
 # Autodesk Artifactory npm token (from Keychain)

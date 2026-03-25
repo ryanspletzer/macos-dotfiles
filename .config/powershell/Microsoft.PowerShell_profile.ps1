@@ -15,6 +15,7 @@ $env:HOMEBREW_PREFIX = '/opt/homebrew'
 $env:HOMEBREW_CELLAR = '/opt/homebrew/Cellar'
 $env:HOMEBREW_REPOSITORY = '/opt/homebrew'
 $env:PATH = $('/opt/homebrew/bin:/opt/homebrew/sbin:'+$env:PATH)
+$env:PATH += ':' + $HOME + '/.dotnet/tools'
 $env:MANPATH = $('/opt/homebrew/share/man'+$(if(${env:MANPATH}){':'+${env:MANPATH}})+':')
 $env:INFOPATH = $('/opt/homebrew/share/info'+$(if(${env:INFOPATH}){':'+${env:INFOPATH}}))
 
