@@ -27,10 +27,6 @@ Follow the semantic line breaks convention for all prose in Markdown files:
 
 ## Git workflow
 
-After making changes,
-draft a commit message and present the standard commit confirmation
-for user approval.
-
 When re-syncing a branch with its base branch,
 always prefer merge commits over rebasing.
 
