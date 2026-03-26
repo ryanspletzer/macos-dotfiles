@@ -56,6 +56,18 @@ merge into it rather than replacing it.
 A shell-level `code` function in each shell config reads this file
 and disables non-recommended extensions automatically.
 
+### Always-recommended extensions
+
+The following generic extensions should be included in every project's
+`.vscode/extensions.json` regardless of language or framework:
+
+- `editorconfig.editorconfig` — EditorConfig support (VS Code lacks native support)
+- `oderwat.indent-rainbow` — Rainbow indent guides
+- `streetsidesoftware.code-spell-checker` — Spell checking for code and comments
+- `usernamehw.errorlens` — Inline error/warning display
+- `eamodio.gitlens` — Git blame, history, and annotations
+- `gruntfuggly.todo-tree` — Highlight and list TODO/FIXME comments
+
 ## Enforcement
 
 - If Markdown linting errors are possible, run the markdown linter fixer skill

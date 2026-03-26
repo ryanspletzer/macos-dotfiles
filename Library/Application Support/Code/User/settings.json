@@ -258,5 +258,6 @@
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
     "claudeCode.preferredLocation": "panel",
-    "docker.extension.enableComposeLanguageServer": false
+    "docker.extension.enableComposeLanguageServer": false,
+    "workbench.colorTheme": "Dark Modern"
 }
