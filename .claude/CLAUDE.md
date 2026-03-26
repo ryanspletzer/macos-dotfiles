@@ -1,39 +1,24 @@
 # Global Claude Code Rules
 
-## Markdown quality
+## Markdown
 
-- ALL Markdown output must pass markdownlint-cli2
-- Fix all MD0xx / MD01x issues automatically
-- Use CommonMark-compatible Markdown
-- No trailing whitespace
-- Proper blank lines around lists and code blocks
-- Headings must increment by one level (no H1 → H3 skips)
-- Prefer a `line_length` of 120 over the default 80
+- ALL Markdown output must pass markdownlint-cli2; fix issues automatically,
+  never ask whether to lint
 - When creating markdownlint config files, use YAML format
   (`.markdownlint.yaml`) instead of JSONC
-
-## Semantic line breaks
-
-Follow the semantic line breaks convention for all prose in Markdown files:
-
-- Start each sentence on a new line
-- Add a line break after clauses separated by commas, semicolons,
-  colons, or em dashes when it aids readability
-- Keep lines under ~120 characters where practical
-  (links and code spans may exceed this)
-- Never break within a hyphenated word
-- These breaks are for source readability and diffs only;
-  they must not change rendered output
+- Prefer a `line_length` of 120 over the default 80
+- Follow the semantic line breaks convention for all prose in Markdown files:
+  - Start each sentence on a new line
+  - Add a line break after clauses separated by commas, semicolons,
+    colons, or em dashes when it aids readability
+  - Never break within a hyphenated word
+  - These breaks are for source readability and diffs only;
+    they must not change rendered output
 
 ## Git workflow
 
 When re-syncing a branch with its base branch,
 always prefer merge commits over rebasing.
-
-## GPG commit signing
-
-GPG commit signing is enabled globally.
-No per-project configuration is needed.
 
 ## Planning
 
@@ -56,19 +41,5 @@ merge into it rather than replacing it.
 A shell-level `code` function in each shell config reads this file
 and disables non-recommended extensions automatically.
 
-### Always-recommended extensions
-
-The following generic extensions should be included in every project's
-`.vscode/extensions.json` regardless of language or framework:
-
-- `editorconfig.editorconfig` — EditorConfig support (VS Code lacks native support)
-- `oderwat.indent-rainbow` — Rainbow indent guides
-- `streetsidesoftware.code-spell-checker` — Spell checking for code and comments
-- `usernamehw.errorlens` — Inline error/warning display
-- `eamodio.gitlens` — Git blame, history, and annotations
-- `gruntfuggly.todo-tree` — Highlight and list TODO/FIXME comments
-
-## Enforcement
-
-- If Markdown linting errors are possible, run the markdown linter fixer skill
-- Never ask whether to lint; lint by default
+Always-recommended (language-agnostic) extensions are listed in
+`.claude/vscode-base-extensions.md` — include them in every project.
