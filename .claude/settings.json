@@ -121,6 +121,5 @@
       ]
     }
   },
-  "syntaxHighlightingDisabled": false,
-  "effortLevel": "medium"
+  "syntaxHighlightingDisabled": false
 }
