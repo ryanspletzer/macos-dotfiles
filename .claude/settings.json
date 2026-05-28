@@ -121,5 +121,6 @@
       ]
     }
   },
-  "syntaxHighlightingDisabled": false
+  "syntaxHighlightingDisabled": false,
+  "theme": "dark"
 }
