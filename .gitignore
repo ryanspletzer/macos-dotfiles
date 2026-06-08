@@ -22,6 +22,7 @@
 /.config/*
 !/.config/fish
 !/.config/ghostty
+!/.config/kitty
 !/.config/nvim
 /.config/nvim/lazy-lock.json
 /.config/nvim/.neoconf.json
