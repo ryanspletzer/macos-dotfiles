@@ -77,6 +77,38 @@ For verbose-test projects, add to that project's `CLAUDE.md`:
 When compacting, focus on test output and code changes.
 ```
 
+### Per-project code-intelligence (LSP) plugins
+
+Code-intelligence plugins *reduce* spend on typed-language work:
+a single "go to definition" replaces a grep plus reading several candidate files,
+and they auto-report type errors after edits (no compiler run needed).
+They are already installed (disabled) — enabling is a per-project flag flip, no download.
+
+**Enable per-project, never globally** — each LSP adds tool definitions and spawns a
+language server, so it should only load where that language lives.
+Set it in `<project>/.claude/settings.json`:
+
+```jsonc
+{
+  "enabledPlugins": {
+    "csharp-lsp@claude-plugins-official": true
+  }
+}
+```
+
+Language → plugin → applicable repos:
+
+- **C#** — `csharp-lsp@claude-plugins-official`:
+  `anthropic-practice*` repos.
+- **TypeScript** — `typescript-lsp@claude-plugins-official`:
+  `vscode-selective-extensions` (already enabled in `ryanspletzer.github.io`).
+- **Python** — `pyright-lsp@claude-plugins-official`:
+  `onenote-dump`, `python_koans`, `essential-math-for-data-science`.
+- **PowerShell** — `powershell-editor-services@claude-code-lsps`:
+  `PowerShellEX`, `powershell-style`.
+
+Skip `gopls-lsp`, `rust-analyzer-lsp`, `swift-lsp`, `lua-lsp` until you work in those languages.
+
 ## Work / Enterprise portability
 
 Replicate the same patterns on the work machine (separate config):
