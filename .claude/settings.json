@@ -1,4 +1,5 @@
 {
+  "model": "sonnet",
   "env": {
     "DISABLE_AUTOUPDATER": "1"
   },
@@ -51,6 +52,15 @@
           {
             "type": "command",
             "command": "python3 ~/.claude/hooks/check-pipx.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/filter-test-output.py"
           }
         ]
       }
