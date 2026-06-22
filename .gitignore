@@ -71,6 +71,7 @@
 !/.zshenv.personal
 !/.zshenv.work
 !/.zshrc
+!/bunfig.toml
 !/CLAUDE.md
 !/Library
 /Library/*
