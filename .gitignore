@@ -45,6 +45,9 @@
 !/.config/powershell
 !/.config/powershell/Modules
 !/.config/powershell/Modules/*
+!/.config/pnpm
+/.config/pnpm/*
+!/.config/pnpm/config.yaml
 !/.gitattributes
 !/.gitconfig
 !/.gnupg
@@ -71,6 +74,7 @@
 !/.zshenv.personal
 !/.zshenv.work
 !/.zshrc
+!/.npmrc
 !/bunfig.toml
 !/CLAUDE.md
 !/Library
