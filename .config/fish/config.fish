@@ -2,6 +2,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 fish_add_path --append ~/.dotnet/tools
 set -gx PNPM_HOME "$HOME/Library/pnpm"
 fish_add_path $PNPM_HOME/bin
+set -gx BUN_INSTALL "$HOME/.bun"
+fish_add_path $BUN_INSTALL/bin
 export GPG_TTY=$(tty)
 
 # Autodesk Artifactory npm token (from Keychain)
