@@ -14,9 +14,15 @@ Escalate only when the task warrants it:
 
 - `/model opus` — switch the current session to Opus for hard architecture or multi-step reasoning.
 - `/fast` — when on Opus, faster output (still Opus, not a downgrade); UX, not a cost lever.
-- `/effort` — raise reasoning per-task if a specific task needs deeper thinking
+- `/effort` — raise reasoning per-task if a specific task needs deeper thinking,
+  then drop it back: thinking tokens bill as **output**,
+  so a high-effort task can out-cost a higher model tier
   (effort is otherwise left at the model default; nothing is pinned).
 - `/model sonnet` — drop back down when the hard part is done.
+
+**Escalate narrowly:** raise model *or* effort for the single hard step,
+then de-escalate immediately —
+the cost discipline is symmetric for both dials.
 
 ## Measuring usage
 
@@ -24,6 +30,19 @@ Escalate only when the task warrants it:
   Press `d` / `w` to toggle 24h / 7d.
 - `/context` — what currently occupies the context window.
 - Capture both **before and after** any change to verify the effect rather than guessing.
+
+## Caching & session cadence
+
+Prompt caching is a first-order cost lever, not a detail:
+the system prompt, tools, and conversation prefix are cached and re-read
+at a fraction of input cost on each turn — but the cache has a **5-minute TTL**.
+
+- A **warm** session (steady back-and-forth) keeps re-reading context at cache rates;
+  a **cold** resume after a long idle pays full input price to rebuild the prefix.
+- Batch related work into one active session rather than returning to it hours later.
+- Anything that sleeps or polls on a long interval (> 5 min) loses the cache between wakeups —
+  prefer a tight cadence or accept one cold rebuild,
+  not repeated 5–10 min polls that each pay the miss.
 
 ## Subagents
 
@@ -59,12 +78,21 @@ Pin a per-project default that overrides the global Sonnet default by adding to
 
 ### Tiering rubric
 
-- **Haiku / Sonnet** — low-stakes, repetitive, or learning work:
-  `anthropic-practice*`, `neovm-lazyvim-tmux-learning`, `python_koans`.
-- **Sonnet (default)** — most real project work:
-  `dev-machine-setup`, `ryanspletzer.github.io`, `vscode-selective-extensions`.
-- **Opus** — genuinely hard reasoning / architecture:
-  `mcp-enterprise-auth`.
+Two dials, not one — **model × effort**.
+Thinking tokens bill as output,
+so effort is the second-biggest lever after model tier:
+
+| Work type | Model | Effort |
+| --- | --- | --- |
+| Low-stakes, repetitive, or learning | Haiku / Sonnet | low / default |
+| Most real project work | Sonnet (default) | default |
+| Genuinely hard reasoning / architecture | Opus | high — for the hard step only, then drop back |
+
+Repos by tier:
+
+- **Haiku / Sonnet** — `neovm-lazyvim-tmux-learning`, `python_koans`.
+- **Sonnet (default)** — `dev-machine-setup`, `ryanspletzer.github.io`, `vscode-selective-extensions`.
+- **Opus** — `mcp-enterprise-auth`.
 
 Pin Opus only where work consistently needs it; otherwise escalate per-session with `/model opus`.
 
@@ -98,8 +126,6 @@ Set it in `<project>/.claude/settings.json`:
 
 Language → plugin → applicable repos:
 
-- **C#** — `csharp-lsp@claude-plugins-official`:
-  `anthropic-practice*` repos.
 - **TypeScript** — `typescript-lsp@claude-plugins-official`:
   `vscode-selective-extensions` (already enabled in `ryanspletzer.github.io`).
 - **Python** — `pyright-lsp@claude-plugins-official`:
@@ -118,6 +144,18 @@ Replicate the same patterns on the work machine (separate config):
 - Prefer CLI tools (`gh`, `aws`, `gcloud`, `sentry-cli`) over MCP servers where possible —
   MCP tool defs are deferred but CLIs add no per-tool context tax at all.
 - Be aware of org-level TPM/RPM rate-limit recommendations under Enterprise.
+
+## Output & context hygiene
+
+Output tokens are the expensive tokens;
+resident context is a recurring per-turn tax.
+
+- The tracked **Concise** output style trims response verbosity —
+  it is itself a cost lever, not just a UX preference.
+- `/clear` between unrelated tasks drops dead context so it stops riding along every turn.
+- Everything resident in the context window is re-processed each turn,
+  so the "keep `CLAUDE.md` lean" point below is about this recurring tax,
+  not a one-time cost.
 
 ## Other levers (not yet applied)
 
