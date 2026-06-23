@@ -132,5 +132,6 @@
     }
   },
   "syntaxHighlightingDisabled": false,
-  "theme": "dark"
+  "theme": "dark",
+  "tui": "fullscreen"
 }
