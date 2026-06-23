@@ -77,6 +77,10 @@
 !/.npmrc
 !/bunfig.toml
 !/CLAUDE.md
+!/git
+/git/*
+!/git/AGENTS.md
+!/git/CLAUDE.md
 !/Library
 /Library/*
 !/Library/Application Support
