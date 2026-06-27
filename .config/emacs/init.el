@@ -107,9 +107,7 @@
 (use-package doom-themes
   :config
   (load-theme 'doom-dark+ t)
-  (doom-themes-org-config)
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-treemacs-config))
+  (doom-themes-org-config))
 
 ;; Modeline
 (use-package doom-modeline
@@ -324,7 +322,16 @@
   (treemacs-git-mode 'deferred)
   :config
   ;; Resize SVG icons to fit line height (font height 120 ≈ 16px).
+  ;; GUI-only; the nerd-icons theme below uses font glyphs instead.
   (treemacs-resize-icons 15))
+
+;; Nerd Font glyph icons for Treemacs — renders in BOTH GUI and terminal
+;; (Ghostty uses CaskaydiaCove Nerd Font). Replaces the all-the-icons-based
+;; doom-colors theme, which only worked in GUI.
+(use-package treemacs-nerd-icons
+  :after (treemacs nerd-icons)
+  :config
+  (treemacs-load-theme "nerd-icons"))
 
 
 ;; =========================================================================
