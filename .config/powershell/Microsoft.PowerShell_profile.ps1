@@ -16,6 +16,7 @@ $env:HOMEBREW_CELLAR = '/opt/homebrew/Cellar'
 $env:HOMEBREW_REPOSITORY = '/opt/homebrew'
 $env:PATH = $('/opt/homebrew/bin:/opt/homebrew/sbin:'+$env:PATH)
 $env:PATH += ':' + $HOME + '/.dotnet/tools'
+$env:PATH += ':' + $HOME + '/.cargo/bin'
 $env:PNPM_HOME = Join-Path $HOME "Library/pnpm"
 $env:PATH = (Join-Path $env:PNPM_HOME "bin") + [IO.Path]::PathSeparator + $env:PATH
 $env:BUN_INSTALL = Join-Path $HOME ".bun"

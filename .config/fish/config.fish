@@ -1,5 +1,6 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 fish_add_path --append ~/.dotnet/tools
+fish_add_path --append ~/.cargo/bin
 set -gx PNPM_HOME "$HOME/Library/pnpm"
 fish_add_path $PNPM_HOME/bin
 set -gx BUN_INSTALL "$HOME/.bun"
