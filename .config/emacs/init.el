@@ -364,6 +364,10 @@
   (treemacs-filewatch-mode t)
   (treemacs-git-mode 'deferred)
   :config
+  ;; Make the tree automatically follow the current buffer's project, so it
+  ;; re-roots itself as you move between repos — no matter how Emacs was
+  ;; launched (Finder/Spotlight, terminal, or emacsclient frame).
+  (treemacs-project-follow-mode 1)
   ;; Resize SVG icons to fit line height (font height 120 ≈ 16px).
   ;; GUI-only; the nerd-icons theme below uses font glyphs instead.
   (treemacs-resize-icons 15))
