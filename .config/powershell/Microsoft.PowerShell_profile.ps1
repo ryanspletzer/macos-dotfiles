@@ -4,6 +4,10 @@ $env:GPG_TTY=$(tty)
 $npmToken = security find-generic-password -s npm-autodesk-token -w 2>$null
 if ($npmToken) { $env:NPM_AUTODESK_TOKEN = $npmToken }
 
+# ngrok auth token (from Keychain)
+$ngrokToken = security find-generic-password -s ngrok -a authtoken -w 2>$null
+if ($ngrokToken) { $env:NGROK_AUTHTOKEN = $ngrokToken }
+
 $env:PSModulePath += ':' + $HOME + '/.config/powershell/Modules'
 
 Set-PSReadLineOption -PredictionSource History
@@ -11,12 +15,16 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Windows
 Set-PSReadlineOption -BellStyle None
 
+# Make Shift+Enter accept the line like Enter (Ghostty sends modified sequences)
+Set-PSReadLineKeyHandler -Chord 'Shift+Enter' -Function AcceptLine
+
 $env:HOMEBREW_PREFIX = '/opt/homebrew'
 $env:HOMEBREW_CELLAR = '/opt/homebrew/Cellar'
 $env:HOMEBREW_REPOSITORY = '/opt/homebrew'
 $env:PATH = $('/opt/homebrew/bin:/opt/homebrew/sbin:'+$env:PATH)
 $env:PATH += ':' + $HOME + '/.dotnet/tools'
 $env:PATH += ':' + $HOME + '/.cargo/bin'
+$env:PATH += ':' + $HOME + '/.local/bin'
 $env:PNPM_HOME = Join-Path $HOME "Library/pnpm"
 $env:PATH = (Join-Path $env:PNPM_HOME "bin") + [IO.Path]::PathSeparator + $env:PATH
 $env:BUN_INSTALL = Join-Path $HOME ".bun"

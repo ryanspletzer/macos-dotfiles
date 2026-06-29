@@ -5,9 +5,19 @@ NPM_AUTODESK_TOKEN="$(security find-generic-password \
   -s npm-autodesk-token -w 2>/dev/null)" && \
   export NPM_AUTODESK_TOKEN
 
+# ngrok auth token (from Keychain)
+NGROK_AUTHTOKEN="$(security find-generic-password \
+  -s ngrok -a authtoken -w 2>/dev/null)" && \
+  export NGROK_AUTHTOKEN
+
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init bash --config ~/.oh-my-posh/themes/mytheme.yaml)"
 fi
+
+# Bind Shift+Enter escape sequences to accept-line so they act like Enter
+# (Ghostty sends these modified key sequences; bash doesn't recognize them).
+bind '"\e[27;2;13~": accept-line'  # xterm modifyOtherKeys format
+bind '"\e[13;2u": accept-line'     # CSI u / kitty format
 
 alias cls=clear
 alias cat='bat --paging=never'
@@ -228,4 +238,68 @@ code() {
     fi
 
     command code "${disable_flags[@]}" "$@"
+}
+
+restart_globalprotect() {
+    local gui_target="gui/$(id -u)"
+    local pangpa_label="com.paloaltonetworks.gp.pangpa"
+    local pangps_label="com.paloaltonetworks.gp.pangps"
+    local pangpa_plist="/Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist"
+    local pangps_plist="/Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist"
+
+    echo "Restarting GlobalProtect..."
+
+    # Stop services (only if loaded)
+    if launchctl list "$pangpa_label" &>/dev/null; then
+        echo "  Stopping $pangpa_label..."
+        sudo launchctl bootout "$gui_target" "$pangpa_plist" 2>/dev/null
+    else
+        echo "  $pangpa_label not loaded, skipping stop"
+    fi
+
+    if launchctl list "$pangps_label" &>/dev/null; then
+        echo "  Stopping $pangps_label..."
+        sudo launchctl bootout "$gui_target" "$pangps_plist" 2>/dev/null
+    else
+        echo "  $pangps_label not loaded, skipping stop"
+    fi
+
+    # Kill lingering processes (only if running)
+    for proc in PanGPA PanGPS GlobalProtect; do
+        if pgrep -x "$proc" &>/dev/null; then
+            echo "  Killing $proc process..."
+            sudo pkill -x "$proc" 2>/dev/null
+        fi
+    done
+
+    echo "  Waiting for cleanup..."
+    sleep 2
+
+    # Start services (only if not already loaded)
+    if ! launchctl list "$pangps_label" &>/dev/null; then
+        echo "  Starting $pangps_label..."
+        sudo launchctl bootstrap "$gui_target" "$pangps_plist"
+    else
+        echo "  $pangps_label already running"
+    fi
+
+    if ! launchctl list "$pangpa_label" &>/dev/null; then
+        echo "  Starting $pangpa_label..."
+        sudo launchctl bootstrap "$gui_target" "$pangpa_plist"
+    else
+        echo "  $pangpa_label already running"
+    fi
+
+    echo "  Waiting for services to initialize..."
+    sleep 2
+
+    # Open app (only if not running)
+    if ! pgrep -x "GlobalProtect" &>/dev/null; then
+        echo "  Opening GlobalProtect app..."
+        open -a /Applications/GlobalProtect.app
+    else
+        echo "  GlobalProtect app already running"
+    fi
+
+    echo "GlobalProtect restart complete."
 }

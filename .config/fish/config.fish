@@ -1,6 +1,7 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 fish_add_path --append ~/.dotnet/tools
 fish_add_path --append ~/.cargo/bin
+fish_add_path --append ~/.local/bin
 set -gx PNPM_HOME "$HOME/Library/pnpm"
 fish_add_path $PNPM_HOME/bin
 set -gx BUN_INSTALL "$HOME/.bun"
@@ -12,8 +13,20 @@ set -l _npm_token (security find-generic-password \
   -s npm-autodesk-token -w 2>/dev/null)
 and set -gx NPM_AUTODESK_TOKEN $_npm_token
 
+# ngrok auth token (from Keychain)
+set -l _ngrok_token (security find-generic-password \
+  -s ngrok -a authtoken -w 2>/dev/null)
+and set -gx NGROK_AUTHTOKEN $_ngrok_token
+
 if test "$TERM_PROGRAM" != "Apple_Terminal"
     oh-my-posh init fish --config ~/.oh-my-posh/themes/mytheme.yaml | source
+end
+
+# Bind Shift+Enter escape sequences to accept the line like Enter
+# (Ghostty sends these modified key sequences).
+function fish_user_key_bindings
+    bind \e\[27\;2\;13~ "commandline -f execute"  # xterm modifyOtherKeys
+    bind \e\[13\;2u "commandline -f execute"       # CSI u / kitty format
 end
 
 alias cls=clear
@@ -52,6 +65,7 @@ set -gx FZF_ALT_C_OPTS "--preview 'eza --tree --level=2 --icons --color=always {
 
 zoxide init fish | source
 direnv hook fish | source
+fzf --fish | source
 pyenv init - | source
 
 if status is-interactive
