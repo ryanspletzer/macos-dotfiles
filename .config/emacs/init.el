@@ -30,6 +30,11 @@
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
 
+;; ~/.cargo/bin holds cargo-installed tools (e.g. emacs-lsp-booster) and is not
+;; on the login-shell PATH. Add it here, early, so later `executable-find'
+;; guards (e.g. eglot-booster) can see those binaries.
+(add-to-list 'exec-path (expand-file-name "~/.cargo/bin"))
+
 ;; =========================================================================
 ;; 3. Core editor
 ;; =========================================================================
@@ -228,18 +233,34 @@
 ;; =========================================================================
 ;; 8. LSP (eglot — built-in)
 ;; =========================================================================
-;; Server installation (do these externally):
-;;   TypeScript:  npm i -g typescript-language-server typescript
-;;   Go:          go install golang.org/x/tools/gopls@latest
-;;   Python:      pip install python-lsp-server   (or pipx)
-;;   Bash:        npm i -g bash-language-server
-;;   YAML:        npm i -g yaml-language-server
-;;   JSON:        npm i -g vscode-langservers-extracted
-;;   Lua:         brew install lua-language-server
-;;   Ruby:        gem install solargraph
-;;   Rust:        rustup component add rust-analyzer
-;;   C#:          dotnet tool install -g csharp-ls
-;;   Dockerfile:  npm i -g dockerfile-language-server-nodejs
+;; Server installation — Homebrew for everything with a formula, so updates
+;; are a single `brew upgrade`:
+;;   brew install \
+;;     typescript-language-server bash-language-server yaml-language-server \
+;;     vscode-langservers-extracted dockerfile-language-server prettier \
+;;     gopls ruby-lsp basedpyright lua-language-server taplo marksman \
+;;     rust-analyzer
+;;   ruff / markdownlint-cli2 / yamllint / shellcheck: already installed.
+;;   C#:          dotnet tool install -g csharp-ls  (no brew formula; only if needed)
+;;   PowerShell:  run ~/.config/emacs/update-pses.sh (PSES from GitHub release)
+
+;; PowerShell Editor Services launcher (installed by update-pses.sh).
+;; PSES is not a plain stdio binary; it bootstraps via Start-EditorServices.ps1.
+(defun my/eglot-pses-contact (_interactive &rest _)
+  "Return the command eglot uses to launch PSES over stdio."
+  (let* ((bundle (expand-file-name "powershell-editor-services"
+                                   user-emacs-directory))
+         (start  (expand-file-name
+                  "PowerShellEditorServices/Start-EditorServices.ps1" bundle))
+         (session (make-temp-file "pses-session" nil ".json"))
+         (log    (expand-file-name "pses.log" temporary-file-directory)))
+    (list "pwsh" "-NoLogo" "-NoProfile" "-File" start
+          "-HostName" "Emacs" "-HostProfileId" "Emacs" "-HostVersion" "1.0.0"
+          "-BundledModulesPath" bundle
+          "-SessionDetailsPath" session
+          "-LogPath" log "-LogLevel" "Normal"
+          "-Stdio")))
+
 (use-package eglot
   :ensure nil  ; built-in
   :hook ((typescript-ts-mode . eglot-ensure)
@@ -255,7 +276,28 @@
          (ruby-ts-mode       . eglot-ensure)
          (rust-ts-mode       . eglot-ensure)
          (csharp-ts-mode     . eglot-ensure)
-         (dockerfile-ts-mode . eglot-ensure)))
+         (dockerfile-ts-mode . eglot-ensure)
+         (toml-ts-mode       . eglot-ensure)
+         (markdown-mode      . eglot-ensure)
+         (powershell-mode    . eglot-ensure))
+  :config
+  ;; Prefer basedpyright + ruby-lsp over eglot's older defaults, and register
+  ;; servers eglot doesn't ship out of the box (taplo, marksman, PSES).
+  (add-to-list 'eglot-server-programs
+               '(python-ts-mode "basedpyright-langserver" "--stdio"))
+  (add-to-list 'eglot-server-programs
+               '(ruby-ts-mode "ruby-lsp"))
+  (add-to-list 'eglot-server-programs
+               '(toml-ts-mode "taplo" "lsp" "stdio"))
+  (add-to-list 'eglot-server-programs
+               '(markdown-mode "marksman"))
+  (add-to-list 'eglot-server-programs
+               (cons 'powershell-mode #'my/eglot-pses-contact))
+  ;; YAML: enable SchemaStore so GitHub Actions, Ansible, compose, markdownlint
+  ;; configs, etc. get schema validation + completion automatically. Other
+  ;; servers ignore the :yaml section.
+  (setq-default eglot-workspace-configuration
+                '(:yaml (:schemaStore (:enable t) :validate t :completion t))))
 
 ;; =========================================================================
 ;; 9. Tree-sitter
@@ -340,8 +382,13 @@
 (use-package apheleia
   :config
   (apheleia-global-mode 1)
-  ;; Disable for modes without a reliable formatter.
-  (dolist (mode '(css-mode css-ts-mode scss-mode powershell-mode))
+  ;; Python: ruff for import-sort + format (black/isort are not installed).
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
+  ;; Disable for modes without a reliable formatter, or where formatting would
+  ;; fight our conventions. Markdown is linted/fixed via markdownlint-cli2
+  ;; instead (prettier would reflow prose and break semantic line breaks).
+  (dolist (mode '(css-mode css-ts-mode scss-mode powershell-mode
+                  markdown-mode gfm-mode))
     (setf (alist-get mode apheleia-mode-alist) nil)))
 
 ;; =========================================================================
@@ -387,10 +434,38 @@
 ;; Dockerfile
 (use-package dockerfile-mode)
 
+;; TOML (pyproject.toml, etc.) — ensure the tree-sitter mode is used so the
+;; taplo eglot hook fires.
+(add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
+
+;; YAML stylistic linting (yamllint) layered on the schema validation the LSP
+;; already provides.
+(use-package flymake-yamllint
+  :hook (yaml-ts-mode . flymake-yamllint-setup))
+
 ;; Markdown
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode)
-  :hook (markdown-mode . visual-line-mode))
+  :hook ((markdown-mode . visual-line-mode)
+         (markdown-mode . flymake-mode)))
+
+;; Live markdownlint diagnostics (reads the project's .markdownlint.yaml via the
+;; `markdownlint' CLI). markdownlint-cli2 stays canonical for save/CI; this is
+;; editor-only feedback. C-c C-l runs `markdownlint-cli2 --fix' on the file.
+(use-package flymake-markdownlint
+  :hook (markdown-mode . flymake-markdownlint-setup))
+
+(defun my/markdownlint-fix ()
+  "Run `markdownlint-cli2 --fix' on the current file, then revert the buffer."
+  (interactive)
+  (unless (and buffer-file-name (derived-mode-p 'markdown-mode))
+    (user-error "Not visiting a Markdown file"))
+  (save-buffer)
+  (call-process "markdownlint-cli2" nil nil nil "--fix" buffer-file-name)
+  (revert-buffer :ignore-auto :noconfirm))
+
+(with-eval-after-load 'markdown-mode
+  (define-key markdown-mode-map (kbd "C-c C-l") #'my/markdownlint-fix))
 
 ;; Org — disable line numbers
 (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
@@ -403,6 +478,39 @@
   :custom
   (vterm-max-scrollback 10000)
   (vterm-always-compile-module t))
+
+;; =========================================================================
+;; 16.7. Tree-sitter power tools & LSP performance
+;; =========================================================================
+;; Structural navigation/editing driven by tree-sitter (move by syntax node,
+;; drag/swap nodes, expand selection by AST). Prefix: C-c o.
+(use-package combobulate
+  :vc (:url "https://github.com/mickeynp/combobulate" :rev :newest)
+  :custom (combobulate-key-prefix "C-c o")
+  :hook ((python-ts-mode     . combobulate-mode)
+         (js-ts-mode         . combobulate-mode)
+         (typescript-ts-mode . combobulate-mode)
+         (tsx-ts-mode        . combobulate-mode)
+         (json-ts-mode       . combobulate-mode)
+         (yaml-ts-mode       . combobulate-mode)
+         (go-ts-mode         . combobulate-mode)
+         (css-ts-mode        . combobulate-mode)))
+
+;; Code folding via tree-sitter nodes (only activates where a parser exists).
+(use-package treesit-fold
+  :init (global-treesit-fold-mode 1))
+
+;; Speed up eglot by proxying LSP JSON through emacs-lsp-booster. The
+;; `eglot-booster-mode' call is guarded, so this no-ops cleanly until the
+;; binary is on PATH. Binary options:
+;;   - prebuilt x86_64 release (runs via Rosetta), or
+;;   - native build: rustup default stable && cargo install emacs-lsp-booster
+(use-package eglot-booster
+  :vc (:url "https://github.com/jdtsmith/eglot-booster" :rev :newest)
+  :after eglot
+  :config
+  (when (executable-find "emacs-lsp-booster")
+    (eglot-booster-mode)))
 
 ;; =========================================================================
 ;; 17. Keybindings / window management
