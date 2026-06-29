@@ -21,6 +21,10 @@
 !/.config
 /.config/*
 !/.config/fish
+# Fisher-managed plugin files (regenerated from fish_plugins via `fisher update`)
+/.config/fish/functions/*
+/.config/fish/completions/*
+/.config/fish/conf.d/nvm.fish
 !/.config/ghostty
 !/.config/kitty
 !/.config/nvim
