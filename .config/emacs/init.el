@@ -241,8 +241,9 @@
 ;;     gopls ruby-lsp basedpyright lua-language-server taplo marksman \
 ;;     rust-analyzer
 ;;   ruff / markdownlint-cli2 / yamllint / shellcheck: already installed.
-;;   C#:          dotnet tool install -g csharp-ls  (no brew formula; only if needed)
-;;   PowerShell:  run ~/.config/emacs/update-pses.sh (PSES from GitHub release)
+;;   C#:          dotnet tool install -g csharp-ls   (no brew formula; ~/.dotnet/tools)
+;;   PowerShell:  run ~/.config/emacs/update-pses.sh (PSES from GitHub release;
+;;                bundles PSScriptAnalyzer for lint diagnostics)
 
 ;; PowerShell Editor Services launcher (installed by update-pses.sh).
 ;; PSES is not a plain stdio binary; it bootstraps via Start-EditorServices.ps1.
