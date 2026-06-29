@@ -561,7 +561,7 @@ function Get-MgUserDirectReportTransitive {
     end {}
 }
 
-function Start-EmacsDaemonless {
+function Start-Emacs {
     [CmdletBinding()]
     param (
         [Parameter(ValueFromRemainingArguments)]
@@ -572,7 +572,54 @@ function Start-EmacsDaemonless {
     begin {}
 
     process {
-        Start-Process -FilePath emacs -ArgumentList $Arguments
+        # Start-Process uses .NET's [Environment]::CurrentDirectory, which does
+        # not track PowerShell's location. Pass -WorkingDirectory explicitly so
+        # Emacs (and Treemacs) open rooted at the current directory.
+        $startParams = @{
+            FilePath         = 'emacs'
+            WorkingDirectory = $PWD.Path
+        }
+        if ($Arguments) {
+            $startParams['ArgumentList'] = $Arguments
+        }
+        Start-Process @startParams
+    }
+
+    end {}
+}
+
+function Open-EmacsClient {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        # Open a GUI frame on the Emacs daemon, starting one if none is running
+        # (--alternate-editor='').
+        emacsclient --create-frame --no-wait --alternate-editor='' @Arguments
+    }
+
+    end {}
+}
+
+function Open-EmacsClientTerminal {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {}
+
+    process {
+        # Open a terminal frame on the Emacs daemon, starting one if needed.
+        emacsclient --tty --alternate-editor='' @Arguments
     }
 
     end {}
@@ -730,7 +777,9 @@ New-Alias -Name syncremote -Value Sync-GitRemote
 New-Alias -Name finder -Value Open-Finder
 New-Alias -Name textedit -Value Open-TextEdit
 New-Alias -Name caf -Value Start-Caffeination
-New-Alias -Name emacsd -Value Start-EmacsDaemonless
+New-Alias -Name emacsd -Value Start-Emacs
+New-Alias -Name ec -Value Open-EmacsClient
+New-Alias -Name et -Value Open-EmacsClientTerminal
 New-Alias -Name gd -Value Get-GitDiff
 New-Alias -Name gdc -Value Get-GitDiffColored
 New-Alias -Name gs -Value Get-GitStatus
@@ -754,7 +803,9 @@ Export-ModuleMember -Function @(
     'Get-MgAccessTokenDelegated',
     'Connect-MgGraphWithAccessToken',
     'Get-MgUserDirectReportTransitive',
-    'Start-EmacsDaemonless',
+    'Start-Emacs',
+    'Open-EmacsClient',
+    'Open-EmacsClientTerminal',
     'Get-GitDiff',
     'Get-GitDiffColored',
     'Get-GitStatus',
@@ -767,6 +818,8 @@ Export-ModuleMember -Function @(
     'textedit',
     'caf',
     'emacsd',
+    'ec',
+    'et',
     'gd',
     'gdc',
     'gs',

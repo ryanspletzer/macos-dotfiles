@@ -40,7 +40,9 @@ chruby ruby-3.4.1
 
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
-emacsd() { emacs "$@" & disown; }
+emacsd() { emacs "$@" & disown; }                 # standalone GUI Emacs
+ec() { emacsclient -c -n -a "" "$@"; }            # GUI frame on the daemon (starts it if needed)
+et() { emacsclient -t -a "" "$@"; }               # terminal frame on the daemon
 
 alias gd='git diff'
 alias gdc='git diff --color=always'

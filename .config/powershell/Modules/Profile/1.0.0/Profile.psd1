@@ -29,7 +29,7 @@
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
         'Open-GitRemoteUrl',
-        'Sync-GitOriginRemoteFromUpstream',
+        'Sync-GitRemote',
         'Get-TypeAccelerators',
         'Open-Finder',
         'Open-TextEdit',
@@ -42,7 +42,15 @@
         'Start-Caffeination',
         'Get-MgAccessTokenDelegated',
         'Connect-MgGraphWithAccessToken',
-        'Get-MgUserDirectReportTransitive'
+        'Get-MgUserDirectReportTransitive',
+        'Start-Emacs',
+        'Open-EmacsClient',
+        'Open-EmacsClientTerminal',
+        'Get-GitDiff',
+        'Get-GitDiffColored',
+        'Get-GitStatus',
+        'Get-GitStatusColored',
+        'Open-VSCode'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -56,8 +64,16 @@
         'openremote',
         'syncremote',
         'finder',
-        'TextEdit',
-        'caf'
+        'textedit',
+        'caf',
+        'emacsd',
+        'ec',
+        'et',
+        'gd',
+        'gdc',
+        'gs',
+        'gsc',
+        'code'
     )
 
     # DSC resources to export from this module

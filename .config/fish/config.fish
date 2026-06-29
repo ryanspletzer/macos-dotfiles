@@ -28,9 +28,17 @@ chruby ruby-3.4.1
 
 alias pwsh='pwsh -NoLogo'
 alias finder='open -a finder'
-function emacsd
+function emacsd  # standalone GUI Emacs
     emacs $argv &
     disown
+end
+
+function ec  # GUI frame on the Emacs daemon (starts it if needed)
+    emacsclient -c -n -a "" $argv
+end
+
+function et  # terminal frame on the Emacs daemon
+    emacsclient -t -a "" $argv
 end
 
 alias gd='git diff'
