@@ -356,8 +356,16 @@
 
 ;; Sidebar file tree (like VS Code explorer / neo-tree)
 (use-package treemacs
+  :preface
+  (defun my/treemacs-show-project ()
+    "Display Treemacs for the current buffer's project without stealing focus.
+Used on both standalone startup and emacsclient frame creation so the
+tree appears for `ec' frames the same way it does for `emacsd'."
+    (save-selected-window
+      (ignore-errors (treemacs-add-and-display-current-project-exclusively))))
   :bind ("C-c f" . treemacs)
-  :hook (emacs-startup . treemacs-add-and-display-current-project-exclusively)
+  :hook ((emacs-startup           . my/treemacs-show-project)
+         (server-after-make-frame . my/treemacs-show-project))
   :custom
   (treemacs-width 35)
   (treemacs-follow-mode t)
