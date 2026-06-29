@@ -582,6 +582,7 @@ function Start-Emacs {
         if ($Arguments) {
             $startParams['ArgumentList'] = $Arguments
         }
+
         Start-Process @startParams
     }
 
@@ -771,12 +772,92 @@ function Open-VSCode {
     end {}
 }
 
+function Restart-GlobalProtect {
+    [CmdletBinding()]
+    param ()
+
+    begin {}
+
+    process {
+        $guiTarget   = "gui/$(id -u)"
+        $pangpaLabel = 'com.paloaltonetworks.gp.pangpa'
+        $pangpsLabel = 'com.paloaltonetworks.gp.pangps'
+        $pangpaPlist = '/Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist'
+        $pangpsPlist = '/Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist'
+
+        Write-Host 'Restarting GlobalProtect...'
+
+        # Stop services (only if loaded)
+        launchctl list $pangpaLabel *> $null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "  Stopping $pangpaLabel..."
+            sudo launchctl bootout $guiTarget $pangpaPlist 2> $null
+        } else {
+            Write-Host "  $pangpaLabel not loaded, skipping stop"
+        }
+
+        launchctl list $pangpsLabel *> $null
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "  Stopping $pangpsLabel..."
+            sudo launchctl bootout $guiTarget $pangpsPlist 2> $null
+        } else {
+            Write-Host "  $pangpsLabel not loaded, skipping stop"
+        }
+
+        # Kill lingering processes (only if running)
+        foreach ($proc in 'PanGPA', 'PanGPS', 'GlobalProtect') {
+            pgrep -x $proc *> $null
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "  Killing $proc process..."
+                sudo pkill -x $proc 2> $null
+            }
+        }
+
+        Write-Host '  Waiting for cleanup...'
+        Start-Sleep -Seconds 2
+
+        # Start services (only if not already loaded)
+        launchctl list $pangpsLabel *> $null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  Starting $pangpsLabel..."
+            sudo launchctl bootstrap $guiTarget $pangpsPlist
+        } else {
+            Write-Host "  $pangpsLabel already running"
+        }
+
+        launchctl list $pangpaLabel *> $null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  Starting $pangpaLabel..."
+            sudo launchctl bootstrap $guiTarget $pangpaPlist
+        } else {
+            Write-Host "  $pangpaLabel already running"
+        }
+
+        Write-Host '  Waiting for services to initialize...'
+        Start-Sleep -Seconds 2
+
+        # Open app (only if not running)
+        pgrep -x GlobalProtect *> $null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host '  Opening GlobalProtect app...'
+            open -a /Applications/GlobalProtect.app
+        } else {
+            Write-Host '  GlobalProtect app already running'
+        }
+
+        Write-Host 'GlobalProtect restart complete.'
+    }
+
+    end {}
+}
+
 # Create aliases
 New-Alias -Name openremote -Value Open-GitRemoteUrl
 New-Alias -Name syncremote -Value Sync-GitRemote
 New-Alias -Name finder -Value Open-Finder
 New-Alias -Name textedit -Value Open-TextEdit
 New-Alias -Name caf -Value Start-Caffeination
+New-Alias -Name restart_globalprotect -Value Restart-GlobalProtect
 New-Alias -Name emacsd -Value Start-Emacs
 New-Alias -Name ec -Value Open-EmacsClient
 New-Alias -Name et -Value Open-EmacsClientTerminal
@@ -810,7 +891,8 @@ Export-ModuleMember -Function @(
     'Get-GitDiffColored',
     'Get-GitStatus',
     'Get-GitStatusColored',
-    'Open-VSCode'
+    'Open-VSCode',
+    'Restart-GlobalProtect'
 ) -Alias @(
     'openremote',
     'syncremote',
@@ -824,5 +906,6 @@ Export-ModuleMember -Function @(
     'gdc',
     'gs',
     'gsc',
-    'code'
+    'code',
+    'restart_globalprotect'
 )

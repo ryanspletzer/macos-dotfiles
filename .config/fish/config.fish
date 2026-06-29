@@ -229,3 +229,67 @@ function code --wraps code --description 'Launch VS Code with selective extensio
 
     command code $disable_flags $argv
 end
+
+function restart_globalprotect
+    set -l gui_target "gui/"(id -u)
+    set -l pangpa_label com.paloaltonetworks.gp.pangpa
+    set -l pangps_label com.paloaltonetworks.gp.pangps
+    set -l pangpa_plist /Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist
+    set -l pangps_plist /Library/LaunchAgents/com.paloaltonetworks.gp.pangps.plist
+
+    echo "Restarting GlobalProtect..."
+
+    # Stop services (only if loaded)
+    if launchctl list "$pangpa_label" >/dev/null 2>&1
+        echo "  Stopping $pangpa_label..."
+        sudo launchctl bootout "$gui_target" "$pangpa_plist" 2>/dev/null
+    else
+        echo "  $pangpa_label not loaded, skipping stop"
+    end
+
+    if launchctl list "$pangps_label" >/dev/null 2>&1
+        echo "  Stopping $pangps_label..."
+        sudo launchctl bootout "$gui_target" "$pangps_plist" 2>/dev/null
+    else
+        echo "  $pangps_label not loaded, skipping stop"
+    end
+
+    # Kill lingering processes (only if running)
+    for proc in PanGPA PanGPS GlobalProtect
+        if pgrep -x "$proc" >/dev/null 2>&1
+            echo "  Killing $proc process..."
+            sudo pkill -x "$proc" 2>/dev/null
+        end
+    end
+
+    echo "  Waiting for cleanup..."
+    sleep 2
+
+    # Start services (only if not already loaded)
+    if not launchctl list "$pangps_label" >/dev/null 2>&1
+        echo "  Starting $pangps_label..."
+        sudo launchctl bootstrap "$gui_target" "$pangps_plist"
+    else
+        echo "  $pangps_label already running"
+    end
+
+    if not launchctl list "$pangpa_label" >/dev/null 2>&1
+        echo "  Starting $pangpa_label..."
+        sudo launchctl bootstrap "$gui_target" "$pangpa_plist"
+    else
+        echo "  $pangpa_label already running"
+    end
+
+    echo "  Waiting for services to initialize..."
+    sleep 2
+
+    # Open app (only if not running)
+    if not pgrep -x "GlobalProtect" >/dev/null 2>&1
+        echo "  Opening GlobalProtect app..."
+        open -a /Applications/GlobalProtect.app
+    else
+        echo "  GlobalProtect app already running"
+    end
+
+    echo "GlobalProtect restart complete."
+end

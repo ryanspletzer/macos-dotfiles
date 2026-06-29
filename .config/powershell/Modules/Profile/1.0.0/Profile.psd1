@@ -50,7 +50,8 @@
         'Get-GitDiffColored',
         'Get-GitStatus',
         'Get-GitStatusColored',
-        'Open-VSCode'
+        'Open-VSCode',
+        'Restart-GlobalProtect'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -73,7 +74,8 @@
         'gdc',
         'gs',
         'gsc',
-        'code'
+        'code',
+        'restart_globalprotect'
     )
 
     # DSC resources to export from this module
