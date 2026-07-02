@@ -26,13 +26,8 @@ everything else out of git.
   (origin = fork, upstream = parent)
 - pyenv auto-activation depends on `.python-version` files
   in project directories
-- **Never use bare `pip install` or `pip3 install`** — the system Python is
-  externally managed (PEP 668) and Homebrew-owned.
-  Use `uv pip install` (inside a venv), `uv add` (for project dependencies),
-  or `uv tool install` / `uvx` (for standalone CLI tools) instead.
-  **Never use `pipx`** — use `uvx` (replaces `pipx run`) or
-  `uv tool install` (replaces `pipx install`).
-  PreToolUse hooks enforce both rules.
+- Python packaging rules (never bare `pip`/`pipx`, use `uv`/`uvx`) live in
+  the global `~/AGENTS.md`, since they apply machine-wide, not just here
 - For detailed reference on all tracked configs (shell, git, tmux, nvim,
   VS Code, Zed, PowerShell, dev environment), invoke the
   `/dotfiles-reference` skill.
