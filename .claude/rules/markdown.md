@@ -17,3 +17,12 @@ paths:
   - Never break within a hyphenated word
   - These breaks are for source readability and diffs only;
     they must not change rendered output
+
+## Running markdownlint-cli2
+
+markdownlint-cli2 discovers config only from the linted file's directory up to
+the current working directory — never above the directory it is invoked from.
+So run it from the directory that holds `.markdownlint.yaml`
+(usually the repo root), or pass `--config <path-to>/.markdownlint.yaml`.
+Linting from a subdirectory whose config lives higher up silently falls back to
+the built-in default `line_length: 80` and can wrap lines to the wrong width.
