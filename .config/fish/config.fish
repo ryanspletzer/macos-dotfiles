@@ -87,10 +87,11 @@ function sync_git_remote
         return 1
     end
 
+    set -l pull_remote
     if git remote get-url upstream >/dev/null 2>&1
-        set -l pull_remote upstream
+        set pull_remote upstream
     else
-        set -l pull_remote origin
+        set pull_remote origin
     end
 
     set -l trunk ""
