@@ -83,6 +83,7 @@
 !/.zshrc
 !/.npmrc
 !/bunfig.toml
+!/AGENTS.md
 !/CLAUDE.md
 !/git
 /git/*
