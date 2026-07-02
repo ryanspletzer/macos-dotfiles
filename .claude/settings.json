@@ -7,7 +7,6 @@
       "~/.gnupg"
     ]
   },
-  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
