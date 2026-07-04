@@ -14,6 +14,14 @@ and use semantic line breaks (one sentence per line).
 Full conventions live in `~/.claude/rules/markdown.md`,
 loaded automatically when working with existing `.md` files.
 
+## Model delegation
+
+For coding tasks, use your judgement to delegate implementation work
+to a subagent on an appropriately lower-power model:
+`sonnet` for substantive implementation, `haiku` for trivial or mechanical edits.
+Keep design, review, auditing, and synthesis in the main loop.
+Rationale and cost context live in `~/.claude/cost-optimization.md`.
+
 ## Python packaging
 
 Never use bare `pip install` or `pip3 install` —

@@ -17,9 +17,20 @@ trust a command's output over any number written here.
 
 ## Default model & escalation
 
-Policy: the global default should be pinned to **Sonnet** in `~/.claude/settings.json`.
-Sonnet handles ~90% of coding tasks well at a fraction of Opus token cost.
-Escalate only when the task warrants it:
+Two viable strategies, differing in where the expensive model sits:
+
+1. **Sonnet-default, escalate up** — pin the global default to Sonnet
+   (handles ~90% of coding tasks at a fraction of Opus/Fable token cost)
+   and raise the model only for the hard step.
+2. **Top-tier main loop, delegate down** — pin the default to Fable/Opus
+   so judgment, design, and review get the strongest model,
+   and delegate implementation work to Sonnet/Haiku subagents
+   (the always-on rule lives in `~/AGENTS.md` under "Model delegation";
+   pattern via Simon Willison's
+   [Judgement](https://simonwillison.net/2026/Jul/3/judgement/) post).
+
+Strategy 2 is current policy.
+Either way, escalation/de-escalation stays narrow:
 
 - `/model opus` — switch the current session to Opus for hard architecture or multi-step reasoning.
 - `/fast` — when on Opus, faster output (still Opus, not a downgrade); UX, not a cost lever.
@@ -71,6 +82,8 @@ only do it if the scripts need to share setup work or coordinate with each other
 
 ## Subagents
 
+- Implementation work is delegated to lower-tier subagents by judgement
+  (see "Default model & escalation" above; the rule itself is in `~/AGENTS.md`).
 - Delegate verbose operations (test runs, log scans, doc fetches) to subagents
   so bulky output stays in the subagent's context and only a summary returns to the main thread.
 - Custom agents pin their tier in frontmatter (`model: sonnet|opus|haiku|inherit`).
