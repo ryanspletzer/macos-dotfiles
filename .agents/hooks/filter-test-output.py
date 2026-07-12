@@ -61,7 +61,7 @@ FAIL_PATTERN = (
     r"=+ .*(failed|error))"
 )
 
-log = "/tmp/claude-test-$$.log"
+log = "/tmp/agent-test-$$.log"
 new_command = (
     f'( {cmd} ) > "{log}" 2>&1; __rc=$?; '
     f"grep -nE -A3 '{FAIL_PATTERN}' \"{log}\" | head -200; "

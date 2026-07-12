@@ -14,7 +14,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/approve-variants.py"
+            "command": "python3 ~/.agents/hooks/approve-variants.py"
           }
         ]
       },
@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/check-uv-pytest.py"
+            "command": "python3 ~/.agents/hooks/check-uv-pytest.py"
           }
         ]
       },
@@ -32,7 +32,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/check-uv-venv.py"
+            "command": "python3 ~/.agents/hooks/check-uv-venv.py"
           }
         ]
       },
@@ -41,7 +41,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/check-pip-install.py"
+            "command": "python3 ~/.agents/hooks/check-pip-install.py"
           }
         ]
       },
@@ -50,7 +50,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/check-pipx.py"
+            "command": "python3 ~/.agents/hooks/check-pipx.py"
           }
         ]
       },
@@ -59,7 +59,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/filter-test-output.py"
+            "command": "python3 ~/.agents/hooks/filter-test-output.py"
           }
         ]
       }

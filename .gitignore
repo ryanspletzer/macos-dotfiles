@@ -1,4 +1,11 @@
 /*
+!/.agents
+/.agents/*
+!/.agents/hooks
+/.agents/hooks/__pycache__
+!/.agents/skills
+/.agents/skills/*
+!/.agents/skills/dotfiles-reference
 !/.bash_profile
 !/.bashrc
 !/.claude
@@ -8,8 +15,6 @@
 !/.claude/vscode-base-extensions.md
 !/.claude/rules
 !/.claude/.markdownlint.yaml
-!/.claude/hooks
-/.claude/hooks/__pycache__
 !/.claude/plugin-manifest.json
 !/.claude/scripts
 !/.claude/keybindings.json

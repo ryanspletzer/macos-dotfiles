@@ -1,4 +1,4 @@
-"""Shared utilities for Claude Code PreToolUse enforcement hooks."""
+"""Shared utilities for agent-CLI PreToolUse enforcement hooks."""
 
 import re
 
