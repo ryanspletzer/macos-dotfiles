@@ -1,6 +1,11 @@
 {
   "version": 1,
   "hooks": {
+    "sessionStart": [
+      {
+        "command": "python3 ../.agents/hooks/adapters/cursor-session-context.py"
+      }
+    ],
     "beforeShellExecution": [
       {
         "command": "python3 ../.agents/hooks/adapters/cursor-shell-gate.py"

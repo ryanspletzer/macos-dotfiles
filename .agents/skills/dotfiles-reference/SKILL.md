@@ -84,6 +84,8 @@ Claude Code, OpenAI Codex CLI, Cursor CLI, and GitHub Copilot CLI.
     full output and surface only failures + summary
   - `adapters/cursor-shell-gate.py`, `adapters/cursor-filter-tests.py` -
     bridge the shared scripts to Cursor's hook dialect
+  - `adapters/cursor-session-context.py` - injects `~/AGENTS.md` into
+    Cursor sessions as context (sessionStart hook)
 - `.agents/skills/dotfiles-reference/` - this skill; symlinked into
   `.claude/skills/`, `.codex/skills/`, `.cursor/skills/`
   (Copilot reads `~/.agents/skills/` natively)
@@ -94,12 +96,15 @@ Claude Code, OpenAI Codex CLI, Cursor CLI, and GitHub Copilot CLI.
 | ---- | ------------ | ----- | ------ |
 | Claude Code | `.claude/CLAUDE.md` imports `@~/AGENTS.md` | `settings.json` → `.agents/hooks/` | Morse / Ping |
 | Codex CLI | `.codex/AGENTS.md` → `~/AGENTS.md` | `.codex/hooks.json` → `.agents/hooks/` | Glass / Tink |
-| Cursor CLI | `.cursor/rules/global-conventions.mdc` (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
+| Cursor CLI | sessionStart hook injects `~/AGENTS.md` (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
 | Copilot CLI | `copilot-instructions.md` → `~/AGENTS.md` + `instructions/` | none (instruction-only) | n/a |
 
-Cursor note: the CLI does not yet inject disk-based user rules —
-paste the rule body into Cursor Settings → Rules (account User Rules);
-enforcement still works via hooks regardless.
+Cursor note: disk-based `~/.cursor/rules/` loading is bugged
+(confirmed by Cursor staff, 2026-04) and account User Rules are not
+source-controllable, so `adapters/cursor-session-context.py` injects
+`~/AGENTS.md` as session context via the sessionStart hook instead —
+fully git-tracked and identical across accounts/machines.
+If Cursor fixes disk-based user rules, that can replace the hook.
 Sounds are stop / attention (Cursor's attention sound plays on deny).
 
 Cursor's `.cursor/.gitignore` is Cursor-managed;
