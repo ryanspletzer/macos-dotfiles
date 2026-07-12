@@ -28,6 +28,11 @@ everything else out of git.
   in project directories
 - Python packaging rules (never bare `pip`/`pipx`, use `uv`/`uvx`) live in
   the global `~/AGENTS.md`, since they apply machine-wide, not just here
+- `~/AGENTS.md` is the tool-neutral instruction core shared by four agent
+  CLIs (Claude Code, Codex, Cursor, Copilot);
+  `~/.agents/` holds the shared enforcement hooks and skills.
+  Per-tool wiring lives in `.claude/`, `.codex/`, `.cursor/`, `.copilot/` —
+  details in the `/dotfiles-reference` skill
 - For detailed reference on all tracked configs (shell, git, tmux, nvim,
   VS Code, Zed, PowerShell, dev environment), invoke the
   `/dotfiles-reference` skill.
