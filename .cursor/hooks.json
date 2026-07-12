@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "command": "python3 ../.agents/hooks/adapters/cursor-shell-gate.py"
+      }
+    ],
+    "preToolUse": [
+      {
+        "matcher": "Shell",
+        "command": "python3 ../.agents/hooks/adapters/cursor-filter-tests.py"
+      }
+    ],
+    "stop": [
+      {
+        "command": "afplay -v 0.40 /System/Library/Sounds/Submarine.aiff"
+      }
+    ]
+  }
+}

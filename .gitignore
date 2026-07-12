@@ -33,6 +33,14 @@
 !/.codex/skills
 /.codex/skills/*
 !/.codex/skills/dotfiles-reference
+!/.cursor
+/.cursor/*
+!/.cursor/.gitignore
+!/.cursor/hooks.json
+!/.cursor/rules
+!/.cursor/skills
+/.cursor/skills/*
+!/.cursor/skills/dotfiles-reference
 !/.config
 /.config/*
 !/.config/fish

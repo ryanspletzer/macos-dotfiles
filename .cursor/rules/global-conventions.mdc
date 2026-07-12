@@ -1,0 +1,35 @@
+---
+description: >-
+  Global cross-tool conventions (mirrors ~/AGENTS.md — keep in sync).
+  NOTE: as of Cursor CLI 2026.07 user-level rules on disk are NOT injected
+  into sessions; paste this body into Cursor Settings → Rules (account
+  User Rules) for it to take effect. Kept here for when disk-based user
+  rules land. Enforcement is guaranteed separately by ~/.cursor/hooks.json.
+alwaysApply: true
+---
+
+# Global Agent Instructions
+
+## Markdown
+
+When creating or editing any Markdown — including brand-new files —
+the output must pass markdownlint-cli2 (fix issues automatically, never ask)
+and use semantic line breaks (one sentence per line).
+
+## Git workflow
+
+When re-syncing a branch with its base branch,
+always prefer merge commits over rebasing.
+
+## Python packaging
+
+Never use bare `pip install` or `pip3 install` —
+the system Python is externally managed (PEP 668) and Homebrew-owned.
+Use `uv pip install` (inside a venv),
+`uv add` (for project dependencies),
+or `uv tool install` / `uvx` (for standalone CLI tools) instead.
+Never use `pipx` —
+use `uvx` (replaces `pipx run`) or `uv tool install` (replaces `pipx install`).
+Never create virtual environments with `python -m venv` or `virtualenv` —
+use `uv venv`.
+Run pytest via `uv run pytest`, never bare `pytest`.
