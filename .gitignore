@@ -25,6 +25,14 @@
 !/.claude/output-styles
 /.claude/output-styles/*
 !/.claude/output-styles/Concise.md
+!/.codex
+/.codex/*
+!/.codex/AGENTS.md
+!/.codex/hooks.json
+!/.codex/config.toml
+!/.codex/skills
+/.codex/skills/*
+!/.codex/skills/dotfiles-reference
 !/.config
 /.config/*
 !/.config/fish

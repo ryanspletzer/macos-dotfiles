@@ -1,0 +1,55 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.agents/hooks/approve-variants.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.agents/hooks/check-uv-pytest.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.agents/hooks/check-uv-venv.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.agents/hooks/check-pip-install.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.agents/hooks/check-pipx.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.agents/hooks/filter-test-output.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay -v 0.40 /System/Library/Sounds/Glass.aiff"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay -v 0.35 /System/Library/Sounds/Tink.aiff"
+          }
+        ]
+      }
+    ]
+  }
+}

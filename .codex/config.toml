@@ -1,0 +1,15 @@
+model = "gpt-5.4"
+[projects."/Users/rspletzer/git/codex-scratch"]
+trust_level = "trusted"
+
+[projects."/Users/rspletzer/git/anthropic-practice"]
+trust_level = "trusted"
+
+[projects."/Users/rspletzer"]
+trust_level = "trusted"
+
+[notice.model_migrations]
+"gpt-5.3-codex" = "gpt-5.4"
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 1
