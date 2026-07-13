@@ -141,7 +141,11 @@ WRAPPER_PATTERNS = [
     # do (loop body prefix)
     (r"^do\s+", "do"),
     # command (bypass aliases/functions to run actual binary)
-    (r"^command\s+", "command"),
+    # (?!-) so "command -v foo" falls through to its own SAFE_COMMANDS entry
+    (r"^command\s+(?!-)", "command"),
+    # Absolute system bin paths: /bin/ls, /usr/bin/grep, /opt/homebrew/bin/jq
+    # Only the path prefix is stripped — the binary must still match SAFE_COMMANDS
+    (r"^/(usr/(local/)?|opt/homebrew/)?s?bin/", "abs bin path"),
     # time (measure command execution time)
     (r"^time\s+", "time"),
 ]
@@ -314,6 +318,7 @@ SAFE_COMMANDS = [
     # touch (update timestamps, create empty files)
     (r"^touch\b", "touch"),
     # ── Shell builtins & control flow ─────────────────────────────────────
+    (r"^command\s+-v\b", "command -v"),
     (r"^(true|false|exit(\s+\d+)?)$", "shell builtin"),
     (r"^(pkill|kill)\b", "process mgmt"),
     (r"^echo\b", "echo"),
