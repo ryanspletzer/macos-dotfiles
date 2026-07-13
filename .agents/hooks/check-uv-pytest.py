@@ -12,6 +12,8 @@ data = json.load(sys.stdin)
 cmd = data.get("tool_input", {}).get("command", "")
 cmd = strip_quoted_content(cmd)
 
-if re.search(r'\bpytest\b', cmd) and "uv run" not in cmd:
+# (?<![\w./-]) so filenames like check-uv-pytest.py or paths ending in
+# /pytest don't count as invoking the bare pytest command
+if re.search(r'(?<![\w./-])pytest\b', cmd) and "uv run" not in cmd:
     print("Use 'uv run pytest' instead of bare 'pytest'", file=sys.stderr)
     sys.exit(2)
