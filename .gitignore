@@ -3,6 +3,8 @@
 /.agents/*
 !/.agents/hooks
 /.agents/hooks/__pycache__
+/.agents/hooks/.pytest_cache
+/.agents/hooks/tests/__pycache__
 !/.agents/skills
 /.agents/skills/*
 !/.agents/skills/dotfiles-reference
