@@ -56,15 +56,17 @@ Key settings:
 - Git Credential Manager for auth
 - Git LFS enabled
 
-## Claude Code Configuration
+## AI Agent CLI Configuration
 
-`.claude/settings.json`:
+Four agent CLIs share one set of conventions and enforcement assets:
+Claude Code, OpenAI Codex CLI, Cursor CLI, and GitHub Copilot CLI.
 
-- **Plugins enabled**: commit-commands, github, pyright-lsp, typescript-lsp,
-  gopls-lsp, pr-review-toolkit
-- **Status line**: oh-my-posh integration (`oh-my-posh claude`)
-- **Audio notifications**: Morse.aiff on stop, Ping.aiff on notification
-- **Hooks**:
+### Shared assets
+
+- `AGENTS.md` (home root) - tool-neutral instruction core
+  (markdown, git workflow, Python packaging)
+- `.agents/hooks/` - shared PreToolUse enforcement scripts
+  (Claude/Codex hook schema; identical payloads):
   - `_utils.py` - Shared utility module with `strip_quoted_content()`;
     strips heredocs, quoted strings, and comments so enforcement hooks
     only match actual command tokens (not keywords in commit messages,
@@ -78,6 +80,49 @@ Key settings:
     use `uv pip install`, `uv add`, or `uv tool install` instead
   - `check-pipx.py` - Blocks `pipx`;
     use `uvx` (for `pipx run`) or `uv tool install` (for `pipx install`)
+  - `filter-test-output.py` - Rewrites known test-runner commands to log
+    full output and surface only failures + summary
+  - `adapters/cursor-shell-gate.py`, `adapters/cursor-filter-tests.py` -
+    bridge the shared scripts to Cursor's hook dialect
+  - `adapters/cursor-session-context.py` - injects `~/AGENTS.md` into
+    Cursor sessions as context (sessionStart hook)
+- `.agents/skills/dotfiles-reference/` - this skill; symlinked into
+  `.claude/skills/`, `.codex/skills/`, `.cursor/skills/`
+  (Copilot reads `~/.agents/skills/` natively)
+
+### Per-tool wiring
+
+| Tool | Instructions | Hooks | Sounds |
+| ---- | ------------ | ----- | ------ |
+| Claude Code | `.claude/CLAUDE.md` imports `@~/AGENTS.md` | `settings.json` → `.agents/hooks/` | Morse / Ping |
+| Codex CLI | `.codex/AGENTS.md` → `~/AGENTS.md` | `.codex/hooks.json` → `.agents/hooks/` | Glass / Tink |
+| Cursor CLI | sessionStart hook injects `~/AGENTS.md` (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
+| Copilot CLI | `copilot-instructions.md` → `~/AGENTS.md` + `instructions/` | none (instruction-only) | n/a |
+
+Cursor note: disk-based `~/.cursor/rules/` loading is bugged
+(confirmed by Cursor staff, 2026-04) and account User Rules are not
+source-controllable, so `adapters/cursor-session-context.py` injects
+`~/AGENTS.md` as session context via the sessionStart hook instead —
+fully git-tracked and identical across accounts/machines.
+If Cursor fixes disk-based user rules, that can replace the hook.
+Sounds are stop / attention (Cursor's attention sound plays on deny).
+
+Cursor's `.cursor/.gitignore` is Cursor-managed;
+user additions live below the managed block
+(un-ignore `hooks.json`, re-ignore session state).
+Codex requires one-time interactive hook trust (`/hooks` in the TUI)
+after any hook definition change.
+
+### Claude Code specifics
+
+`.claude/settings.json`:
+
+- **Plugins enabled**: commit-commands, markdown-linter-fixer,
+  security-guidance, code-review
+- **Status line**: oh-my-posh integration (`oh-my-posh claude`)
+- **Audio notifications**: Morse.aiff on stop, Ping.aiff on notification
+- **Topic rules**: `.claude/rules/` (markdown, git workflow,
+  VS Code extensions; markdown rule is path-scoped to `**/*.md`)
 
 ### Plugin Portability
 

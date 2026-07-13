@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Claude Code PreToolUse Hook: Compositional Bash Command Approval
+PreToolUse Hook: Compositional Bash Command Approval
+
+Shared across agent CLIs: consumed natively by Claude Code and Codex CLI
+(identical hook schema), and via adapters/cursor-shell-gate.py for Cursor.
 
 PROBLEM
 -------
@@ -29,12 +32,12 @@ Command substitution ($(...) and backticks) is always rejected.
 
 CONFIGURATION
 -------------
-Registered in ~/.claude/settings.json:
+Registered in ~/.claude/settings.json and ~/.codex/hooks.json:
 
     "hooks": {
       "PreToolUse": [{
         "matcher": "Bash",
-        "hooks": [{"type": "command", "command": "python3 ~/.claude/hooks/approve-variants.py"}]
+        "hooks": [{"type": "command", "command": "python3 ~/.agents/hooks/approve-variants.py"}]
       }]
     }
 
@@ -45,7 +48,7 @@ To add new safe commands: Add to SAFE_COMMANDS (regex, name)
 
 DEBUG
 -----
-    echo '{"tool_name": "Bash", "tool_input": {"command": "timeout 30 pytest"}}' | python3 ~/.claude/hooks/approve-variants.py
+    echo '{"tool_name": "Bash", "tool_input": {"command": "timeout 30 pytest"}}' | python3 ~/.agents/hooks/approve-variants.py
 """
 
 import json
