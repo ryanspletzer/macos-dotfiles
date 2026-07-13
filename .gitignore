@@ -10,6 +10,9 @@
 !/.agents/skills/dotfiles-reference
 !/.bash_profile
 !/.bashrc
+!/.checks
+/.checks/__pycache__
+/.checks/.pytest_cache
 !/.claude
 /.claude/*
 !/.claude/CLAUDE.md
