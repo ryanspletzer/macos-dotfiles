@@ -1,4 +1,5 @@
-export GPG_TTY=$(tty)
+GPG_TTY=$(tty)
+export GPG_TTY
 
 # Autodesk Artifactory npm token (from Keychain)
 NPM_AUTODESK_TOKEN="$(security find-generic-password \
@@ -34,8 +35,8 @@ alias lt='eza --tree --level=2 --icons'
 alias openremote='open $(git remote get-url origin)'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
-source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+source "$(brew --prefix)/opt/chruby/share/chruby/chruby.sh"
+source "$(brew --prefix)/opt/chruby/share/chruby/auto.sh"
 chruby ruby-3.4.1
 
 alias pwsh='pwsh -NoLogo'
@@ -84,6 +85,7 @@ sync_git_remote() {
         case $opt in
             b) branch=$OPTARG ;;
             f) force=true ;;
+            *) echo "Usage: sync_git_remote [-b branch] [-f]" >&2; return 1 ;;
         esac
     done
     shift $((OPTIND - 1))
@@ -161,6 +163,7 @@ start_caffeination() {
     while getopts ":s" opt; do
         case $opt in
             s) screensaver=true ;;
+            *) echo "Usage: start_caffeination [-s]" >&2; return 1 ;;
         esac
     done
     shift $((OPTIND - 1))
@@ -242,7 +245,8 @@ code() {
 }
 
 restart_globalprotect() {
-    local gui_target="gui/$(id -u)"
+    local gui_target
+    gui_target="gui/$(id -u)"
     local pangpa_label="com.paloaltonetworks.gp.pangpa"
     local pangps_label="com.paloaltonetworks.gp.pangps"
     local pangpa_plist="/Library/LaunchAgents/com.paloaltonetworks.gp.pangpa.plist"

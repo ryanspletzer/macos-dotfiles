@@ -1,0 +1,3 @@
+# SC1091: files sourced at runtime (brew prefix, nvm, cargo env) are
+# not shellcheck inputs; following them adds noise, not signal
+disable=SC1091

@@ -1,9 +1,10 @@
-"""Syntax and startup smoke tests for the shell configs.
+"""Syntax, lint, and startup smoke tests for the shell configs.
 
-Two layers:
+Three layers:
 
 - syntax: dialect parse checks (bash -n, zsh -n, fish --no-execute)
   over the tracked shell files
+- lint: shellcheck over the bash-dialect files (policy in ~/.shellcheckrc)
 - startup: launch each shell interactively the way a new terminal
   would, and assert exit 0 with no unexpected stderr
 
@@ -66,6 +67,22 @@ def test_zsh_syntax(path):
 def test_fish_syntax(path):
     proc = run(["fish", "--no-execute", path])
     assert proc.returncode == 0, proc.stderr
+
+
+@pytest.mark.parametrize("path", BASH_FILES)
+def test_shellcheck_dotfiles(path):
+    if shutil.which("shellcheck") is None:
+        pytest.skip("shellcheck not installed")
+    proc = run(["shellcheck", "--shell=bash", path])
+    assert proc.returncode == 0, proc.stdout
+
+
+@pytest.mark.parametrize("path", SH_SCRIPTS)
+def test_shellcheck_scripts(path):
+    if shutil.which("shellcheck") is None:
+        pytest.skip("shellcheck not installed")
+    proc = run(["shellcheck", path])  # dialect from each script's shebang
+    assert proc.returncode == 0, proc.stdout
 
 
 # Interactive startup without a tty produces some unavoidable noise;

@@ -100,6 +100,7 @@
 !/.oh-my-posh
 !/.tmux.conf
 !/.profile
+!/.shellcheckrc
 !/.vscode
 /.vscode/*
 !/.vscode/extensions.json
