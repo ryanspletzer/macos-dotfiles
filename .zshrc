@@ -28,7 +28,7 @@ autoload -Uz compinit && compinit
 
 alias cls=clear
 alias cat='bat --paging=never'
-alias ls='eza --icons'
+alias ls='eza --icons=auto'
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
 alias openremote='open $(git remote get-url origin)'
