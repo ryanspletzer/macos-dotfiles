@@ -60,6 +60,11 @@ MUST_STAY_IGNORED = [
     ".env",
     ".envrc",
     ".pgpass",
+    # per-machine Git identity/credentials: gitignored so work email and
+    # enterprise hosts never enter the public tree
+    ".gitconfig.local",
+    ".gitconfig.personal",
+    ".gitconfig.work",
     # agent-CLI state: sessions, auth, machine-local overrides
     ".claude/.credentials.json",
     ".claude/history.jsonl",
@@ -83,6 +88,7 @@ MUST_STAY_TRACKED = [
     ".zshenv",
     ".profile",
     ".gitconfig",
+    ".gitconfig.local.example",
     ".gitignore",
     ".tmux.conf",
     "AGENTS.md",

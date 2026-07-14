@@ -43,9 +43,8 @@ All shells share consistent aliases and functions:
 
 | File | Purpose |
 | ---- | ------- |
-| `.gitconfig` | Main config: GPG signing, push defaults, LFS, credentials |
-| `.gitconfig.personal` | Personal email (conditional include for `~/`) |
-| `.gitconfig.work` | Work email (conditional include for `/Users/spletzr/`) |
+| `.gitconfig` | Main config: GPG signing, push defaults, LFS, credential helper; includes `~/.gitconfig.local` |
+| `.gitconfig.local.example` | Template for the gitignored per-machine `~/.gitconfig.local` (identity + host creds) |
 | `.gitattributes` | LFS patterns, line ending rules |
 | `.gnupg/gpg.conf` | GPG preferences (`no-tty` for non-interactive signing) |
 

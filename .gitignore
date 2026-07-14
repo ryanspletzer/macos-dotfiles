@@ -92,8 +92,7 @@
 /.gnupg/*
 !/.gnupg/gpg-agent.conf
 !/.gnupg/gpg.conf
-!/.gitconfig.personal
-!/.gitconfig.work
+!/.gitconfig.local.example
 !/.github
 !/.gitignore
 !/.hushlogin

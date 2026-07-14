@@ -1,0 +1,22 @@
+# Template for ~/.gitconfig.local — copy this to ~/.gitconfig.local on each
+# machine (the real file is gitignored and never committed).
+#
+# The tracked .gitconfig ends with:
+#     [include]
+#         path = ~/.gitconfig.local
+# so every machine supplies its own identity here. No home-directory paths or
+# usernames are hard-coded in the tracked config, so the same .gitconfig is
+# portable across machines (e.g. personal /Users/you and work /Users/y0u).
+
+[user]
+	email = you@example.com
+
+# Host-specific credential settings live here too (kept out of the public repo).
+# Personal machine usually needs none. On a work machine, add the enterprise
+# host(s), for example:
+#
+# [credential "https://git.example-corp.com"]
+# 	provider = github
+#
+# [credential "https://dev.azure.com"]
+# 	useHttpPath = true
