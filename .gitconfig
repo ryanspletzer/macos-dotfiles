@@ -21,19 +21,13 @@
 [credential]
 	helper =
 	helper = /usr/local/share/gcm-core/git-credential-manager
-[credential "https://dev.azure.com"]
-	useHttpPath = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[includeIf "gitdir:/Users/rspletzer/"]
-	path = ~/.gitconfig.personal
-[includeif "gitdir:/Users/spletzr/"]
-	path = ~/.gitconfig.work
-[credential "https://git.autodesk.com"]
-	provider = github
+[include]
+	path = ~/.gitconfig.local
 [alias]
 	diffc = diff --color=always
 	statusc = -c color.status=always status
