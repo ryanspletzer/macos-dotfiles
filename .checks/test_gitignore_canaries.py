@@ -65,6 +65,9 @@ MUST_STAY_IGNORED = [
     ".gitconfig.local",
     ".gitconfig.personal",
     ".gitconfig.work",
+    # per-machine shell env overrides: never tracked
+    ".zshenv.personal",
+    ".zshenv.work",
     # agent-CLI state: sessions, auth, machine-local overrides
     ".claude/.credentials.json",
     ".claude/history.jsonl",

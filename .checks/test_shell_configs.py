@@ -24,7 +24,7 @@ import pytest
 REPO = Path(__file__).resolve().parent.parent
 
 BASH_FILES = [".bashrc", ".bash_profile", ".profile"]
-ZSH_FILES = [".zshrc", ".zshenv", ".zprofile", ".zshenv.personal", ".zshenv.work"]
+ZSH_FILES = [".zshrc", ".zshenv", ".zprofile"]
 
 
 def tracked(pattern):

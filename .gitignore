@@ -111,8 +111,6 @@
 !/.zed/settings.json
 !/.zprofile
 !/.zshenv
-!/.zshenv.personal
-!/.zshenv.work
 !/.zshrc
 !/.npmrc
 !/bunfig.toml
