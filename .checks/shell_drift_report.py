@@ -105,6 +105,11 @@ INTENTIONAL_ENV = {
     "INFOPATH": "brew shellenv emits a trailing colon in POSIX shells but not fish",
     "NVM_CD_FLAGS": "nvm.sh internal, value differs by shell",
     "NVM_DIR": "bash/zsh use nvm.sh; fish deliberately uses the nvm.fish plugin",
+    # pyenv-virtualenv prompt wiring exists only in bash/zsh; accepted
+    # as-is rather than wired into fish -- uv is the primary Python
+    # workflow now (2026-07), pyenv is legacy
+    "PYENV_VIRTUALENV_DISABLE_PROMPT": "pyenv legacy; not wiring fish (uv era)",
+    "VIRTUAL_ENV_DISABLE_PROMPT": "pyenv legacy; not wiring fish (uv era)",
 }
 
 
