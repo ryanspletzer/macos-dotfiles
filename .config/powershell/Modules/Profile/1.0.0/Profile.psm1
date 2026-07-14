@@ -20,6 +20,10 @@ function Open-GitRemoteUrl {
 
 function Sync-GitRemote {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSPossibleIncorrectUsageOfRedirectionOperator', '',
+        Justification = '2>$null on native git intentionally silences stderr'
+    )]
     param (
         [Parameter(Mandatory = $false)]
         [ValidateNotNullOrEmpty()]
@@ -203,34 +207,7 @@ function Get-ParentItem {
         [Parameter()]
         [ValidateNotNullOrEmpty()]
         [string[]]
-        $Path = @( '.' ),
-
-        [Parameter()]
-        [ValidateNotNullOrEmpty()]
-        [string]
-        $Filter,
-
-        [Parameter()]
-        [ValidateNotNullOrEmpty()]
-        [string[]]
-        $Include,
-
-        [Parameter()]
-        [ValidateNotNullOrEmpty()]
-        [string[]]
-        $Exclude,
-
-        [Parameter()]
-        [switch]
-        $Recurse,
-
-        [Parameter()]
-        [int]
-        $Depth,
-
-        [Parameter()]
-        [switch]
-        $Force
+        $Path = @( '.' )
     )
 
     begin {}
@@ -426,6 +403,10 @@ function Get-MgAccessTokenDelegated {
 
 function Connect-MgGraphWithAccessToken {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSAvoidUsingConvertToSecureStringWithPlainText', '',
+        Justification = 'Connect-MgGraph requires a SecureString; the token arrives as a plaintext parameter'
+    )]
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
@@ -449,6 +430,10 @@ function Connect-MgGraphWithAccessToken {
 function Get-MgUserDirectReportTransitive {
     [CmdletBinding()]
     [OutputType([object[]])]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSAvoidUsingConvertToSecureStringWithPlainText', '',
+        Justification = 'Connect-MgGraph requires a SecureString; the token arrives as a plaintext parameter'
+    )]
     param (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]

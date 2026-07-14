@@ -49,6 +49,10 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
         $cursorPosition
     )
 
+    # Positional signature is fixed by Register-ArgumentCompleter; only
+    # the latter two arguments are needed by 'dotnet complete'.
+    $null = $commandName
+
     dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object -Process {
         [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
     }
