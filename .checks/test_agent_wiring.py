@@ -80,10 +80,12 @@ def test_skill_symlink_resolves_to_canonical(link):
 
 
 def test_at_references_resolve():
+    # ~ is this repo's root, so resolve against REPO rather than the
+    # running user's home -- in CI the checkout is not the home dir
     broken = []
     for md in tracked("*.md"):
         text = (REPO / md).read_text()
         for ref in re.findall(r"@~/([\w./-]+)", text):
-            if not (Path.home() / ref).exists():
+            if not (REPO / ref).exists():
                 broken.append(f"{md} -> @~/{ref}")
     assert broken == []
