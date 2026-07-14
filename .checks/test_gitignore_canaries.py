@@ -11,9 +11,13 @@ directions:
 check-ignore runs with --no-index so the assertions test pattern
 semantics even for paths that are tracked or nonexistent.
 
-Known intentional gaps, not asserted here: .config/powershell/ and
-.config/fish/ are un-ignored wholesale, so arbitrary new files in them
-are trackable. Neither shell writes history or credentials there.
+Deliberate policy (decided 2026-07-14): .config/powershell/ and
+.config/fish/ stay un-ignored wholesale so that NEW config in them
+surfaces as visible untracked files rather than being silently
+ignored -- neither shell writes history or credentials into .config
+(both use ~/.local/share). The fisher-managed fish paths, which are
+regenerated from fish_plugins and would only add noise, are the
+targeted exception and are pinned ignored below.
 """
 
 import re
@@ -64,6 +68,10 @@ MUST_STAY_IGNORED = [
     ".codex/auth.json",
     ".cursor/auth.json",
     ".copilot/auth.json",
+    # fisher-managed fish files: regenerated from fish_plugins, never tracked
+    ".config/fish/functions/anything.fish",
+    ".config/fish/completions/anything.fish",
+    ".config/fish/conf.d/nvm.fish",
     # everything else in $HOME stays out by default
     "Documents/private.txt",
 ]
@@ -88,7 +96,10 @@ MUST_STAY_TRACKED = [
     ".cursor/hooks.json",
     ".copilot/settings.json",
     ".config/fish/config.fish",
+    ".config/fish/fish_plugins",
     ".config/powershell/Microsoft.PowerShell_profile.ps1",
+    ".config/powershell/PSScriptAnalyzerSettings.psd1",
+    ".config/powershell/Modules/Profile/1.0.0/Profile.Tests.ps1",
     ".gnupg/gpg.conf",
     ".oh-my-posh/themes/claude-statusline.yaml",
     "Library/Application Support/Code/User/settings.json",
