@@ -116,6 +116,7 @@
 !/.zshrc
 !/.npmrc
 !/bunfig.toml
+!/Makefile
 !/AGENTS.md
 !/CLAUDE.md
 !/git
