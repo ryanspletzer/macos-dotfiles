@@ -111,18 +111,25 @@ def split_command_chain(cmd):
     cmd = re.sub(r"(\d*)>&(\d*)", r"__REDIR_\1_\2__", cmd)
     cmd = re.sub(r"&>", "__REDIR_AMPGT__", cmd)
 
-    # Split on command separators: &&, ||, ;, |, & (background)
-    if quoted_strings:
-        segments = re.split(r"\s*(?:&&|\|\||;|\||&)\s*", cmd)
-    else:
-        segments = re.split(r"\s*(?:&&|\|\||;|\||&)\s*|\n", cmd)
+    # Split on command separators: &&, ||, ;, |, & (background), and newlines.
+    # Quoted strings — including any newlines inside them — were already replaced
+    # with placeholders above, so every newline still present here is a real
+    # command separator. (Previously newlines were left unsplit whenever the
+    # command contained any quote, which let `echo "x"\nrm -rf ~` ride through as
+    # a single `echo` segment.)
+    segments = re.split(r"\s*(?:&&|\|\||;|\||&)\s*|\n", cmd)
 
     # Restore quoted strings and redirections
     def restore(s):
         s = re.sub(r"__REDIR_(\d*)_(\d*)__", r"\1>&\2", s)
         s = s.replace("__REDIR_AMPGT__", "&>")
-        for i, qs in enumerate(quoted_strings):
-            s = s.replace(f"__QUOTED_{i}__", qs)
+        # Restore highest-index placeholders first: a later (single-quote) mask
+        # can contain an earlier (double-quote) placeholder but never vice versa,
+        # so descending order guarantees no placeholder leaks into the result.
+        # A leak would hide content (e.g. a `> "file"` redirect) from the safety
+        # checks that scan the restored segment.
+        for i in range(len(quoted_strings) - 1, -1, -1):
+            s = s.replace(f"__QUOTED_{i}__", quoted_strings[i])
         return s
 
     segments = [restore(s) for s in segments]
@@ -148,6 +155,14 @@ WRAPPER_PATTERNS = [
     (r"^/(usr/(local/)?|opt/homebrew/)?s?bin/", "abs bin path"),
     # time (measure command execution time)
     (r"^time\s+", "time"),
+    # xargs: strip xargs and its flags so the command it INVOKES must itself
+    # match a SAFE_COMMANDS entry. `xargs grep` stays approved; `xargs rm`,
+    # `xargs sh -c ...` fall through to a prompt. Safe by construction: whatever
+    # remains is re-checked against the same allowlist.
+    (
+        r"^xargs(?:\s+(?:-[nPLsIJRE]\s*\S+|-[0-9oprtIx]+|--[a-z][a-z-]*(?:=\S+)?))*\s+",
+        "xargs",
+    ),
 ]
 
 # --- Safe core command patterns ---
@@ -158,9 +173,17 @@ SAFE_COMMANDS = [
         r"^git\s+(-C\s+\S+\s+)?"
         r"(diff|log|status|show|branch|stash\s+list|bisect|worktree\s+list|fetch"
         r"|remote|tag|rev-parse|rev-list|ls-files|ls-tree|describe|shortlog"
-        r"|reflog|blame|config|name-rev|for-each-ref|cherry|count-objects"
+        r"|reflog|blame|name-rev|for-each-ref|cherry|count-objects"
         r"|verify-commit|verify-tag|ls-remote)\b",
         "git read op",
+    ),
+    # git config: read-only forms only. `git config <key> <value>` WRITES, and a
+    # poisoned core.pager / alias / core.fsmonitor value executes on the next git
+    # invocation — so only --get*/--list/-l (optionally after scope flags) pass.
+    (
+        r"^git\s+(-C\s+\S+\s+)?config\s+(--\S+\s+)*"
+        r"(--get\b|--get-all\b|--get-regexp\b|--get-urlmatch\b|--list\b|-l\b)",
+        "git config read",
     ),
     # write operations (local only — no push/commit)
     (
@@ -302,10 +325,22 @@ SAFE_COMMANDS = [
     (r"^ln\b", "ln"),
     (r"^chmod\b", "chmod"),
     (r"^tee\b", "tee"),
+    # find: read-only traversals only — reject the action families that run
+    # programs or delete files (the -exec/-execdir/-ok/-delete/-fprint group).
+    (
+        r"^find\b(?!.*\s-(?:exec(?:dir)?|ok(?:dir)?|delete|fprint(?:f)?|fls)\b)",
+        "find (read-only)",
+    ),
+    # awk: text processing only — reject system()/getline/pipes/print-redirects,
+    # the constructs that let awk shell out or write files.
+    (
+        r"^awk\b(?!.*(?:system\s*\(|getline|\|&|\|\s*[\"']|>\s*[\"']))",
+        "awk (read-only)",
+    ),
     # ── Common read-only / info commands ──────────────────────────────────
     (
-        r"^(ls|cat|head|tail|wc|find|grep|rg|file|which|pwd|du|df"
-        r"|curl|wget|sort|uniq|cut|tr|awk|sed|xargs"
+        r"^(ls|cat|head|tail|wc|grep|rg|file|which|pwd|du|df"
+        r"|curl|wget|sort|uniq|cut|tr|sed"
         r"|readlink|realpath|basename|dirname"
         r"|date|uname|hostname|whoami|id|groups"
         r"|stat|shasum|md5|sha256sum"
@@ -366,6 +401,45 @@ def check_safe(cmd):
     return None
 
 
+# A safe command (echo/cat/tee/...) must not silently overwrite files such as
+# ~/.zshrc, ~/.ssh/authorized_keys, or a git hook. File writes outside these
+# temp/null targets fall through to a permission prompt instead of auto-approving.
+WRITE_OK_TARGETS = {"/dev/null", "/dev/stdout", "/dev/stderr"}
+WRITE_OK_PREFIXES = ("/tmp/", "/private/tmp/", "/var/folders/")
+
+
+def _target_is_temp(target):
+    target = target.strip("'\"")
+    if target in WRITE_OK_TARGETS:
+        return True
+    return any(target.startswith(p) for p in WRITE_OK_PREFIXES)
+
+
+def writes_outside_temp(segment, core_cmd):
+    """True if the segment writes to a file outside the temp/null allowlist.
+
+    Covers shell output redirects (>, >>, >|, &>) and tee's file operands.
+    Quoted targets are treated as unverifiable (unsafe) rather than trusted.
+    """
+    # Hide quoted strings so a '>' inside quotes isn't read as a redirect, and a
+    # quoted redirect target becomes an unverifiable placeholder (never temp).
+    masked = re.sub(r'"[^"]*"', " \x00 ", segment)
+    masked = re.sub(r"'[^']*'", " \x00 ", masked)
+    # Drop fd-dup redirects (2>&1, >&2) — they don't create files.
+    masked = re.sub(r"\d*>&\d*", " ", masked)
+    for m in re.finditer(r"(?:&>>?|\d*>>?)\|?\s*([^\s|&;<>]+)", masked):
+        if not _target_is_temp(m.group(1)):
+            return True
+    # tee writes to its file operands (after -a/-i style flags).
+    if re.match(r"^tee\b", core_cmd):
+        for arg in core_cmd.split()[1:]:
+            if arg.startswith("-"):
+                continue
+            if not _target_is_temp(arg):
+                return True
+    return False
+
+
 # --- Main Bash logic ---
 segments = split_command_chain(cmd)
 
@@ -375,6 +449,8 @@ for segment in segments:
     reason = check_safe(core_cmd)
     if not reason:
         sys.exit(0)  # One unsafe segment = reject entire command
+    if writes_outside_temp(segment, core_cmd):
+        sys.exit(0)  # Safe command, but writes to a non-temp file = reject
     if wrappers:
         reasons.append(f"{'+'.join(wrappers)} + {reason}")
     else:
