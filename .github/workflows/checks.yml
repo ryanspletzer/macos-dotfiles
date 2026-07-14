@@ -8,6 +8,11 @@ on:
 permissions:
   contents: read
 
+env:
+  # Pins uv's view of PyPI and keys the uv cache below.
+  # Bump this date to pick up newer tool releases and invalidate the cache.
+  UV_EXCLUDE_NEWER: "2026-07-14"
+
 jobs:
   checks:
     runs-on: macos-latest
@@ -17,7 +22,17 @@ jobs:
           # betterleaks scans the full commit history
           fetch-depth: 0
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8
+        id: setup-uv
+        with:
+          enable-cache: true
+          cache-dependency-glob: ""
+          cache-suffix: tools-${{ env.UV_EXCLUDE_NEWER }}
+          prune-cache: false
+
+      - name: Use cache-only uv on cache hits
+        if: steps.setup-uv.outputs.cache-hit == 'true'
+        run: echo "UV_OFFLINE=1" >> "$GITHUB_ENV"
 
       - name: Install verification tools
         run: |
