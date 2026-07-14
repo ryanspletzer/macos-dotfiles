@@ -243,13 +243,16 @@ function Find-ParentFilePath {
     begin {}
 
     process {
-        while ($Path -and -not (Test-Path -Path (Join-Path -Path $Path -ChildPath $Name))) {
-            $Path = Split-Path -Path $Path -Parent
+        # Walk a local copy: assigning '' back to $Path would re-trigger
+        # its ValidateNotNullOrEmpty attribute and throw at the root
+        $current = $Path
+        while ($current -and -not (Test-Path -Path (Join-Path -Path $current -ChildPath $Name))) {
+            $current = Split-Path -Path $current -Parent
         }
 
-        if ($Path) {
+        if ($current) {
             # Output
-            Join-Path -Path $Path -ChildPath $Name
+            Join-Path -Path $current -ChildPath $Name
         }
     }
 
@@ -341,9 +344,6 @@ function Get-ParallelThrottle {
             }
             'IO' {
                 [math]::Ceiling($cores*2)
-            }
-            'Mixed' {
-                [math]::Ceiling($cores*1.5)
             }
         }
 

@@ -25,6 +25,7 @@ ANALYZED_FILES = [
     f"{PWSH_DIR}/Microsoft.VSCode_profile.ps1",
     f"{MODULE_DIR}/Profile.psm1",
     f"{MODULE_DIR}/Profile.psd1",
+    f"{MODULE_DIR}/Profile.Tests.ps1",
 ]
 
 pytestmark = pytest.mark.skipif(
@@ -73,3 +74,23 @@ def test_module_imports_cleanly():
     proc = pwsh(f"Import-Module './{MODULE_DIR}/Profile.psd1' -ErrorAction Stop")
     assert proc.returncode == 0, proc.stderr
     assert proc.stderr == ""
+
+
+@functools.lru_cache(maxsize=1)
+def has_pester():
+    proc = pwsh("if (Get-Module -ListAvailable Pester) { 'yes' }")
+    return "yes" in proc.stdout
+
+
+def test_pester_suite_passes():
+    if not has_pester():
+        pytest.skip("Pester not installed")
+    script = (
+        "$config = New-PesterConfiguration; "
+        f"$config.Run.Path = '{MODULE_DIR}'; "
+        "$config.Run.Exit = $true; "
+        "$config.Output.Verbosity = 'Detailed'; "
+        "Invoke-Pester -Configuration $config"
+    )
+    proc = pwsh(script)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
