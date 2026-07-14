@@ -13,6 +13,7 @@ they catch a broken edit before it breaks every new terminal. Known
 benign no-tty artifacts are filtered from stderr before asserting.
 """
 
+import os
 import re
 import shutil
 import subprocess
@@ -106,6 +107,10 @@ STARTUP_COMMANDS = [
 
 @pytest.mark.parametrize(
     "shell,cmd", STARTUP_COMMANDS, ids=[shell for shell, _ in STARTUP_COMMANDS]
+)
+@pytest.mark.skipif(
+    os.environ.get("CI") == "true",
+    reason="startup sources ~ profiles, which target this machine's toolchain",
 )
 def test_interactive_startup(shell, cmd):
     if shutil.which(cmd[0]) is None:

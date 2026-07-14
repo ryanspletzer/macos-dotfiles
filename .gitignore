@@ -94,6 +94,7 @@
 !/.gnupg/gpg.conf
 !/.gitconfig.personal
 !/.gitconfig.work
+!/.github
 !/.gitignore
 !/.hushlogin
 !/.markdownlint.yaml
