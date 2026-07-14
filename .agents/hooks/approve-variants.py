@@ -440,6 +440,38 @@ def writes_outside_temp(segment, core_cmd):
     return False
 
 
+def sed_writes_or_execs(core_cmd):
+    """True if a sed command writes outside temp or executes a shell command.
+
+    sed can write files (the w/W commands and the s///w flag) and — on GNU sed —
+    run shell commands (the s///e flag and the e command). A text filter must not
+    silently overwrite ~/.zshrc or shell out, so those forms fall through to a
+    prompt. Plain read-only sed (s///, p, d, y, ...) still auto-approves, as does
+    a w/W write whose target is under the temp allowlist.
+    """
+    if not re.match(r"^sed\b", core_cmd):
+        return False
+    # A sed command sits at a script boundary (start, ';', '{', newline, -e, or
+    # an opening quote) and may carry a leading line/regex address like 1, $,
+    # 1,5 or /re/ — so `1e cmd` and `/re/w file` are commands, not text.
+    addr = r"(?:[0-9]+|\$|/(?:\\.|[^/])*/)(?:\s*[,~+]\s*(?:[0-9]+|\$|/(?:\\.|[^/])*/))?\s*!?\s*"
+    pos = r"(?:^|[;{\n]|-e\s+|['\"])\s*(?:" + addr + r")?"
+    # w / W command writing to a file:  ...; w <file>   /   /re/W <file>
+    for m in re.finditer(pos + r"[wW]\s+(\S+)", core_cmd):
+        if not _target_is_temp(m.group(1)):
+            return True
+    # s///w (write) or s///e (execute) flag on a substitution. The write target
+    # trails the flags (unverifiable) and e executes, so reject outright.
+    for delim in "/|#,:@":
+        d = re.escape(delim)
+        if re.search(rf"s{d}(?:\\.|[^{d}])*{d}(?:\\.|[^{d}])*{d}[a-zA-Z]*[we]", core_cmd):
+            return True
+    # GNU 'e' execute command:  ...; e <command>   /   1e <command>
+    if re.search(pos + r"e\s+\S", core_cmd):
+        return True
+    return False
+
+
 # --- Main Bash logic ---
 segments = split_command_chain(cmd)
 
@@ -451,6 +483,8 @@ for segment in segments:
         sys.exit(0)  # One unsafe segment = reject entire command
     if writes_outside_temp(segment, core_cmd):
         sys.exit(0)  # Safe command, but writes to a non-temp file = reject
+    if sed_writes_or_execs(core_cmd):
+        sys.exit(0)  # sed that writes outside temp or shells out = reject
     if wrappers:
         reasons.append(f"{'+'.join(wrappers)} + {reason}")
     else:
