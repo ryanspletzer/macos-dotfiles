@@ -2,7 +2,7 @@
 #
 #   make check    run everything (tests, advisory drift report, secrets)
 #   make test     pytest suites: .checks + agent hook tests
-#   make drift    advisory alias-drift report across bash/zsh/fish
+#   make drift    advisory alias/env-var drift report across bash/zsh/fish
 #   make secrets  betterleaks scan of git history (skips if not installed)
 
 PYTEST = uv run --no-project --with pytest pytest
