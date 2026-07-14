@@ -17,12 +17,13 @@ jobs:
   checks:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           # betterleaks scans the full commit history
           fetch-depth: 0
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8
+      - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
         id: setup-uv
         with:
           enable-cache: true
