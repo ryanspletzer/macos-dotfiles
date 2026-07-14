@@ -94,6 +94,7 @@
 !/.gnupg/gpg.conf
 !/.gitconfig.personal
 !/.gitconfig.work
+!/.github
 !/.gitignore
 !/.hushlogin
 !/.markdownlint.yaml
@@ -116,6 +117,7 @@
 !/.zshrc
 !/.npmrc
 !/bunfig.toml
+!/Makefile
 !/AGENTS.md
 !/CLAUDE.md
 !/git
