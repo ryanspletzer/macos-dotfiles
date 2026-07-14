@@ -35,7 +35,8 @@ This is a personal PowerShell module containing custom functions and aliases for
 
 ## Installation
 
-This module is designed to be used as part of a personal PowerShell profile. It should be located in your PowerShell modules path.
+This module is designed to be used as part of a personal PowerShell profile.
+It should be located in your PowerShell modules path.
 
 ## Requirements
 

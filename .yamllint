@@ -1,0 +1,7 @@
+# Validity-focused YAML policy: the relaxed profile catches real
+# problems (syntax errors, duplicate keys) without imposing style on
+# exported files like the oh-my-posh themes.
+extends: relaxed
+
+rules:
+  line-length: disable
