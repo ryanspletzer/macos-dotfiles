@@ -18,11 +18,13 @@ def bash(command):
     return {"tool_name": "Bash", "tool_input": {"command": command}}
 
 
-def run_hook(hook_name, payload):
+def run_hook(hook_name, payload, env=None):
     """Run a hook script with the given payload on stdin.
 
     payload may be a dict (JSON-encoded) or a raw string (sent as-is,
-    for malformed-input tests). Returns the CompletedProcess.
+    for malformed-input tests). env, when given, fully replaces the
+    inherited environment (hooks only need sys.executable, which is
+    absolute). Returns the CompletedProcess.
     """
     if not isinstance(payload, str):
         payload = json.dumps(payload)
@@ -32,4 +34,5 @@ def run_hook(hook_name, payload):
         capture_output=True,
         text=True,
         timeout=10,
+        env=env,
     )
