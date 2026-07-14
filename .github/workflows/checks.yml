@@ -11,14 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # gitleaks scans the full commit history
+          # betterleaks scans the full commit history
           fetch-depth: 0
 
       - uses: astral-sh/setup-uv@v5
 
       - name: Install verification tools
         run: |
-          brew install shellcheck fish yamllint gitleaks actionlint stylua
+          brew install shellcheck fish yamllint betterleaks actionlint stylua
           npm install -g markdownlint-cli2
 
       - name: Lint workflows
