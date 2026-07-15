@@ -8,11 +8,26 @@ trust_level = "trusted"
 [projects."/Users/rspletzer"]
 trust_level = "trusted"
 
+[projects."/Users/rspletzer/git/ryanspletzer.github.io"]
+trust_level = "trusted"
+
 [notice.model_migrations]
 "gpt-5.3-codex" = "gpt-5.4"
 
+[tui]
+status_line = [
+  "model-with-reasoning",
+  "current-dir",
+  "git-branch",
+  "branch-changes",
+  "used-tokens",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+]
+
 [tui.model_availability_nux]
-"gpt-5.6-sol" = 2
+"gpt-5.6-sol" = 3
 
 [hooks.state]
 

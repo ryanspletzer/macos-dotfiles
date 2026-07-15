@@ -48,6 +48,7 @@
 !/.cursor/.gitignore
 !/.cursor/hooks.json
 !/.cursor/rules
+!/.cursor/statusline.sh
 !/.cursor/skills
 /.cursor/skills/*
 !/.cursor/skills/dotfiles-reference

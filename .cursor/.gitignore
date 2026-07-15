@@ -47,6 +47,7 @@ projects/*/*
 # >>> user additions (tracked in home dotfiles repo; keep outside managed block) >>>
 !.gitignore
 !hooks.json
+!statusline.sh
 # Re-ignore Cursor session/cache state that the managed block un-ignores
 projects/
 plugins/
