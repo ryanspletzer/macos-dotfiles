@@ -45,7 +45,7 @@ All shells share consistent aliases and functions:
 | ---- | ------- |
 | `.gitconfig` | Main config: GPG signing, push defaults, LFS, credential helper; includes `~/.gitconfig.local` |
 | `.gitconfig.local.example` | Template for the gitignored per-machine `~/.gitconfig.local` (identity + host creds) |
-| `.gitattributes` | LFS patterns, line ending rules |
+| `.gitattributes` | LFS patterns, line ending rules, `codex-config` clean filter |
 | `.gnupg/gpg.conf` | GPG preferences (`no-tty` for non-interactive signing) |
 
 Key settings:
@@ -54,6 +54,15 @@ Key settings:
 - `push.autoSetupRemote = true` (auto-track remote branches)
 - Git Credential Manager for auth
 - Git LFS enabled
+- `.codex/config.toml` is committed through the `codex-config` clean filter
+  (`.agents/bin/codex-config-clean.py`),
+  which strips Codex-written machine state
+  (absolute-path `[projects]` trust entries, `[hooks.state]` hashes,
+  notice/nux counters) so the tracked blob stays portable.
+  The filter is defined in the tracked `.gitconfig`
+  (`[filter "codex-config"]`),
+  so it activates automatically wherever the dotfiles are checked out;
+  dev-machine-setup re-asserts it during provisioning
 
 ## AI Agent CLI Configuration
 

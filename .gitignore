@@ -1,6 +1,7 @@
 /*
 !/.agents
 /.agents/*
+!/.agents/bin
 !/.agents/hooks
 /.agents/hooks/__pycache__
 /.agents/hooks/.pytest_cache
@@ -48,6 +49,7 @@
 !/.cursor/.gitignore
 !/.cursor/hooks.json
 !/.cursor/rules
+!/.cursor/statusline.sh
 !/.cursor/skills
 /.cursor/skills/*
 !/.cursor/skills/dotfiles-reference

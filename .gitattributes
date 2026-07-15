@@ -1,3 +1,12 @@
+#################
+# Clean filters #
+#################
+
+# Strip Codex-written machine state (project trust paths, hook hashes)
+# from the committed blob. The filter is defined in the tracked ~/.gitconfig
+# ([filter "codex-config"]) and re-asserted by dev-machine-setup.
+/.codex/config.toml filter=codex-config
+
 ###############################
 # Git Large File System (LFS) #
 ###############################

@@ -1,41 +1,12 @@
 model = "gpt-5.4"
-[projects."/Users/rspletzer/git/codex-scratch"]
-trust_level = "trusted"
-
-[projects."/Users/rspletzer/git/anthropic-practice"]
-trust_level = "trusted"
-
-[projects."/Users/rspletzer"]
-trust_level = "trusted"
-
-[notice.model_migrations]
-"gpt-5.3-codex" = "gpt-5.4"
-
-[tui.model_availability_nux]
-"gpt-5.6-sol" = 2
-
-[hooks.state]
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:pre_tool_use:0:0"]
-trusted_hash = "sha256:2e6c63fa1cab7a62e3390eda87f57fdefb9c4d4c845a9a92a7defa145e6b85ec"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:pre_tool_use:0:1"]
-trusted_hash = "sha256:d80206d92296573caf2681e94e18c5a39fff41951194d71baf96177555b98155"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:pre_tool_use:0:2"]
-trusted_hash = "sha256:b9e07b80a6d130afbb91e5e8e3e7afbdf95e5b8d3a284277728edfdb8f2278db"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:pre_tool_use:0:3"]
-trusted_hash = "sha256:55e0560f93b9d8f107ee19fb100b299df8352b67cc5457e18a1f507329d0787b"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:pre_tool_use:0:4"]
-trusted_hash = "sha256:4f5f457bae3b28617c7b1c7535c13553d83c832d7efd611a1b51012875d979ca"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:pre_tool_use:0:5"]
-trusted_hash = "sha256:64fb04bb0af3d0cfc0b063fe082db65c3b23b7e2205cbe6eb79d72abad269310"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:permission_request:0:0"]
-trusted_hash = "sha256:48e14765e8568f3fa8da7a32664afe0726cf8d3908e4f95981b9470206a48957"
-
-[hooks.state."/Users/rspletzer/.codex/hooks.json:stop:0:0"]
-trusted_hash = "sha256:c3569f5e6d154cbef02ca85e9af000c3998c19cf9c45fee2bd79d5a893ec8ae5"
+[tui]
+status_line = [
+  "model-with-reasoning",
+  "current-dir",
+  "git-branch",
+  "branch-changes",
+  "used-tokens",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+]

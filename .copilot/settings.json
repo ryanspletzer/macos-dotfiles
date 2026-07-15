@@ -1,1 +1,11 @@
-{}
+{
+  "statusLine": {
+    "type": "command",
+    "command": "oh-my-posh copilot --config ~/.oh-my-posh/themes/copilot-statusline.yaml",
+    "padding": 0
+  },
+  "feature_flags": {
+    "enabled": ["STATUS_LINE"]
+  },
+  "experimental": true
+}
