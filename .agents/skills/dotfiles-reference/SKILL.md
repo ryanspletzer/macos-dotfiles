@@ -59,8 +59,10 @@ Key settings:
   which strips Codex-written machine state
   (absolute-path `[projects]` trust entries, `[hooks.state]` hashes,
   notice/nux counters) so the tracked blob stays portable.
-  One-time activation per machine (git never auto-runs filters from a clone):
-  `git config filter.codex-config.clean '~/.agents/bin/codex-config-clean.py'`
+  The filter is defined in the tracked `.gitconfig`
+  (`[filter "codex-config"]`),
+  so it activates automatically wherever the dotfiles are checked out;
+  dev-machine-setup re-asserts it during provisioning
 
 ## AI Agent CLI Configuration
 

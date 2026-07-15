@@ -3,8 +3,8 @@
 #################
 
 # Strip Codex-written machine state (project trust paths, hook hashes)
-# from the committed blob; requires one-time per-machine activation:
-#   git config filter.codex-config.clean '~/.agents/bin/codex-config-clean.py'
+# from the committed blob. The filter is defined in the tracked ~/.gitconfig
+# ([filter "codex-config"]) and re-asserted by dev-machine-setup.
 /.codex/config.toml filter=codex-config
 
 ###############################

@@ -26,6 +26,8 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[filter "codex-config"]
+	clean = ~/.agents/bin/codex-config-clean.py
 [include]
 	path = ~/.gitconfig.local
 [alias]
