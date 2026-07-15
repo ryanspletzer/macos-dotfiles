@@ -31,7 +31,8 @@ everything else out of git.
 - `.codex/config.toml` is committed through a git clean filter
   (`.agents/bin/codex-config-clean.py`, wired in `.gitattributes`)
   that strips Codex-written machine state (absolute-path trust entries,
-  hook hashes) — the working file and the tracked blob differ by design
+  hook hashes) — the working file and the tracked blob differ by design;
+  cross-machine runbook in the `/dotfiles-reference` skill
 - `~/AGENTS.md` is the tool-neutral instruction core shared by four agent
   CLIs (Claude Code, Codex, Cursor, Copilot);
   `~/.agents/` holds the shared enforcement hooks and skills.
