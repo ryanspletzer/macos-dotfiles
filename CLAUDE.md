@@ -28,6 +28,10 @@ everything else out of git.
   in project directories
 - Python packaging rules (never bare `pip`/`pipx`, use `uv`/`uvx`) live in
   the global `~/AGENTS.md`, since they apply machine-wide, not just here
+- `.codex/config.toml` is committed through a git clean filter
+  (`.agents/bin/codex-config-clean.py`, wired in `.gitattributes`)
+  that strips Codex-written machine state (absolute-path trust entries,
+  hook hashes) — the working file and the tracked blob differ by design
 - `~/AGENTS.md` is the tool-neutral instruction core shared by four agent
   CLIs (Claude Code, Codex, Cursor, Copilot);
   `~/.agents/` holds the shared enforcement hooks and skills.

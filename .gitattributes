@@ -1,3 +1,12 @@
+#################
+# Clean filters #
+#################
+
+# Strip Codex-written machine state (project trust paths, hook hashes)
+# from the committed blob; requires one-time per-machine activation:
+#   git config filter.codex-config.clean '~/.agents/bin/codex-config-clean.py'
+/.codex/config.toml filter=codex-config
+
 ###############################
 # Git Large File System (LFS) #
 ###############################

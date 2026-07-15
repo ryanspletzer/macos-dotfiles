@@ -1,6 +1,7 @@
 /*
 !/.agents
 /.agents/*
+!/.agents/bin
 !/.agents/hooks
 /.agents/hooks/__pycache__
 /.agents/hooks/.pytest_cache
