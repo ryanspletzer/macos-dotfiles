@@ -9,6 +9,8 @@
 !/.agents/skills
 /.agents/skills/*
 !/.agents/skills/dotfiles-reference
+!/.agents/skills/sync-dev-machine-packages
+/.agents/skills/sync-dev-machine-packages/scripts/__pycache__
 !/.bash_profile
 !/.bashrc
 !/.checks
@@ -28,6 +30,7 @@
 !/.claude/skills
 /.claude/skills/*
 !/.claude/skills/dotfiles-reference
+!/.claude/skills/sync-dev-machine-packages
 !/.claude/output-styles
 /.claude/output-styles/*
 !/.claude/output-styles/Concise.md
