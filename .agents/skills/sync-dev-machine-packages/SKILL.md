@@ -27,7 +27,8 @@ Just run the script and report its output.
 
 That's it. The script handles everything:
 collecting installed packages
-(Homebrew taps/casks/formulae via `brew`,
+(Homebrew taps/casks/formulae via `brew` —
+leaf formulae only, never transitive dependencies of other formulae,
 PowerShell modules via `Get-PSResource`,
 `uv tool list`, `bun pm ls -g`, `dotnet tool list --global`),
 diffing against `examples/macOS_vars.yaml`,

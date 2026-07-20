@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Sync locally installed packages into dev-machine-setup's macOS vars file.
 
-Collects installed Homebrew taps/casks/formulae, PowerShell modules,
-uv tools, bun global packages, and .NET global tools, then adds any
-entries missing from examples/macOS_vars.yaml (alphabetically, preserving
-comments). With no flags it creates a branch off origin/main, commits,
+Collects installed Homebrew taps/casks/formulae (leaf formulae only --
+dependencies of other installed formulae are excluded), PowerShell
+modules, uv tools, bun global packages, and .NET global tools, then adds
+any entries missing from examples/macOS_vars.yaml (alphabetically,
+preserving comments). With no flags it creates a branch off origin/main, commits,
 pushes, and opens a PR via gh. Additions only -- it never removes entries.
 
 Usage:
@@ -79,10 +80,20 @@ def collect_casks(info):
 def collect_formulae(info):
     if info is None:
         return None
+    formulae = info.get("formulae", [])
+    # Anything another installed formula depends on will be installed
+    # transitively anyway, so only leaves are pinned in the vars file.
+    # installed_on_request alone is not enough: setup docs (pyenv,
+    # ruby-build) have you brew-install libs directly, setting the flag
+    # on what are effectively dependencies.
+    dep_names = {d for f in formulae for d in f.get("dependencies", [])}
     names = []
-    for f in info.get("formulae", []):
-        if any(i.get("installed_on_request") for i in f.get("installed", [])):
-            names.append(f["full_name"])
+    for f in formulae:
+        if not any(i.get("installed_on_request") for i in f.get("installed", [])):
+            continue
+        if f["name"] in dep_names or f["full_name"] in dep_names:
+            continue
+        names.append(f["full_name"])
     return names
 
 
