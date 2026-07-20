@@ -65,6 +65,14 @@
 /.config/fish/conf.d/nvm.fish
 !/.config/ghostty
 !/.config/kitty
+!/.config/micro
+/.config/micro/*
+!/.config/micro/settings.json
+!/.config/micro/bindings.json
+!/.config/micro/README.md
+!/.config/micro/plug
+/.config/micro/plug/*
+!/.config/micro/plug/fzfopen
 !/.config/nvim
 /.config/nvim/lazy-lock.json
 /.config/nvim/.neoconf.json
