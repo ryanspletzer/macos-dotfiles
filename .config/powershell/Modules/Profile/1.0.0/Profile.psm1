@@ -836,6 +836,34 @@ function Restart-GlobalProtect {
     end {}
 }
 
+function Start-CursorAgent {
+    [CmdletBinding()]
+    param (
+        [Parameter(ValueFromRemainingArguments)]
+        [string[]]
+        $Arguments
+    )
+
+    begin {
+        $cursorAgent = (
+            Get-Command cursor-agent -CommandType Application -ErrorAction Stop | Select-Object -First 1
+        ).Source
+    }
+
+    process {
+        # Homebrew re-stamps com.apple.quarantine on cursor-cli's unsigned native
+        # .node modules on every upgrade, so macOS Gatekeeper blocks them on load.
+        # Clear it first (fast no-op unless actually flagged), then hand off.
+        if (Get-Command cursor-dequarantine -ErrorAction SilentlyContinue) {
+            cursor-dequarantine
+        }
+
+        & $cursorAgent @Arguments
+    }
+
+    end {}
+}
+
 # Create aliases
 New-Alias -Name openremote -Value Open-GitRemoteUrl
 New-Alias -Name syncremote -Value Sync-GitRemote
@@ -851,6 +879,7 @@ New-Alias -Name gdc -Value Get-GitDiffColored
 New-Alias -Name gs -Value Get-GitStatus
 New-Alias -Name gsc -Value Get-GitStatusColored
 New-Alias -Name code -Value Open-VSCode
+New-Alias -Name cursor-agent -Value Start-CursorAgent
 
 # Export functions and aliases
 Export-ModuleMember -Function @(
@@ -877,7 +906,8 @@ Export-ModuleMember -Function @(
     'Get-GitStatus',
     'Get-GitStatusColored',
     'Open-VSCode',
-    'Restart-GlobalProtect'
+    'Restart-GlobalProtect',
+    'Start-CursorAgent'
 ) -Alias @(
     'openremote',
     'syncremote',
@@ -892,5 +922,6 @@ Export-ModuleMember -Function @(
     'gs',
     'gsc',
     'code',
-    'restart_globalprotect'
+    'restart_globalprotect',
+    'cursor-agent'
 )

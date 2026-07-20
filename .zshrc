@@ -44,6 +44,7 @@ alias finder='open -a finder'
 emacsd() { emacs "$@" & disown; }                 # standalone GUI Emacs
 ec() { emacsclient -c -n -a "" "$@"; }            # GUI frame on the daemon (starts it if needed)
 et() { emacsclient -t -a "" "$@"; }               # terminal frame on the daemon
+cursor-agent() { cursor-dequarantine; command cursor-agent "$@"; }  # clear Gatekeeper quarantine (brew re-applies it) before launch
 
 alias gd='git diff'
 alias gdc='git diff --color=always'

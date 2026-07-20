@@ -51,7 +51,8 @@
         'Get-GitStatus',
         'Get-GitStatusColored',
         'Open-VSCode',
-        'Restart-GlobalProtect'
+        'Restart-GlobalProtect',
+        'Start-CursorAgent'
     )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
@@ -75,7 +76,8 @@
         'gs',
         'gsc',
         'code',
-        'restart_globalprotect'
+        'restart_globalprotect',
+        'cursor-agent'
     )
 
     # DSC resources to export from this module

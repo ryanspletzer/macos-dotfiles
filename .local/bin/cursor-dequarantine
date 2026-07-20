@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# cursor-dequarantine — clear macOS Gatekeeper quarantine from the current
+# cursor-cli Homebrew cask so its unsigned native .node modules
+# (merkle-tree-napi, file_service, pty, sqlite) load without a GUI modal.
+#
+# Homebrew re-applies com.apple.quarantine on every `brew upgrade cursor-cli`,
+# so this runs before each launch (via the cursor-agent shell wrapper) and can
+# also be run by hand after an update. Idempotent and cheap: it does nothing
+# unless the sentinel native module is actually flagged, and prints only when
+# it acts.
+set -euo pipefail
+
+agent="$(command -v cursor-agent || true)"
+[[ -n "$agent" ]] || { echo "cursor-dequarantine: cursor-agent not on PATH" >&2; exit 0; }
+
+# .../Caskroom/cursor-cli/<version>/dist-package/cursor-agent -> cask <version> dir
+cask_dir="$(cd "$(dirname "$(dirname "$(readlink -f "$agent")")")" && pwd)"
+sentinel="$cask_dir/dist-package/merkle-tree-napi.darwin-arm64.node"
+
+# Not installed there, or already clean -> silent fast exit.
+[[ -e "$sentinel" ]] || exit 0
+xattr "$sentinel" 2>/dev/null | grep -q com.apple.quarantine || exit 0
+
+xattr -dr com.apple.quarantine "$cask_dir"
+echo "cursor-dequarantine: cleared Gatekeeper quarantine on cursor-cli ${cask_dir##*/}"
