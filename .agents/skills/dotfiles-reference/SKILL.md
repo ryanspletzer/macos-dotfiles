@@ -2,7 +2,7 @@
 name: dotfiles-reference
 description: >-
   Detailed reference for all tracked configurations in this dotfiles repo
-  (shell, git, tmux, nvim, VS Code, Zed, PowerShell, dev environment,
+  (shell, git, tmux, nvim, micro, VS Code, Zed, PowerShell, dev environment,
   Claude Code plugins). Use when editing specific config files.
 disable-model-invocation: true
 ---
@@ -227,6 +227,19 @@ URLs (`https://...`).
   `claudecode.lua` (Claude Code integration),
   `powershell.lua` (PSES LSP + treesitter)
 - **Autocmds**: buffer refresh on focus/enter, file change notification
+
+## Micro Configuration
+
+`.config/micro/` (lightweight terminal editor, VS Code-style keybindings):
+
+- **Tracked**: `settings.json`, `bindings.json`, `README.md`,
+  `plug/fzfopen/` (local Ctrl+P fuzzy-open plugin, requires `fzf`)
+- **Ignored**: `buffers/`, `backups/`, third-party plugins under `plug/`
+- **Third-party plugin** (reinstall on new machines):
+  `micro -plugin install filemanager` (Ctrl+B file tree)
+- Key overrides: Ctrl+P fuzzy open, Ctrl+B file tree, Ctrl+D multi-cursor,
+  Ctrl+/ comment, Ctrl+G go-to-line, F1 help
+- Full cheat sheet and rationale in `.config/micro/README.md`
 
 ## VS Code Settings
 

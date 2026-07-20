@@ -1,0 +1,9 @@
+{
+    "Ctrl-p": "lua:fzfopen.fzfOpen",
+    "Ctrl-b": "lua:filemanager.toggle_tree",
+    "Ctrl-d": "SpawnMultiCursor",
+    "Alt-d": "DuplicateLine",
+    "CtrlUnderscore": "lua:comment.comment",
+    "Ctrl-g": "command-edit:goto ",
+    "F1": "ToggleHelp"
+}

@@ -1,0 +1,40 @@
+{
+    "diffgutter": true,
+    "mkparents": true,
+    "savecursor": true,
+    "scrollbar": true,
+    "tabstospaces": true,
+    "ft:css": {
+        "tabsize": 2
+    },
+    "ft:html": {
+        "tabsize": 2
+    },
+    "ft:javascript": {
+        "tabsize": 2
+    },
+    "ft:json": {
+        "tabsize": 2
+    },
+    "ft:lua": {
+        "tabsize": 2
+    },
+    "ft:markdown": {
+        "tabsize": 2
+    },
+    "ft:ruby": {
+        "tabsize": 2
+    },
+    "ft:shell": {
+        "tabsize": 2
+    },
+    "ft:toml": {
+        "tabsize": 2
+    },
+    "ft:typescript": {
+        "tabsize": 2
+    },
+    "ft:yaml": {
+        "tabsize": 2
+    }
+}
