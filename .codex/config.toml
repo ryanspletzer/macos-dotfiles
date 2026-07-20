@@ -2,6 +2,7 @@ model = "gpt-5.4"
 [tui]
 status_line = [
   "model-with-reasoning",
+  "run-state",
   "current-dir",
   "git-branch",
   "branch-changes",
@@ -9,4 +10,5 @@ status_line = [
   "context-used",
   "five-hour-limit",
   "weekly-limit",
+  "task-progress",
 ]
