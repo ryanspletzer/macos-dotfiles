@@ -6,7 +6,20 @@
 set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
-python3 -c "
+# Debug capture: when the sentinel exists, tee the raw stdin payload to a file
+# so Cursor's (undocumented) statusLine JSON schema can be inspected.
+#   Enable:  touch ~/.cursor/.capture-payload
+#   Inspect: cat  ~/.cursor/statusline-payload.json
+#   Disable: rm   ~/.cursor/.capture-payload
+capture() {
+  if [[ -e "$HOME/.cursor/.capture-payload" ]]; then
+    tee "$HOME/.cursor/statusline-payload.json"
+  else
+    cat
+  fi
+}
+
+capture | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
 cw = data.get('context_window') or {}

@@ -4,7 +4,7 @@ blocks:
 - type: prompt
   alignment: left
   segments:
-  - template: "{{ .Model.DisplayName }}"
+  - template: "{{ .Model.DisplayName }}{{ if .Effort }} ({{ .Effort.Level }}){{ end }}"
     foreground: "#c386f1"
     background: transparent
     type: claude
@@ -39,8 +39,18 @@ blocks:
     background: transparent
     type: claude
     style: plain
+  - template: "{{ if or (gt .Cost.TotalLinesAdded 0) (gt .Cost.TotalLinesRemoved 0) }}  +{{ .Cost.TotalLinesAdded }}/-{{ .Cost.TotalLinesRemoved }}{{ end }}"
+    foreground: "#83769c"
+    background: transparent
+    type: claude
+    style: plain
   - template: " {{ .FormattedTokens }} ({{ .TokenUsagePercent.String }}) {{ .TokenUsagePercent.Gauge }}"
     foreground: "#2e9599"
+    background: transparent
+    type: claude
+    style: plain
+  - template: "{{ if .RateLimits }}  5h {{ .FiveHourUsage.String }}% {{ .FiveHourUsage.Gauge }}{{ if .RateLimits.FiveHour }} ↺ {{ .FiveHourResetsAt | date \"3:04 PM\" }}{{ end }} · 7d {{ .SevenDayUsage.String }}% {{ .SevenDayUsage.Gauge }}{{ end }}"
+    foreground: "#c9a227"
     background: transparent
     type: claude
     style: plain

@@ -114,6 +114,11 @@
 !/.github
 !/.gitignore
 !/.hushlogin
+!/.local
+/.local/*
+!/.local/bin
+/.local/bin/*
+!/.local/bin/cursor-dequarantine
 !/.markdownlint.yaml
 !/.oh-my-posh
 !/.tmux.conf

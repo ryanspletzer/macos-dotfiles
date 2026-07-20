@@ -39,6 +39,11 @@ blocks:
     background: transparent
     type: copilot_cli
     style: plain
+  - template: "{{ if gt .Cost.TotalPremiumRequests 0 }}   {{ .Cost.TotalPremiumRequests }}{{ end }}"
+    foreground: "#c9a227"
+    background: transparent
+    type: copilot_cli
+    style: plain
   - template: " {{ .FormattedTokens }} ({{ .TokenUsagePercent }}%) {{ .TokenGauge }}"
     foreground: "#2e9599"
     background: transparent

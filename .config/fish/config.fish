@@ -57,6 +57,11 @@ function et  # terminal frame on the Emacs daemon
     emacsclient -t -a "" $argv
 end
 
+function cursor-agent --wraps cursor-agent --description 'Clear Gatekeeper quarantine (brew re-applies it) before launch'
+    cursor-dequarantine
+    command cursor-agent $argv
+end
+
 alias gd='git diff'
 alias gdc='git diff --color=always'
 alias gs='git status'
