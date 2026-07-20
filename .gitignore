@@ -65,6 +65,11 @@
 /.config/fish/conf.d/nvm.fish
 !/.config/ghostty
 !/.config/kitty
+!/.config/helix
+/.config/helix/*
+!/.config/helix/config.toml
+!/.config/helix/languages.toml
+!/.config/helix/README.md
 !/.config/micro
 /.config/micro/*
 !/.config/micro/settings.json

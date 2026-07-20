@@ -2,7 +2,8 @@
 name: dotfiles-reference
 description: >-
   Detailed reference for all tracked configurations in this dotfiles repo
-  (shell, git, tmux, nvim, micro, VS Code, Zed, PowerShell, dev environment,
+  (shell, git, tmux, nvim, micro, helix, VS Code, Zed, PowerShell,
+  dev environment,
   Claude Code plugins). Use when editing specific config files.
 disable-model-invocation: true
 ---
@@ -240,6 +241,20 @@ URLs (`https://...`).
 - Key overrides: Ctrl+P fuzzy open, Ctrl+B file tree, Ctrl+D multi-cursor,
   Ctrl+/ comment, Ctrl+G go-to-line, F1 help
 - Full cheat sheet and rationale in `.config/micro/README.md`
+
+## Helix Configuration
+
+`.config/helix/` (modal terminal editor, Kakoune-style;
+VS Code-flavored conveniences on top):
+
+- **Tracked**: `config.toml`, `languages.toml`, `README.md`
+- **Ignored**: everything else under `.config/helix/`
+  (state lives in `~/.local/state/helix` and `~/.cache/helix` anyway)
+- No plugins — pickers, file explorer, LSP, and tree-sitter are built in
+- Key overrides: Ctrl+S save, Ctrl+P file picker, Ctrl+B file explorer,
+  Ctrl+/ comment; `dark_plus` theme (VS Code Dark+ port);
+  per-filetype 2-space indents in `languages.toml` mirror VS Code
+- Full cheat sheet and VS Code-to-Helix mapping in `.config/helix/README.md`
 
 ## VS Code Settings
 

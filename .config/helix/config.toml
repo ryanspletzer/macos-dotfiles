@@ -1,0 +1,31 @@
+# Helix configuration — VS Code-flavored where the modal model allows.
+# Cheat sheet and rationale in README.md alongside this file.
+
+theme = "dark_plus"
+
+[editor]
+bufferline = "multiple"
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.file-picker]
+# Show dotfiles in the Ctrl+P picker (VS Code shows them too).
+# Git-ignored files stay hidden; use Ctrl+B (file explorer) to reach those.
+hidden = false
+
+[editor.indent-guides]
+render = true
+
+[keys.normal]
+C-s = ":write"
+C-p = "file_picker"
+C-b = "file_explorer"
+"C-/" = "toggle_comments"
+
+[keys.select]
+"C-/" = "toggle_comments"
+
+[keys.insert]
+C-s = ["normal_mode", ":write"]
