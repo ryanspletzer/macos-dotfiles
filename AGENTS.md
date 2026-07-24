@@ -23,3 +23,16 @@ use `uvx` (replaces `pipx run`) or `uv tool install` (replaces `pipx install`).
 Never create virtual environments with `python -m venv` or `virtualenv` —
 use `uv venv`.
 Run pytest via `uv run pytest`, never bare `pytest`.
+
+## PowerShell module management
+
+Always use the modern PSResourceGet cmdlets
+instead of the legacy PowerShellGet ones:
+`Get-PSResource` (not `Get-InstalledModule`),
+`Find-PSResource` (not `Find-Module`),
+`Install-PSResource` (not `Install-Module`),
+`Update-PSResource` (not `Update-Module`),
+`Uninstall-PSResource` (not `Uninstall-Module`),
+and `Publish-PSResource` (not `Publish-Module`).
+Plain `Get-Module` is acceptable only for inspecting modules
+already imported into the current session.
