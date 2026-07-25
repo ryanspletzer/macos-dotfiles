@@ -1,0 +1,27 @@
+{
+  "uv-pip-enforcement": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ../../.agents/hooks/adapters/antigravity-shell-gate.py"
+          }
+        ]
+      }
+    ]
+  },
+  "stop-sound": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay -v 0.40 /System/Library/Sounds/Hero.aiff"
+          }
+        ]
+      }
+    ]
+  }
+}

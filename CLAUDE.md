@@ -33,10 +33,11 @@ everything else out of git.
   that strips Codex-written machine state (absolute-path trust entries,
   hook hashes) — the working file and the tracked blob differ by design;
   cross-machine runbook in the `/dotfiles-reference` skill
-- `~/AGENTS.md` is the tool-neutral instruction core shared by four agent
-  CLIs (Claude Code, Codex, Cursor, Copilot);
+- `~/AGENTS.md` is the tool-neutral instruction core shared by five agent
+  CLIs (Claude Code, Codex, Cursor, Copilot, Antigravity);
   `~/.agents/` holds the shared enforcement hooks and skills.
-  Per-tool wiring lives in `.claude/`, `.codex/`, `.cursor/`, `.copilot/` —
+  Per-tool wiring lives in `.claude/`, `.codex/`, `.cursor/`, `.copilot/`,
+  `.gemini/` (Antigravity `agy` reuses the Gemini CLI directory) —
   details in the `/dotfiles-reference` skill
 - For detailed reference on all tracked configs (shell, git, tmux, nvim,
   VS Code, Zed, PowerShell, dev environment), invoke the
