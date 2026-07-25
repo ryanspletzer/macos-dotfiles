@@ -15,12 +15,8 @@
   "stop-sound": {
     "Stop": [
       {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "afplay -v 0.40 /System/Library/Sounds/Hero.aiff"
-          }
-        ]
+        "type": "command",
+        "command": "afplay -v 0.40 /System/Library/Sounds/Hero.aiff"
       }
     ]
   }
