@@ -184,6 +184,13 @@ hence the `../../.agents/...` path).
 Hook payloads use Antigravity's own schema,
 bridged by `adapters/antigravity-shell-gate.py`;
 sounds are stop (Hero) / deny (Basso).
+Statusline: `~/.gemini/config/statusline.sh` renders via
+`oh-my-posh claude` with the `antigravity-statusline.yaml` theme —
+agy pipes a Claude Code-compatible payload, like Cursor.
+It is wired through the `statuslineCommand` key in
+`~/.gemini/antigravity-cli/settings.json`
+(machine state, untracked — re-set it on a new machine,
+or run `/statusline ~/.gemini/config/statusline.sh` in agy).
 Schema quirk (verified against `agy` 1.1.1 logs):
 tool events (`PreToolUse`/`PostToolUse`) take `{matcher, hooks: [...]}`
 groups,
