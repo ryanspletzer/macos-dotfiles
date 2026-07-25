@@ -184,6 +184,18 @@ hence the `../../.agents/...` path).
 Hook payloads use Antigravity's own schema,
 bridged by `adapters/antigravity-shell-gate.py`;
 sounds are stop (Hero) / deny (Basso).
+Schema quirk (verified against `agy` 1.1.1 logs):
+tool events (`PreToolUse`/`PostToolUse`) take `{matcher, hooks: [...]}`
+groups,
+but lifecycle events (`Stop`, `PreInvocation`, `PostInvocation`)
+take hook objects directly —
+wrapping them in a group makes the whole file fail validation,
+disabling every hook in it
+(check `~/.gemini/antigravity-cli/log/cli-*.log` for
+`Failed to parse hooks file`).
+In headless `--print` mode agy auto-denies permission prompts
+even when the PreToolUse hook returns `allow`;
+deny decisions are honored in all modes.
 Machine state the old Gemini CLI wrote to `~/.gemini/`
 (oauth creds, history, settings) stays untracked
 via the `.gitignore` un-ignore block.
