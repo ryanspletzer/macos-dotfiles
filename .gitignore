@@ -8,6 +8,8 @@
 /.agents/hooks/tests/__pycache__
 !/.agents/skills
 /.agents/skills/*
+!/.agents/skills/check-dependabot-prs
+/.agents/skills/check-dependabot-prs/scripts/__pycache__
 !/.agents/skills/dotfiles-reference
 !/.agents/skills/sync-dev-machine-packages
 /.agents/skills/sync-dev-machine-packages/scripts/__pycache__
@@ -29,6 +31,7 @@
 !/.claude/settings.json
 !/.claude/skills
 /.claude/skills/*
+!/.claude/skills/check-dependabot-prs
 !/.claude/skills/dotfiles-reference
 !/.claude/skills/sync-dev-machine-packages
 !/.claude/output-styles
