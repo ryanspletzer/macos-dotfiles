@@ -59,6 +59,17 @@
 !/.cursor/skills
 /.cursor/skills/*
 !/.cursor/skills/dotfiles-reference
+!/.gemini
+/.gemini/*
+!/.gemini/GEMINI.md
+!/.gemini/config
+/.gemini/config/*
+!/.gemini/config/hooks.json
+!/.gemini/config/skills
+/.gemini/config/skills/*
+!/.gemini/config/skills/check-dependabot-prs
+!/.gemini/config/skills/dotfiles-reference
+!/.gemini/config/skills/sync-dev-machine-packages
 !/.config
 /.config/*
 !/.config/fish

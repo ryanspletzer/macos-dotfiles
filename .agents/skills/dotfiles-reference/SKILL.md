@@ -109,8 +109,9 @@ Run the verify command above on that machine.
 
 ## AI Agent CLI Configuration
 
-Four agent CLIs share one set of conventions and enforcement assets:
-Claude Code, OpenAI Codex CLI, Cursor CLI, and GitHub Copilot CLI.
+Five agent CLIs share one set of conventions and enforcement assets:
+Claude Code, OpenAI Codex CLI, Cursor CLI, GitHub Copilot CLI,
+and Google Antigravity CLI (`agy`).
 
 ### Shared assets
 
@@ -137,8 +138,12 @@ Claude Code, OpenAI Codex CLI, Cursor CLI, and GitHub Copilot CLI.
     bridge the shared scripts to Cursor's hook dialect
   - `adapters/cursor-session-context.py` - injects `~/AGENTS.md` into
     Cursor sessions as context (sessionStart hook)
+  - `adapters/antigravity-shell-gate.py` - bridges the shared scripts to
+    Antigravity's hook dialect
+    (`toolCall.args.CommandLine` in, `{"decision": ...}` out)
 - `.agents/skills/dotfiles-reference/` - this skill; symlinked into
-  `.claude/skills/`, `.codex/skills/`, `.cursor/skills/`
+  `.claude/skills/`, `.codex/skills/`, `.cursor/skills/`,
+  `.gemini/config/skills/`
   (Copilot reads `~/.agents/skills/` natively)
 
 ### Per-tool wiring
@@ -149,6 +154,7 @@ Claude Code, OpenAI Codex CLI, Cursor CLI, and GitHub Copilot CLI.
 | Codex CLI | `.codex/AGENTS.md` → `~/AGENTS.md` | `.codex/hooks.json` → `.agents/hooks/` | Glass / Tink |
 | Cursor CLI | sessionStart hook injects `~/AGENTS.md` (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
 | Copilot CLI | `copilot-instructions.md` → `~/AGENTS.md` + `instructions/` | none (instruction-only) | n/a |
+| Antigravity CLI | `.gemini/GEMINI.md` → `~/AGENTS.md` | `.gemini/config/hooks.json` → adapter | Hero / Basso |
 
 Cursor note: disk-based `~/.cursor/rules/` loading is bugged
 (confirmed by Cursor staff, 2026-04) and account User Rules are not
@@ -163,6 +169,24 @@ user additions live below the managed block
 (un-ignore `hooks.json`, re-ignore session state).
 Codex requires one-time interactive hook trust (`/hooks` in the TUI)
 after any hook definition change.
+
+Antigravity note: the `agy` CLI reuses the Gemini CLI's `~/.gemini/`
+directory rather than creating `~/.antigravity/`.
+Global rules load from `~/.gemini/GEMINI.md`
+(symlinked to `~/AGENTS.md`);
+`agy` also parses workspace-root `AGENTS.md`, `.agents/rules/`,
+and `.agents/skills/` natively,
+so this repo's shared assets work unmodified inside the home workspace.
+Global skills are symlinked into `~/.gemini/config/skills/`
+and hooks live in `~/.gemini/config/hooks.json`
+(hook commands run relative to that directory,
+hence the `../../.agents/...` path).
+Hook payloads use Antigravity's own schema,
+bridged by `adapters/antigravity-shell-gate.py`;
+sounds are stop (Hero) / deny (Basso).
+Machine state the old Gemini CLI wrote to `~/.gemini/`
+(oauth creds, history, settings) stays untracked
+via the `.gitignore` un-ignore block.
 
 ### Claude Code specifics
 
