@@ -65,6 +65,7 @@
 !/.gemini/config
 /.gemini/config/*
 !/.gemini/config/hooks.json
+!/.gemini/config/statusline.sh
 !/.gemini/config/skills
 /.gemini/config/skills/*
 !/.gemini/config/skills/check-dependabot-prs
