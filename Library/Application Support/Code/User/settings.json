@@ -116,8 +116,6 @@
     "git.openRepositoryInParentFolders": "never",
     "github.copilot.chat.codeGeneration.instructions": [],
     "github.copilot.nextEditSuggestions.enabled": true,
-    "gitlens.ai.model": "vscode",
-    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
     "gitlens.remotes": [
         {
             "domain": "git.autodesk.com",
