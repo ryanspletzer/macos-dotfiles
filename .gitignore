@@ -13,6 +13,8 @@
 !/.agents/skills/dotfiles-reference
 !/.agents/skills/sync-dev-machine-packages
 /.agents/skills/sync-dev-machine-packages/scripts/__pycache__
+!/.agents/skills/update-uv-pins
+/.agents/skills/update-uv-pins/scripts/__pycache__
 !/.bash_profile
 !/.bashrc
 !/.checks
@@ -34,6 +36,7 @@
 !/.claude/skills/check-dependabot-prs
 !/.claude/skills/dotfiles-reference
 !/.claude/skills/sync-dev-machine-packages
+!/.claude/skills/update-uv-pins
 !/.claude/output-styles
 /.claude/output-styles/*
 !/.claude/output-styles/Concise.md
@@ -44,7 +47,10 @@
 !/.codex/config.toml
 !/.codex/skills
 /.codex/skills/*
+!/.codex/skills/check-dependabot-prs
 !/.codex/skills/dotfiles-reference
+!/.codex/skills/sync-dev-machine-packages
+!/.codex/skills/update-uv-pins
 !/.copilot
 /.copilot/*
 !/.copilot/copilot-instructions.md
@@ -58,7 +64,10 @@
 !/.cursor/statusline.sh
 !/.cursor/skills
 /.cursor/skills/*
+!/.cursor/skills/check-dependabot-prs
 !/.cursor/skills/dotfiles-reference
+!/.cursor/skills/sync-dev-machine-packages
+!/.cursor/skills/update-uv-pins
 !/.gemini
 /.gemini/*
 !/.gemini/GEMINI.md
@@ -71,6 +80,7 @@
 !/.gemini/config/skills/check-dependabot-prs
 !/.gemini/config/skills/dotfiles-reference
 !/.gemini/config/skills/sync-dev-machine-packages
+!/.gemini/config/skills/update-uv-pins
 !/.config
 /.config/*
 !/.config/fish
