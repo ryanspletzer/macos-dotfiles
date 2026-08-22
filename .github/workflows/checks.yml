@@ -11,11 +11,11 @@ permissions:
 env:
   # Pins uv's view of PyPI and keys the uv cache below.
   # Bump this date to pick up newer tool releases and invalidate the cache.
-  UV_EXCLUDE_NEWER: "2026-07-14"
+  UV_EXCLUDE_NEWER: "2026-08-22"
   # Pins the uv binary itself and keys the cache below; a floating "latest"
   # uv can change the cache format (as 0.11.30 did), which orphans the
   # restored cache and hard-fails under UV_OFFLINE=1. Bump with the date.
-  UV_VERSION: "0.11.32"
+  UV_VERSION: "0.12.5"
 
 jobs:
   checks:
