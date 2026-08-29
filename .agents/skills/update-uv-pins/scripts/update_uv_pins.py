@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Update pinned uv and setup-uv versions in GitHub Actions workflows.
 
-Scans repos under ~/git for workflow files that pin astral-sh/setup-uv
-(the action's sha pin and/or its `version:` input) or set a UV_VERSION
-env var, resolves the latest uv and setup-uv releases via `gh api`, and
-rewrites any stale pins in place. With no flags it opens one PR per
-changed repo.
+Scans repos under ~/git (plus the user's home-folder repo) for workflow
+files that pin astral-sh/setup-uv (the action's sha pin and/or its
+`version:` input) or set a UV_VERSION env var, resolves the latest uv and
+setup-uv releases via `gh api`, and rewrites any stale pins in place.
+With no flags it opens one PR per changed repo.
 
 Usage:
-  update_uv_pins.py [--dry-run] [--git-root PATH]
+  update_uv_pins.py [--dry-run] [--git-root PATH] [--no-home]
 
   --dry-run    Print the would-be changes per repo/file; touch nothing.
   --git-root   Root directory containing repo clones (default: ~/git).
+  --no-home    Skip the home-folder repo (~).
 """
 
 import argparse
@@ -126,21 +127,39 @@ def rewrite(text, uv_version, action_sha, action_tag):
 # --- Discovering target files ------------------------------------------------
 
 
-def discover_files(git_root):
-    """List (repo, [workflow files]) for repos with uv/setup-uv pins."""
+def _pinned_workflows(repo):
+    """Workflow files under `repo` that reference setup-uv or UV_VERSION."""
+    wf_dir = repo / ".github" / "workflows"
+    if not wf_dir.is_dir():
+        return []
+    files = sorted(list(wf_dir.glob("*.yml")) + list(wf_dir.glob("*.yaml")))
+    return [
+        f
+        for f in files
+        if "astral-sh/setup-uv" in f.read_text() or "UV_VERSION" in f.read_text()
+    ]
+
+
+def discover_files(git_root, include_home):
+    """List (label, repo, [workflow files]) for repos with uv/setup-uv pins.
+
+    `label` is the directory name, or "home" for the home-folder repo,
+    which is listed first when `include_home` is set.
+    """
+    candidates = []
+    if include_home:
+        candidates.append(("home", Path.home()))
+    candidates.extend(
+        (p.name, p) for p in sorted(git_root.iterdir()) if p.is_dir()
+    )
+
     results = []
-    for repo in sorted(p for p in git_root.iterdir() if p.is_dir()):
-        wf_dir = repo / ".github" / "workflows"
-        if not wf_dir.is_dir():
+    for label, repo in candidates:
+        if not (repo / ".git").exists():
             continue
-        files = sorted(list(wf_dir.glob("*.yml")) + list(wf_dir.glob("*.yaml")))
-        matched = [
-            f
-            for f in files
-            if "astral-sh/setup-uv" in f.read_text() or "UV_VERSION" in f.read_text()
-        ]
+        matched = _pinned_workflows(repo)
         if matched:
-            results.append((repo, matched))
+            results.append((label, repo, matched))
     return results
 
 
@@ -189,12 +208,10 @@ def resolve_latest():
 # --- Git / PR -----------------------------------------------------------------
 
 
-def make_pr(repo, files, uv_version, action_sha, action_tag):
+def make_pr(label, repo, files, uv_version, action_sha, action_tag):
     rel_paths = [str(f.relative_to(repo)) for f in files]
     if git(repo, "status", "--porcelain", "--", *rel_paths):
-        print(
-            f"skipping {repo.name}: uncommitted changes in {', '.join(rel_paths)}"
-        )
+        print(f"skipping {label}: uncommitted changes in {', '.join(rel_paths)}")
         return None
 
     prev_branch = git(repo, "rev-parse", "--abbrev-ref", "HEAD")
@@ -219,7 +236,7 @@ def make_pr(repo, files, uv_version, action_sha, action_tag):
                 changed[f] = (new_text, changes)
 
         if not changed:
-            print(f"  {repo.name}: already up to date with origin/{base}")
+            print(f"  {label}: already up to date with origin/{base}")
             git(repo, "switch", prev_branch)
             git(repo, "branch", "-D", branch)
             return None
@@ -267,6 +284,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--git-root", default=str(Path.home() / "git"))
+    parser.add_argument(
+        "--no-home",
+        action="store_true",
+        help="skip the home-folder repo (~)",
+    )
     args = parser.parse_args()
 
     git_root = Path(args.git_root).expanduser()
@@ -276,14 +298,14 @@ def main():
     uv_version, action_tag, action_sha = resolve_latest()
     print(f"Latest: uv {uv_version}, setup-uv {action_tag} ({action_sha[:8]}...)")
 
-    repos = discover_files(git_root)
+    repos = discover_files(git_root, include_home=not args.no_home)
     if not repos:
         print("No repos with uv pins found.")
         return
 
     pr_urls = []
-    for repo, files in repos:
-        print(f"\n{repo.name}:")
+    for label, repo, files in repos:
+        print(f"\n{label}:")
         changed = {}
         for f in files:
             new_text, changes = rewrite(
@@ -305,7 +327,9 @@ def main():
             print("  (dry run: no changes made)")
             continue
 
-        pr_url = make_pr(repo, list(changed), uv_version, action_sha, action_tag)
+        pr_url = make_pr(
+            label, repo, list(changed), uv_version, action_sha, action_tag
+        )
         if pr_url:
             pr_urls.append(pr_url)
 

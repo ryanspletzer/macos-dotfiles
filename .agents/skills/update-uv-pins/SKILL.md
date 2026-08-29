@@ -1,7 +1,8 @@
 ---
 name: update-uv-pins
 description: >-
-  Update pinned uv versions across GitHub Actions workflows in ~/git repos:
+  Update pinned uv versions across GitHub Actions workflows in ~/git repos
+  and the home repo (~):
   the UV_VERSION env var / setup-uv `version:` input to the latest uv
   release, and the astral-sh/setup-uv action SHA pin to its latest release.
   Opens one PR per affected repo.
@@ -29,7 +30,8 @@ Just run the script and report its output.
 That's it. The script handles everything:
 resolving the latest uv release and the latest setup-uv release
 (tag plus dereferenced commit SHA) via `gh api`,
-discovering every repo under `~/git` whose workflows reference
+discovering every repo under `~/git` (plus the home repo `~`,
+reported as `home`) whose workflows reference
 `astral-sh/setup-uv` or `UV_VERSION`,
 rewriting the pins line-by-line so comments and formatting are preserved
 (`UV_VERSION: "X"` env vars,
@@ -42,4 +44,5 @@ Repos already at the latest versions are skipped,
 as are repos whose workflow files have uncommitted changes
 (reported so the user can resolve them).
 
-Pass `--dry-run` to print the would-be changes without touching git.
+Pass `--dry-run` to print the would-be changes without touching git,
+and `--no-home` to skip the home repo.
