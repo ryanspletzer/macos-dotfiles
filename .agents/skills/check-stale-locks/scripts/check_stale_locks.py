@@ -48,6 +48,12 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+if sys.version_info < (3, 11):
+    sys.exit(
+        "error: check_stale_locks.py needs Python 3.11+ (for tomllib); "
+        f"running under {sys.version.split()[0]}"
+    )
+
 import tomllib
 
 # --- Regexes -----------------------------------------------------------------
