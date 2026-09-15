@@ -1,11 +1,8 @@
 ---
 name: update-uv-pins
 description: >-
-  Update pinned uv versions across GitHub Actions workflows in ~/git repos
-  and the home repo (~):
-  the UV_VERSION env var / setup-uv `version:` input to the latest uv
-  release, and the astral-sh/setup-uv action SHA pin to its latest release.
-  Opens one PR per affected repo.
+  Bump UV_VERSION and astral-sh/setup-uv pins in GitHub Actions workflows
+  across local repos to the latest releases, one PR per affected repo.
   Use when asked to update or bump uv pins in workflows.
 ---
 

@@ -7,6 +7,7 @@
       "~/.gnupg"
     ]
   },
+  "model": "fable",
   "hooks": {
     "PreToolUse": [
       {
@@ -99,7 +100,7 @@
     "elements-of-style@superpowers-marketplace": false,
     "episodic-memory@superpowers-marketplace": false,
     "security-guidance@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
+    "code-review@claude-plugins-official": false,
     "pyright-lsp@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": false,
     "gopls-lsp@claude-plugins-official": false,

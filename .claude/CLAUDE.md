@@ -3,8 +3,8 @@
 @~/AGENTS.md
 
 <!-- Shared cross-tool instructions live in ~/AGENTS.md (imported above).
-     Topic rules live in ~/.claude/rules/: git-workflow.md,
-     vscode-extensions.md, and markdown.md (path-scoped to **/*.md).
+     Topic rules live in ~/.claude/rules/: vscode-extensions.md
+     and markdown.md (path-scoped to **/*.md).
      The Markdown summary in AGENTS.md is intentionally always-on so it
      applies to brand-new files a path-scoped rule wouldn't catch;
      full markdown conventions stay in rules/markdown.md.

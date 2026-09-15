@@ -1,12 +1,9 @@
 ---
 name: check-pinned-tools
 description: >-
-  Scan local repo clones (~ and ~/git) for pinned tool versions that
-  Dependabot doesn't manage — UV_VERSION env vars, setup-uv version inputs,
-  UV_EXCLUDE_NEWER snapshot dates, SHA-pinned GitHub Actions, and
-  pre-commit hook revs — and deterministically report which pins are
-  outdated against the latest upstream releases. Use when asked to check,
-  audit, or find outdated pinned tools or version pins across repos.
+  Report outdated version pins (GitHub Action SHAs, uv versions,
+  exclude-newer dates, pre-commit revs) across local repo clones.
+  Use when asked to check or audit pinned tool versions across repos.
 ---
 
 # Check Pinned Tools
