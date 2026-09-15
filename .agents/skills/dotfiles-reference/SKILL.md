@@ -212,7 +212,7 @@ via the `.gitignore` un-ignore block.
 `.claude/settings.json`:
 
 - **Plugins enabled**: commit-commands, markdown-linter-fixer,
-  security-guidance, code-review
+  security-guidance
 - **Status line**: oh-my-posh integration (`oh-my-posh claude`)
 - **Audio notifications**: Morse.aiff on stop, Ping.aiff on notification
 - **Topic rules**: `.claude/rules/` (markdown, VS Code extensions;
