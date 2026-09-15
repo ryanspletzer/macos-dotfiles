@@ -1,12 +1,9 @@
 ---
 name: check-stale-locks
 description: >-
-  Scan local repo clones (~ and ~/git) for uv.lock files and report which
-  locked packages would move on `uv lock --upgrade`, separating
-  transitive dependencies (which Dependabot version updates never touch)
-  from direct dependencies (which Dependabot handles when the repo has a
-  matching dependabot.yml uv entry). uv only for now. Use when asked to
-  check, audit, or find stale/outdated uv lockfiles across repos.
+  Report which packages in each local repo's uv.lock would move on
+  `uv lock --upgrade`, split into direct vs transitive dependencies.
+  Use when asked to check or audit stale uv lockfiles across repos.
 ---
 
 # Check Stale Locks
