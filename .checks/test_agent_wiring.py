@@ -11,6 +11,8 @@ exist and that the tools stay in sync where they are meant to:
 - the per-tool dotfiles-reference skill symlinks resolve to the
   canonical ~/.agents copy
 - @~/path references in tracked instruction files resolve
+- no CLAUDE.md sits at the repo root, so Claude Code (2.1.277+)
+  reads ~/AGENTS.md natively when the working directory is ~
 """
 
 import re
@@ -89,3 +91,12 @@ def test_at_references_resolve():
             if not (REPO / ref).exists():
                 broken.append(f"{md} -> @~/{ref}")
     assert broken == []
+
+
+@pytest.mark.parametrize("name", ["CLAUDE.md", "CLAUDE.local.md"])
+def test_no_root_claude_md(name):
+    # Claude Code reads AGENTS.md only when no CLAUDE.md variant exists in
+    # the working directory or above it; one at the ~ root would silently
+    # disable native AGENTS.md loading. ~/.claude/CLAUDE.md (user scope)
+    # is exempt from that check and is expected to stay.
+    assert not (REPO / name).exists(), f"{name} at repo root blocks AGENTS.md"

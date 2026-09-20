@@ -116,7 +116,9 @@ and Google Antigravity CLI (`agy`).
 ### Shared assets
 
 - `AGENTS.md` (home root) - tool-neutral instruction core
-  (markdown, git workflow, Python packaging)
+  (markdown, git workflow, Python packaging, PowerShell)
+  plus the home-repo project notes;
+  Claude Code (2.1.277+) reads it natively when the working directory is `~`
 - `.agents/hooks/` - shared PreToolUse enforcement scripts
   (Claude/Codex hook schema; identical payloads):
   - `_utils.py` - Shared utility module with `strip_quoted_content()`;
@@ -150,7 +152,7 @@ and Google Antigravity CLI (`agy`).
 
 | Tool | Instructions | Hooks | Sounds |
 | ---- | ------------ | ----- | ------ |
-| Claude Code | `.claude/CLAUDE.md` imports `@~/AGENTS.md` | `settings.json` → `.agents/hooks/` | Morse / Ping |
+| Claude Code | native `~/AGENTS.md` + `.claude/CLAUDE.md` shim | `settings.json` → `.agents/hooks/` | Morse / Ping |
 | Codex CLI | `.codex/AGENTS.md` → `~/AGENTS.md` | `.codex/hooks.json` → `.agents/hooks/` | Glass / Tink |
 | Cursor CLI | sessionStart hook injects `~/AGENTS.md` (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
 | Copilot CLI | `copilot-instructions.md` → `~/AGENTS.md` + `instructions/` | none (instruction-only) | n/a |
@@ -218,6 +220,30 @@ via the `.gitignore` un-ignore block.
 - **Topic rules**: `.claude/rules/` (markdown, VS Code extensions;
   markdown rule is path-scoped to `**/*.md`);
   git workflow lives in `~/AGENTS.md`
+
+Instruction files:
+
+- `~/.claude/CLAUDE.md` is the user-scope shim:
+  `@~/AGENTS.md` import plus the Claude-only Model delegation rule.
+  Claude Code has no user-scope `AGENTS.md`, so it stays.
+- No `CLAUDE.md` at the `~` root (guarded by
+  `.checks/test_agent_wiring.py::test_no_root_claude_md`).
+  Any `CLAUDE.md` in the working directory or above it
+  silently disables native `AGENTS.md` loading.
+- **Confirming the native read**: an `AGENTS.md` read directly is not
+  listed in `/memory` or `/context`;
+  look for `no CLAUDE.md found; AGENTS.md loaded: /Users/rspletzer/AGENTS.md`
+  at session start, or ask Claude what its project instructions say.
+  A `CLAUDE.md` that imports `AGENTS.md` never loads it twice.
+- **When the native read is unavailable** (Bedrock/Vertex/Foundry,
+  telemetry disabled, the first session after an install or upgrade,
+  `disableAllHooks`), the `~/.claude/CLAUDE.md` import still carries
+  `~/AGENTS.md`, so nothing regresses.
+- **Fallback setting** (user scope only; `pluginConfigs` is ignored in
+  project and local settings): if a `CLAUDE.md` on the path ever has to
+  coexist with `AGENTS.md`, set `agents-md@builtin` →
+  `instructionFiles: "claude-md-and-agents-md"` in `.claude/settings.json`
+  (tracked, so it is portable) or under **Project instructions** in `/config`.
 
 ### Plugin Portability
 

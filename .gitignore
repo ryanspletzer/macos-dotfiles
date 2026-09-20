@@ -176,7 +176,6 @@
 !/bunfig.toml
 !/Makefile
 !/AGENTS.md
-!/CLAUDE.md
 !/git
 /git/*
 !/git/AGENTS.md
