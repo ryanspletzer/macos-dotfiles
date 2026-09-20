@@ -2,7 +2,15 @@
 
 @~/AGENTS.md
 
-<!-- Shared cross-tool instructions live in ~/AGENTS.md (imported above).
+<!-- User-scope Claude Code file. Claude Code has no user-scope
+     AGENTS.md, so this file stays as a thin shim.
+     Shared cross-tool instructions live in ~/AGENTS.md (imported above).
+     When the working directory is ~ itself, Claude Code (2.1.277+) reads
+     ~/AGENTS.md natively and skips the duplicate import; everywhere else,
+     and in sessions that cannot read AGENTS.md (Bedrock/Vertex, telemetry
+     off, first session after an upgrade), the import carries it.
+     Never add a CLAUDE.md at the ~ root: it would silently disable
+     native AGENTS.md loading.
      Topic rules live in ~/.claude/rules/: vscode-extensions.md
      and markdown.md (path-scoped to **/*.md).
      The Markdown summary in AGENTS.md is intentionally always-on so it

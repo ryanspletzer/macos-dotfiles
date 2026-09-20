@@ -1,6 +1,6 @@
 # Claude Code Cost Optimization Reference
 
-A human-facing reference (intentionally **not** loaded into context via `CLAUDE.md`,
+A human-facing reference (intentionally **not** loaded into context via `CLAUDE.md` or `AGENTS.md`,
 so it costs zero tokens per session).
 Optimize for **tokens processed per unit of work** —
 this stretches the personal Max plan's usage limits **and**
@@ -25,7 +25,7 @@ Two viable strategies, differing in where the expensive model sits:
 2. **Top-tier main loop, delegate down** — pin the default to Fable/Opus
    so judgment, design, and review get the strongest model,
    and delegate implementation work to Sonnet/Haiku subagents
-   (the always-on rule lives in `~/AGENTS.md` under "Model delegation";
+   (the always-on rule lives in `~/.claude/CLAUDE.md` under "Model delegation";
    pattern via Simon Willison's
    [Judgement](https://simonwillison.net/2026/Jul/3/judgement/) post).
 
@@ -83,7 +83,7 @@ only do it if the scripts need to share setup work or coordinate with each other
 ## Subagents
 
 - Implementation work is delegated to lower-tier subagents by judgement
-  (see "Default model & escalation" above; the rule itself is in `~/AGENTS.md`).
+  (see "Default model & escalation" above; the rule itself is in `~/.claude/CLAUDE.md`).
 - Delegate verbose operations (test runs, log scans, doc fetches) to subagents
   so bulky output stays in the subagent's context and only a summary returns to the main thread.
 - Custom agents pin their tier in frontmatter (`model: sonnet|opus|haiku|inherit`).
@@ -219,14 +219,14 @@ resident context is a recurring per-turn tax.
 - The tracked **Concise** output style trims response verbosity —
   it is itself a cost lever, not just a UX preference.
 - `/clear` between unrelated tasks drops dead context so it stops riding along every turn.
-- Keep `CLAUDE.md` files lean (target < 200 lines);
+- Keep `CLAUDE.md` and `AGENTS.md` files lean (target < 200 lines);
   move workflow-specific instructions into load-on-demand skills
   (the `dotfiles-reference` skill is the model pattern).
 
-Check current CLAUDE.md sizes:
+Check current instruction-file sizes:
 
 ```sh
-wc -l ~/CLAUDE.md ~/.claude/CLAUDE.md ~/git/*/CLAUDE.md 2>/dev/null
+wc -l ~/AGENTS.md ~/.claude/CLAUDE.md ~/git/*/CLAUDE.md ~/git/*/AGENTS.md 2>/dev/null
 ```
 
 ## Remaining levers
