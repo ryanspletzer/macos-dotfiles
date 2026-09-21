@@ -1,20 +1,20 @@
 # Claude Code–Specific Rules
 
-@~/AGENTS.md
+@~/.agents/AGENTS.md
 
 <!-- User-scope Claude Code file. Claude Code has no user-scope
      AGENTS.md, so this file stays as a thin shim.
-     Shared cross-tool instructions live in ~/AGENTS.md (imported above).
-     When the working directory is ~ itself, Claude Code (2.1.277+) reads
-     ~/AGENTS.md natively and skips the duplicate import; everywhere else,
-     and in sessions that cannot read AGENTS.md (Bedrock/Vertex, telemetry
-     off, first session after an upgrade), the import carries it.
-     Never add a CLAUDE.md at the ~ root: it would silently disable
-     native AGENTS.md loading.
+     The tool-neutral global core lives in ~/.agents/AGENTS.md (imported
+     above); Claude Code never reads .agents/ on its own, so the import
+     is the only path in. ~/AGENTS.md holds home-repo notes only and is
+     read natively (2.1.277+) when the working directory is ~, or through
+     the parent-directory walk-up in sessions under ~ such as ~/git/*.
+     Never add a CLAUDE.md at the ~ root or in ~/git: it would silently
+     disable native AGENTS.md loading for every session beneath it.
      Topic rules live in ~/.claude/rules/: vscode-extensions.md
      and markdown.md (path-scoped to **/*.md).
-     The Markdown summary in AGENTS.md is intentionally always-on so it
-     applies to brand-new files a path-scoped rule wouldn't catch;
+     The Markdown summary in the global core is intentionally always-on
+     so it applies to brand-new files a path-scoped rule wouldn't catch;
      full markdown conventions stay in rules/markdown.md.
      PreToolUse hooks in ~/.agents/hooks/ (wired via settings.json)
      enforce the Python packaging rules. -->

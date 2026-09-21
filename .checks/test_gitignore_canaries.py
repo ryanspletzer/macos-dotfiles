@@ -95,6 +95,8 @@ MUST_STAY_TRACKED = [
     ".gitignore",
     ".tmux.conf",
     "AGENTS.md",
+    ".agents/AGENTS.md",
+    "git/AGENTS.md",
     ".agents/hooks/approve-variants.py",
     ".agents/hooks/tests/_harness.py",
     ".checks/test_gitignore_canaries.py",

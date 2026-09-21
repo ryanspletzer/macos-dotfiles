@@ -1,8 +1,9 @@
 """Cross-tool agent-CLI wiring consistency.
 
-~/AGENTS.md is the tool-neutral instruction core, ~/.agents holds the
-shared enforcement hooks and skills, and .claude/.codex/.cursor wire
-them per tool. These tests assert the wiring points at files that
+~/.agents/AGENTS.md is the tool-neutral instruction core, ~/AGENTS.md
+holds home-repo notes only, ~/.agents holds the shared enforcement hooks
+and skills, and .claude/.codex/.cursor/.copilot/.gemini wire them per
+tool. These tests assert the wiring points at files that
 exist and that the tools stay in sync where they are meant to:
 
 - every ~/.agents/hooks/*.py referenced by a tool's hook config exists
@@ -11,8 +12,9 @@ exist and that the tools stay in sync where they are meant to:
 - the per-tool dotfiles-reference skill symlinks resolve to the
   canonical ~/.agents copy
 - @~/path references in tracked instruction files resolve
-- no CLAUDE.md sits at the repo root, so Claude Code (2.1.277+)
-  reads ~/AGENTS.md natively when the working directory is ~
+- the per-tool global instruction symlinks resolve to ~/.agents/AGENTS.md
+- no CLAUDE.md sits at the repo root or in ~/git, so Claude Code
+  (2.1.277+) reads AGENTS.md natively in ~ and every session beneath it
 """
 
 import re
@@ -93,10 +95,28 @@ def test_at_references_resolve():
     assert broken == []
 
 
-@pytest.mark.parametrize("name", ["CLAUDE.md", "CLAUDE.local.md"])
+INSTRUCTION_SYMLINKS = [
+    ".codex/AGENTS.md",
+    ".gemini/GEMINI.md",
+    ".copilot/copilot-instructions.md",
+]
+
+
+@pytest.mark.parametrize("link", INSTRUCTION_SYMLINKS)
+def test_instruction_symlink_resolves_to_global_core(link):
+    path = REPO / link
+    assert path.is_symlink(), f"{link} is not a symlink"
+    assert path.resolve() == (REPO / ".agents/AGENTS.md").resolve()
+
+
+@pytest.mark.parametrize(
+    "name",
+    ["CLAUDE.md", "CLAUDE.local.md", "git/CLAUDE.md", "git/CLAUDE.local.md"],
+)
 def test_no_root_claude_md(name):
     # Claude Code reads AGENTS.md only when no CLAUDE.md variant exists in
-    # the working directory or above it; one at the ~ root would silently
-    # disable native AGENTS.md loading. ~/.claude/CLAUDE.md (user scope)
+    # the working directory or above it; one at the ~ or ~/git level would
+    # silently disable native AGENTS.md loading for every session beneath
+    # it. ~/.claude/CLAUDE.md (user scope)
     # is exempt from that check and is expected to stay.
-    assert not (REPO / name).exists(), f"{name} at repo root blocks AGENTS.md"
+    assert not (REPO / name).exists(), f"{name} blocks native AGENTS.md loading"
