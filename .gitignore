@@ -1,6 +1,7 @@
 /*
 !/.agents
 /.agents/*
+!/.agents/AGENTS.md
 !/.agents/bin
 !/.agents/hooks
 /.agents/hooks/__pycache__
@@ -179,7 +180,6 @@
 !/git
 /git/*
 !/git/AGENTS.md
-!/git/CLAUDE.md
 !/Library
 /Library/*
 !/Library/Application Support

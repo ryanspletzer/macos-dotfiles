@@ -226,7 +226,7 @@ resident context is a recurring per-turn tax.
 Check current instruction-file sizes:
 
 ```sh
-wc -l ~/AGENTS.md ~/.claude/CLAUDE.md ~/git/*/CLAUDE.md ~/git/*/AGENTS.md 2>/dev/null
+wc -l ~/.agents/AGENTS.md ~/AGENTS.md ~/.claude/CLAUDE.md ~/git/AGENTS.md ~/git/*/AGENTS.md 2>/dev/null
 ```
 
 ## Remaining levers

@@ -119,7 +119,8 @@ def test_filter_passes_through_on_malformed_json():
 
 
 def test_context_injects_agents_md(tmp_path):
-    (tmp_path / "AGENTS.md").write_text("# Test Instructions\n\nBe excellent.\n")
+    (tmp_path / ".agents").mkdir()
+    (tmp_path / ".agents" / "AGENTS.md").write_text("# Test Instructions\n\nBe excellent.\n")
     out = output(run_hook(CONTEXT, {}, env={"HOME": str(tmp_path)}))
     assert out["additional_context"] == "# Test Instructions\n\nBe excellent."
 

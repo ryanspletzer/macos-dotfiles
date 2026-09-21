@@ -16,26 +16,25 @@ project under `~/git`.
 which uses an ignore-everything-then-selectively-un-ignore `.gitignore`
 strategy.
 By default `~/git/*` (every cloned repo) is ignored,
-but this file and `CLAUDE.md` are explicitly un-ignored so they can be
+but this file is explicitly un-ignored so it can be
 version-controlled as configuration,
-separate from the repos they sit alongside.
+separate from the repos it sits alongside.
 
-## CLAUDE.md / AGENTS.md symlink pattern
+## AGENTS.md is the only instruction file
 
-`CLAUDE.md` in this directory is a symlink to this file (`AGENTS.md`).
-This file is the canonical source;
-`CLAUDE.md` exists only so Claude Code picks it up automatically.
-Other AI coding tools that look for `AGENTS.md` instead read this file
-directly.
-Because file reads transparently follow symlinks,
-both tools see identical content with only one file to maintain.
+Claude Code 2.1.277+ reads `AGENTS.md` natively when no `CLAUDE.md`
+exists in the working directory or any directory above it.
+Other AI coding tools already read `AGENTS.md` directly.
+Nothing here or in `~` is named `CLAUDE.md`,
+and that must stay true:
+a `CLAUDE.md` in `~/git` or `~` would take precedence
+and silently hide every `AGENTS.md` beneath it.
 
-This directory is a worked example of that pattern, not a template to be
-copied verbatim.
 When setting up a new repo under `~/git`,
 or updating an existing one,
-AI tools should replicate the *pattern* — a canonical `AGENTS.md` with a
-`CLAUDE.md` symlink pointing to it — rather than copying this file's
-content.
-Each repo's `AGENTS.md` should describe that repo,
-not this directory.
+give it a single `AGENTS.md` that describes that repo,
+not this directory,
+and do not add a `CLAUDE.md` symlink or file.
+Claude Code loads this file and `~/AGENTS.md` through the
+parent-directory walk-up in every session under `~/git`;
+the other tools stop at the repo root.

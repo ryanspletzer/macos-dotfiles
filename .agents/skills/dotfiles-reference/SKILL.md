@@ -115,10 +115,15 @@ and Google Antigravity CLI (`agy`).
 
 ### Shared assets
 
-- `AGENTS.md` (home root) - tool-neutral instruction core
-  (markdown, git workflow, Python packaging, PowerShell)
-  plus the home-repo project notes;
+- `.agents/AGENTS.md` - tool-neutral instruction core
+  (markdown, git workflow, Python packaging, PowerShell);
+  every CLI loads it globally via symlink, import, or hook
+- `AGENTS.md` (home root) - home-repo project notes only;
   Claude Code (2.1.277+) reads it natively when the working directory is `~`
+  and via parent walk-up in sessions under `~` (for example `~/git/*`)
+- `git/AGENTS.md` - notes for the `~/git` parent directory;
+  no `CLAUDE.md` exists at `~` or `~/git` (guarded by tests),
+  so every repo's own `AGENTS.md` loads natively
 - `.agents/hooks/` - shared PreToolUse enforcement scripts
   (Claude/Codex hook schema; identical payloads):
   - `_utils.py` - Shared utility module with `strip_quoted_content()`;
@@ -138,7 +143,7 @@ and Google Antigravity CLI (`agy`).
     full output and surface only failures + summary
   - `adapters/cursor-shell-gate.py`, `adapters/cursor-filter-tests.py` -
     bridge the shared scripts to Cursor's hook dialect
-  - `adapters/cursor-session-context.py` - injects `~/AGENTS.md` into
+  - `adapters/cursor-session-context.py` - injects `~/.agents/AGENTS.md` into
     Cursor sessions as context (sessionStart hook)
   - `adapters/antigravity-shell-gate.py` - bridges the shared scripts to
     Antigravity's hook dialect
@@ -152,16 +157,16 @@ and Google Antigravity CLI (`agy`).
 
 | Tool | Instructions | Hooks | Sounds |
 | ---- | ------------ | ----- | ------ |
-| Claude Code | native `~/AGENTS.md` + `.claude/CLAUDE.md` shim | `settings.json` → `.agents/hooks/` | Morse / Ping |
-| Codex CLI | `.codex/AGENTS.md` → `~/AGENTS.md` | `.codex/hooks.json` → `.agents/hooks/` | Glass / Tink |
-| Cursor CLI | sessionStart hook injects `~/AGENTS.md` (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
-| Copilot CLI | `copilot-instructions.md` → `~/AGENTS.md` + `instructions/` | none (instruction-only) | n/a |
-| Antigravity CLI | `.gemini/GEMINI.md` → `~/AGENTS.md` | `.gemini/config/hooks.json` → adapter | Hero / Basso |
+| Claude Code | `.claude/CLAUDE.md` imports `@~/.agents/AGENTS.md` | `settings.json` → `.agents/hooks/` | Morse / Ping |
+| Codex CLI | `.codex/AGENTS.md` → `~/.agents/AGENTS.md` | `.codex/hooks.json` → `.agents/hooks/` | Glass / Tink |
+| Cursor CLI | sessionStart hook injects global core (see note) | `.cursor/hooks.json` → adapters | Submarine / Pop |
+| Copilot CLI | `copilot-instructions.md` → `~/.agents/AGENTS.md` + `instructions/` | none (instruction-only) | n/a |
+| Antigravity CLI | `.gemini/GEMINI.md` → `~/.agents/AGENTS.md` | `.gemini/config/hooks.json` → adapter | Hero / Basso |
 
 Cursor note: disk-based `~/.cursor/rules/` loading is bugged
 (confirmed by Cursor staff, 2026-04) and account User Rules are not
 source-controllable, so `adapters/cursor-session-context.py` injects
-`~/AGENTS.md` as session context via the sessionStart hook instead —
+`~/.agents/AGENTS.md` as session context via the sessionStart hook instead —
 fully git-tracked and identical across accounts/machines.
 If Cursor fixes disk-based user rules, that can replace the hook.
 Sounds are stop / attention (Cursor's attention sound plays on deny).
@@ -175,7 +180,7 @@ after any hook definition change.
 Antigravity note: the `agy` CLI reuses the Gemini CLI's `~/.gemini/`
 directory rather than creating `~/.antigravity/`.
 Global rules load from `~/.gemini/GEMINI.md`
-(symlinked to `~/AGENTS.md`);
+(symlinked to `~/.agents/AGENTS.md`);
 `agy` also parses workspace-root `AGENTS.md`, `.agents/rules/`,
 and `.agents/skills/` natively,
 so this repo's shared assets work unmodified inside the home workspace.
@@ -219,14 +224,15 @@ via the `.gitignore` un-ignore block.
 - **Audio notifications**: Morse.aiff on stop, Ping.aiff on notification
 - **Topic rules**: `.claude/rules/` (markdown, VS Code extensions;
   markdown rule is path-scoped to `**/*.md`);
-  git workflow lives in `~/AGENTS.md`
+  git workflow lives in `~/.agents/AGENTS.md`
 
 Instruction files:
 
 - `~/.claude/CLAUDE.md` is the user-scope shim:
-  `@~/AGENTS.md` import plus the Claude-only Model delegation rule.
-  Claude Code has no user-scope `AGENTS.md`, so it stays.
-- No `CLAUDE.md` at the `~` root (guarded by
+  `@~/.agents/AGENTS.md` import plus the Claude-only Model delegation rule.
+  Claude Code has no user-scope `AGENTS.md` and never reads `.agents/`
+  on its own, so the shim is the only path to the global core.
+- No `CLAUDE.md` at the `~` root or in `~/git` (guarded by
   `.checks/test_agent_wiring.py::test_no_root_claude_md`).
   Any `CLAUDE.md` in the working directory or above it
   silently disables native `AGENTS.md` loading.
@@ -238,7 +244,7 @@ Instruction files:
 - **When the native read is unavailable** (Bedrock/Vertex/Foundry,
   telemetry disabled, the first session after an install or upgrade,
   `disableAllHooks`), the `~/.claude/CLAUDE.md` import still carries
-  `~/AGENTS.md`, so nothing regresses.
+  `~/.agents/AGENTS.md`, so only the home-repo notes are missed.
 - **Fallback setting** (user scope only; `pluginConfigs` is ignored in
   project and local settings): if a `CLAUDE.md` on the path ever has to
   coexist with `AGENTS.md`, set `agents-md@builtin` →
