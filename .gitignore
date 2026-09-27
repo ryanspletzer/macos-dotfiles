@@ -16,6 +16,8 @@
 !/.agents/skills/check-stale-locks
 /.agents/skills/check-stale-locks/scripts/__pycache__
 !/.agents/skills/dotfiles-reference
+!/.agents/skills/merge-dependabot-prs
+/.agents/skills/merge-dependabot-prs/scripts/__pycache__
 !/.agents/skills/sync-dev-machine-packages
 /.agents/skills/sync-dev-machine-packages/scripts/__pycache__
 !/.agents/skills/update-uv-pins
@@ -42,6 +44,7 @@
 !/.claude/skills/check-pinned-tools
 !/.claude/skills/check-stale-locks
 !/.claude/skills/dotfiles-reference
+!/.claude/skills/merge-dependabot-prs
 !/.claude/skills/sync-dev-machine-packages
 !/.claude/skills/update-uv-pins
 !/.claude/output-styles
@@ -58,6 +61,7 @@
 !/.codex/skills/check-pinned-tools
 !/.codex/skills/check-stale-locks
 !/.codex/skills/dotfiles-reference
+!/.codex/skills/merge-dependabot-prs
 !/.codex/skills/sync-dev-machine-packages
 !/.codex/skills/update-uv-pins
 !/.copilot
@@ -77,6 +81,7 @@
 !/.cursor/skills/check-pinned-tools
 !/.cursor/skills/check-stale-locks
 !/.cursor/skills/dotfiles-reference
+!/.cursor/skills/merge-dependabot-prs
 !/.cursor/skills/sync-dev-machine-packages
 !/.cursor/skills/update-uv-pins
 !/.gemini
@@ -92,6 +97,7 @@
 !/.gemini/config/skills/check-pinned-tools
 !/.gemini/config/skills/check-stale-locks
 !/.gemini/config/skills/dotfiles-reference
+!/.gemini/config/skills/merge-dependabot-prs
 !/.gemini/config/skills/sync-dev-machine-packages
 !/.gemini/config/skills/update-uv-pins
 !/.config

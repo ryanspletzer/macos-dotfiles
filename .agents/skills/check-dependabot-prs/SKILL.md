@@ -56,3 +56,9 @@ Each pull request is assigned exactly one verdict:
 
 This skill requires an authenticated `gh` CLI.
 Verify with `gh auth status` if the script reports authentication errors.
+
+## Merging
+
+To merge the `READY` PRs, use the `merge-dependabot-prs` skill,
+which reuses this skill's verdicts and picks each repo's allowed
+merge method.

@@ -331,9 +331,16 @@ def print_human_report(reports: list[dict[str, Any]], owner: str) -> None:
         print()
         print("Ready to merge:")
         for report in sorted(ready, key=lambda r: (r["repo"], r["number"])):
-            print(f"  gh pr merge {report['url']} --squash")
+            print(f"  {report['url']}")
         print()
-        print("Note: this script merges nothing; the commands above are hints only.")
+        print(
+            "Note: this script merges nothing. To merge the READY PRs with each "
+            "repo's allowed merge method, run the merge-dependabot-prs skill:"
+        )
+        print(
+            "  python3 ~/.agents/skills/merge-dependabot-prs/scripts/"
+            "merge_dependabot_prs.py"
+        )
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
