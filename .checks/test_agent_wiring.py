@@ -9,8 +9,10 @@ exist and that the tools stay in sync where they are meant to:
 - every ~/.agents/hooks/*.py referenced by a tool's hook config exists
 - Claude Code and Codex wire the identical set of shared hooks
   (Cursor goes through adapters by design and is not compared)
-- the per-tool dotfiles-reference skill symlinks resolve to the
-  canonical ~/.agents copy
+- every shared skill in ~/.agents/skills has a SKILL.md and a per-skill
+  symlink in the Claude and Codex skill dirs that resolves to it
+- the Cursor and Antigravity skill dirs are whole-directory symlinks to
+  ~/.agents/skills (those tools keep no tool-managed extras there)
 - @~/path references in tracked instruction files resolve
 - the per-tool global instruction symlinks resolve to ~/.agents/AGENTS.md
 - no CLAUDE.md sits at the repo root or in ~/git, so Claude Code
@@ -31,13 +33,20 @@ HOOK_CONFIGS = [
     ".cursor/hooks.json",
 ]
 
-SKILL_LINKS = [
-    ".claude/skills/dotfiles-reference",
-    ".codex/skills/dotfiles-reference",
-    ".cursor/skills/dotfiles-reference",
-]
+SHARED_SKILLS = ".agents/skills"
 
-CANONICAL_SKILL = ".agents/skills/dotfiles-reference"
+# Claude Code and Codex keep tool-managed extras beside the shared skills
+# (Claude: humanizer, powershell-style, synced; Codex: .system), so they
+# get one symlink per skill. Cursor and Antigravity hold nothing else, so
+# their skills dir is a single symlink to the shared tree.
+PER_SKILL_LINK_DIRS = [".claude/skills", ".codex/skills"]
+WHOLE_DIR_LINKS = [".cursor/skills", ".gemini/config/skills"]
+
+
+def shared_skills():
+    return sorted(
+        p.name for p in (REPO / SHARED_SKILLS).iterdir() if p.is_dir()
+    )
 
 # Claude/Codex reference shared hooks as ~/.agents/...; Cursor's
 # hooks.json uses ../.agents/... relative to its ~/.cursor location.
@@ -75,12 +84,26 @@ def test_claude_and_codex_wire_the_same_hooks():
     )
 
 
-@pytest.mark.parametrize("link", SKILL_LINKS)
-def test_skill_symlink_resolves_to_canonical(link):
+@pytest.mark.parametrize("skill", shared_skills())
+def test_shared_skill_has_skill_md(skill):
+    assert (REPO / SHARED_SKILLS / skill / "SKILL.md").is_file()
+
+
+@pytest.mark.parametrize("link_dir", PER_SKILL_LINK_DIRS)
+@pytest.mark.parametrize("skill", shared_skills())
+def test_skill_symlink_resolves_to_canonical(link_dir, skill):
+    path = REPO / link_dir / skill
+    assert path.is_symlink(), f"{link_dir}/{skill} is not a symlink"
+    assert path.resolve() == (REPO / SHARED_SKILLS / skill).resolve()
+    assert (path / "SKILL.md").is_file()
+
+
+@pytest.mark.parametrize("link", WHOLE_DIR_LINKS)
+def test_skills_dir_symlink_resolves_to_shared_tree(link):
     path = REPO / link
     assert path.is_symlink(), f"{link} is not a symlink"
-    assert path.resolve() == (REPO / CANONICAL_SKILL).resolve()
-    assert (path / "SKILL.md").is_file()
+    assert path.resolve() == (REPO / SHARED_SKILLS).resolve()
+    assert sorted(p.name for p in path.iterdir() if p.is_dir()) == shared_skills()
 
 
 def test_at_references_resolve():

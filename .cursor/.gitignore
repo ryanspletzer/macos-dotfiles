@@ -48,6 +48,8 @@ projects/*/*
 !.gitignore
 !hooks.json
 !statusline.sh
+# skills is a symlink to ~/.agents/skills; the managed `!skills/` only matches a real directory
+!skills
 # Re-ignore Cursor session/cache state that the managed block un-ignores
 projects/
 plugins/

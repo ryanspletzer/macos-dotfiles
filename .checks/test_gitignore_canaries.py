@@ -76,6 +76,16 @@ MUST_STAY_IGNORED = [
     ".codex/auth.json",
     ".cursor/auth.json",
     ".copilot/auth.json",
+    # tool-managed extras beside the shared skills: the skill dirs are
+    # tracked wholesale (denylist), so these must be pinned out explicitly
+    ".claude/skills/humanizer/SKILL.md",
+    ".claude/skills/powershell-style",
+    ".claude/skills/synced/anything",
+    ".codex/skills/.system/anything",
+    # Python bytecode anywhere, via the single unanchored __pycache__/ rule
+    ".agents/skills/any-skill/scripts/__pycache__/x.cpython-314.pyc",
+    ".agents/hooks/__pycache__/x.pyc",
+    ".checks/__pycache__/x.pyc",
     # fisher-managed fish files: regenerated from fish_plugins, never tracked
     ".config/fish/functions/anything.fish",
     ".config/fish/completions/anything.fish",
@@ -99,6 +109,12 @@ MUST_STAY_TRACKED = [
     "git/AGENTS.md",
     ".agents/hooks/approve-variants.py",
     ".agents/hooks/tests/_harness.py",
+    ".agents/skills/dotfiles-reference/SKILL.md",
+    ".agents/skills/merge-dependabot-prs/scripts/merge_dependabot_prs.py",
+    ".claude/skills/dotfiles-reference",
+    ".codex/skills/dotfiles-reference",
+    ".cursor/skills",
+    ".gemini/config/skills",
     ".checks/test_gitignore_canaries.py",
     ".claude/settings.json",
     ".claude/CLAUDE.md",

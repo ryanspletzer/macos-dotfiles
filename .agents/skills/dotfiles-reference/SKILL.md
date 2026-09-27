@@ -148,10 +148,14 @@ and Google Antigravity CLI (`agy`).
   - `adapters/antigravity-shell-gate.py` - bridges the shared scripts to
     Antigravity's hook dialect
     (`toolCall.args.CommandLine` in, `{"decision": ...}` out)
-- `.agents/skills/dotfiles-reference/` - this skill; symlinked into
-  `.claude/skills/`, `.codex/skills/`, `.cursor/skills/`,
-  `.gemini/config/skills/`
-  (Copilot reads `~/.agents/skills/` natively)
+- `.agents/skills/` - shared skills, tracked wholesale
+  (add a skill dir and it is versioned; no `.gitignore` edit needed).
+  `.claude/skills/` and `.codex/skills/` carry one symlink per skill
+  because those tools keep their own extras beside them;
+  `.cursor/skills` and `.gemini/config/skills` are single symlinks
+  to the whole `.agents/skills/` tree.
+  Copilot reads `~/.agents/skills/` natively.
+  `.checks/test_agent_wiring.py` asserts every skill is linked
 
 ### Per-tool wiring
 
@@ -184,7 +188,7 @@ Global rules load from `~/.gemini/GEMINI.md`
 `agy` also parses workspace-root `AGENTS.md`, `.agents/rules/`,
 and `.agents/skills/` natively,
 so this repo's shared assets work unmodified inside the home workspace.
-Global skills are symlinked into `~/.gemini/config/skills/`
+`~/.gemini/config/skills` is a symlink to `~/.agents/skills/`
 and hooks live in `~/.gemini/config/hooks.json`
 (hook commands run relative to that directory,
 hence the `../../.agents/...` path).
