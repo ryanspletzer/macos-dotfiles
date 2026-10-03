@@ -719,9 +719,10 @@ def print_human_report(
     print(f"  direct outdated: {total_direct}")
     print()
     print(
-        "This script changes nothing. To refresh a lock, run "
-        "`uv lock --upgrade` in the project directory."
+        "This script changes nothing. To refresh the stale locks and open "
+        "one PR per repo, run the refresh-uv-locks skill:"
     )
+    print("  python3 ~/.agents/skills/refresh-uv-locks/scripts/refresh_uv_locks.py")
 
 
 # --- Main scan ---------------------------------------------------------------
