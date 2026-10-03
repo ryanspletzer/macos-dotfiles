@@ -13,8 +13,8 @@ The model must not run `uv lock --upgrade` for real or hand-edit any lock.
 Instead, run the script below and report its output.
 The script never writes files or mutates a lock —
 it only runs `uv lock --upgrade --dry-run` and parses uv's plan.
-No refresh skill exists yet;
-refreshing a lock afterwards is a manual `uv lock --upgrade` plus a PR.
+To actually refresh the stale locks afterwards,
+use the `refresh-uv-locks` skill.
 
 ## Steps
 
@@ -88,6 +88,10 @@ Each project is assigned exactly one verdict:
 This script needs `uv` on `PATH` and network access to the package index
 to compute what a refresh would resolve to.
 It changes nothing: `uv lock --upgrade --dry-run` never writes a lock.
-To actually refresh a lock,
-run `uv lock --upgrade` in the project directory and open a PR —
-no refresh skill exists yet.
+
+## Refreshing
+
+To refresh the `STALE` locks, use the `refresh-uv-locks` skill,
+which reuses this skill's discovery and classification,
+runs `uv lock --upgrade` per stale project,
+and opens one PR per repo.
