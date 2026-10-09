@@ -1,4 +1,5 @@
 model = "gpt-5.4"
+
 [tui]
 status_line = [
   "model-with-reasoning",
