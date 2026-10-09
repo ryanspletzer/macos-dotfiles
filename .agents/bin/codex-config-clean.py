@@ -19,7 +19,14 @@ STATE_TABLES = (
     "hooks.state",
     "notice",
     "tui.model_availability_nux",
+    "desktop",
+    "marketplaces",
+    "plugins",
+    "mcp_servers.node_repl",
 )
+
+# Top-level keys (outside any table) written as machine state.
+STATE_KEYS = ("notify",)
 
 
 def is_state_header(header):
@@ -29,12 +36,27 @@ def is_state_header(header):
     )
 
 
+def is_state_key(line):
+    key = line.split("=", 1)[0].strip()
+    return "=" in line and key in STATE_KEYS
+
+
 def clean(text):
     kept = []
     dropping = False
+    in_table = False
+    open_brackets = 0
     for line in text.splitlines():
         stripped = line.strip()
+        if open_brackets > 0:
+            # Continuation of a multi-line state value.
+            open_brackets += stripped.count("[") - stripped.count("]")
+            continue
+        if not in_table and is_state_key(stripped):
+            open_brackets = max(0, stripped.count("[") - stripped.count("]"))
+            continue
         if stripped.startswith("["):
+            in_table = True
             header = stripped.lstrip("[").rstrip("]").strip()
             dropping = is_state_header(header)
         if not dropping:
