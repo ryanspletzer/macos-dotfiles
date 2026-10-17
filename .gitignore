@@ -3,7 +3,6 @@ __pycache__/
 !/.agents
 /.agents/*
 !/.agents/AGENTS.md
-!/.agents/bin
 !/.agents/hooks
 /.agents/hooks/.pytest_cache
 !/.agents/skills
@@ -33,7 +32,7 @@ __pycache__/
 /.codex/*
 !/.codex/AGENTS.md
 !/.codex/hooks.json
-!/.codex/config.toml
+!/.codex/config.example.toml
 !/.codex/skills
 /.codex/skills/.system
 !/.copilot
