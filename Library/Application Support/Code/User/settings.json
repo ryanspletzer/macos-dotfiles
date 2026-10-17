@@ -257,7 +257,6 @@
     },
     "claudeCode.preferredLocation": "panel",
     "docker.extension.enableComposeLanguageServer": false,
-    "workbench.colorTheme": "Dark Modern",
     "yaml.disableSchemaDetection": [
         "**/.github/workflows/*.yml",
         "**/.github/workflows/*.yaml",
@@ -266,5 +265,6 @@
         "**/.forgejo/workflows/*.yml",
         "**/.forgejo/workflows/*.yaml"
     ],
-    "workbench.experimental.modernUI": false
+    "workbench.experimental.modernUI": false,
+    "workbench.colorTheme": "Dark Modern"
 }
