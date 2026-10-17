@@ -31,11 +31,9 @@ everything else out of git.
   (origin = fork, upstream = parent)
 - pyenv auto-activation depends on `.python-version` files
   in project directories
-- `.codex/config.toml` is committed through a git clean filter
-  (`.agents/bin/codex-config-clean.py`, wired in `.gitattributes`)
-  that strips Codex-written machine state (absolute-path trust entries,
-  hook hashes) — the working file and the tracked blob differ by design;
-  cross-machine runbook in the `/dotfiles-reference` skill
+- `.codex/config.toml` is **not tracked** (Codex rewrites it with
+  machine state); the portable settings live in
+  `.codex/config.example.toml` — copy it into place on a new machine
 - Instruction files: `~/.agents/AGENTS.md` is the global core shared by
   five agent CLIs (Claude Code, Codex, Cursor, Copilot, Antigravity);
   `~/.agents/` also holds the shared enforcement hooks and skills.

@@ -74,6 +74,9 @@ MUST_STAY_IGNORED = [
     ".claude/projects/x/session.jsonl",
     ".claude/settings.local.json",
     ".codex/auth.json",
+    # Codex rewrites config.toml with machine state (trust paths, hook
+    # hashes); only config.example.toml is tracked
+    ".codex/config.toml",
     ".cursor/auth.json",
     ".copilot/auth.json",
     # tool-managed extras beside the shared skills: the skill dirs are
@@ -118,7 +121,7 @@ MUST_STAY_TRACKED = [
     ".checks/test_gitignore_canaries.py",
     ".claude/settings.json",
     ".claude/CLAUDE.md",
-    ".codex/config.toml",
+    ".codex/config.example.toml",
     ".cursor/hooks.json",
     ".copilot/settings.json",
     ".config/fish/config.fish",

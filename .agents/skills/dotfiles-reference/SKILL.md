@@ -46,7 +46,7 @@ All shells share consistent aliases and functions:
 | ---- | ------- |
 | `.gitconfig` | Main config: GPG signing, push defaults, LFS, credential helper; includes `~/.gitconfig.local` |
 | `.gitconfig.local.example` | Template for the gitignored per-machine `~/.gitconfig.local` (identity + host creds) |
-| `.gitattributes` | LFS patterns, line ending rules, `codex-config` clean filter |
+| `.gitattributes` | LFS patterns, line ending rules |
 | `.gnupg/gpg.conf` | GPG preferences (`no-tty` for non-interactive signing) |
 
 Key settings:
@@ -55,57 +55,23 @@ Key settings:
 - `push.autoSetupRemote = true` (auto-track remote branches)
 - Git Credential Manager for auth
 - Git LFS enabled
-- `.codex/config.toml` is committed through the `codex-config` clean filter —
-  see the runbook below
 
-### Codex config.toml across machines (codex-config clean filter)
+### Codex config.toml (untracked)
 
 `~/.codex/config.toml` mixes portable user settings
 (`model`, `[tui] status_line`) with machine state Codex writes itself
 (absolute-path `[projects]` trust entries, `[hooks.state]` hashes,
-notice/nux counters), and Codex offers no way to separate them.
-The file is therefore committed through the `codex-config` git clean filter
-(`.agents/bin/codex-config-clean.py`, wired in `.gitattributes`),
-which strips the machine-state sections at commit time:
-the tracked blob stays portable while the live file keeps local state.
-The working file and the tracked blob differ **by design**.
+notice/nux counters, `[desktop]`, `[marketplaces]`, `[plugins]`),
+and Codex offers no way to separate them.
+The live file is therefore **not tracked**.
+The portable settings are kept in `.codex/config.example.toml`.
 
-**New machine setup** — nothing Codex-specific to do.
-The filter definition (`[filter "codex-config"]` in the tracked `.gitconfig`),
-the `.gitattributes` wiring, and the script all arrive with the dotfiles,
-and dev-machine-setup re-asserts the filter as `--global` config
-(`examples/macOS_vars.yaml`, `custom_commands_user`).
-Verify with:
-
-```sh
-git config --get filter.codex-config.clean
-# → ~/.agents/bin/codex-config-clean.py
-```
-
-Codex then builds up that machine's own trust entries locally as you use it.
-
-**Day-to-day** — nothing.
-Codex churns its state in the live file;
-the filter strips it at commit time;
-`git status` stays clean.
+**New machine setup** — `cp ~/.codex/config.example.toml ~/.codex/config.toml`;
+Codex fills in trust entries and other state as you use it.
 
 **Changing a portable setting (statusline items, model)** —
-edit the live `~/.codex/config.toml` and commit via the normal PR flow;
-only the portable parts land.
-When *another* machine pulls that change,
-git overwrites its working `config.toml` with the new portable blob
-(the filter has no smudge step to merge local state back),
-so that machine's Codex re-prompts once for folder trust,
-and hooks need a one-time re-trust via `/hooks` in the Codex TUI.
-To skip the re-prompts,
-back up `~/.codex/config.toml` before pulling and
-paste the `[projects]`/`[hooks.state]` sections back afterward.
-
-**Failure mode** — if a machine has the filter unconfigured,
-commits from it silently include that machine's state sections.
-Nothing breaks;
-`/Users/...` paths reappearing in a PR diff is the tell.
-Run the verify command above on that machine.
+edit the live file (or `/statusline` in the Codex TUI),
+then mirror the change into `config.example.toml` and commit that.
 
 ## AI Agent CLI Configuration
 

@@ -1,0 +1,28 @@
+# Example ~/.codex/config.toml — the portable settings worth keeping.
+#
+# The live file is NOT tracked: Codex rewrites it with machine state
+# (absolute-path [projects] trust entries, [hooks.state] hashes,
+# notice/nux counters, [desktop], [marketplaces], [plugins], notify).
+# To rebuild on a new machine, copy this file to ~/.codex/config.toml
+# and let Codex fill in the rest as you use it.
+
+model = "gpt-5.4"
+
+# Built-in TUI status line (no command-backed statusline exists in Codex).
+# Adjust interactively with /statusline. Other item ids: approval-mode,
+# codex-version, pull-request-number, context-remaining,
+# total-input-tokens, total-output-tokens, fast-mode, thread-title,
+# workspace-headline.
+[tui]
+status_line = [
+  "model-with-reasoning",
+  "run-state",
+  "current-dir",
+  "git-branch",
+  "branch-changes",
+  "used-tokens",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+  "task-progress",
+]
