@@ -15,7 +15,7 @@ env:
   # Pins the uv binary itself and keys the cache below; a floating "latest"
   # uv can change the cache format (as 0.11.30 did), which orphans the
   # restored cache and hard-fails under UV_OFFLINE=1. Bump with the date.
-  UV_VERSION: "0.13.1"
+  UV_VERSION: "0.13.6"
 
 jobs:
   checks:
@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         id: setup-uv
         with:
           version: ${{ env.UV_VERSION }}
