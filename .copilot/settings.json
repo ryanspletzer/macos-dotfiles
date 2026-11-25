@@ -5,7 +5,20 @@
     "padding": 0
   },
   "feature_flags": {
-    "enabled": ["STATUS_LINE"]
+    "enabled": [
+      "STATUS_LINE"
+    ]
   },
-  "experimental": true
+  "experimental": true,
+  "enabledPlugins": {
+    "powershell-style@ryanspletzer": true
+  },
+  "extraKnownMarketplaces": {
+    "ryanspletzer": {
+      "source": {
+        "source": "github",
+        "repo": "ryanspletzer/powershell-style"
+      }
+    }
+  }
 }
