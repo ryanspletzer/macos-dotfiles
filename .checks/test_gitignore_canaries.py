@@ -82,7 +82,6 @@ MUST_STAY_IGNORED = [
     # tool-managed extras beside the shared skills: the skill dirs are
     # tracked wholesale (denylist), so these must be pinned out explicitly
     ".claude/skills/humanizer/SKILL.md",
-    ".claude/skills/powershell-style",
     ".claude/skills/synced/anything",
     ".codex/skills/.system/anything",
     # Python bytecode anywhere, via the single unanchored __pycache__/ rule

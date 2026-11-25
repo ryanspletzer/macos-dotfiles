@@ -36,9 +36,9 @@ HOOK_CONFIGS = [
 SHARED_SKILLS = ".agents/skills"
 
 # Claude Code and Codex keep tool-managed extras beside the shared skills
-# (Claude: humanizer, powershell-style, synced; Codex: .system), so they
-# get one symlink per skill. Cursor and Antigravity hold nothing else, so
-# their skills dir is a single symlink to the shared tree.
+# (Claude: humanizer, synced; Codex: .system), so they get one symlink
+# per skill. Cursor and Antigravity hold nothing else, so their skills
+# dir is a single symlink to the shared tree.
 PER_SKILL_LINK_DIRS = [".claude/skills", ".codex/skills"]
 WHOLE_DIR_LINKS = [".cursor/skills", ".gemini/config/skills"]
 

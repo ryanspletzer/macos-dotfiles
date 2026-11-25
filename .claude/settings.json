@@ -118,7 +118,16 @@
     "ralph-wiggum@claude-plugins-official": false,
     "ralph-loop@claude-plugins-official": false,
     "compound-engineering@every-marketplace": false,
-    "agents-development-architecture@buildwithclaude": false
+    "agents-development-architecture@buildwithclaude": false,
+    "powershell-style@ryanspletzer": true
+  },
+  "extraKnownMarketplaces": {
+    "ryanspletzer": {
+      "source": {
+        "source": "github",
+        "repo": "ryanspletzer/powershell-style"
+      }
+    }
   },
   "sandbox": {
     "network": {
