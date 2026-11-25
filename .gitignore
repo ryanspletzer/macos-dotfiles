@@ -23,7 +23,6 @@ __pycache__/
 !/.claude/settings.json
 !/.claude/skills
 /.claude/skills/humanizer
-/.claude/skills/powershell-style
 /.claude/skills/synced
 !/.claude/output-styles
 /.claude/output-styles/*
